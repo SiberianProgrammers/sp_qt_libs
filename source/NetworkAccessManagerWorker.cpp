@@ -86,7 +86,7 @@ void DXS::NetworkAccessManagerWorker::_finished(QNetworkReply *reply)
         || reply->error() == QNetworkReply::ContentAccessDenied
         || reply->error() == QNetworkReply::ContentOperationNotPermittedError
         || reply->error() == QNetworkReply::ProtocolUnknownError
-        || reply->error() == QNetworkReply::AuthenticationRequiredError
+        || reply->error() == QNetworkReply::AuthenticationRequiredError)
     {
         qDebug() << "NetworkAccessManagerWorker: " << reply->errorString() << "(" << reply->request().url().url() << ")";
 
