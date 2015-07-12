@@ -66,9 +66,9 @@ void dxs::FileLoader::requestFile (const QString &fileName, const QString &url, 
 
     QFile file ("cache/" + fileName);
 
-    if  (  !_forceUseNetwork
-          && file.exists()
-          && file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (!_forceUseNetwork
+        && file.exists()
+        && file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         //qDebug() << "requestFile:: readFromFile";
         int fileVersion;
@@ -107,9 +107,10 @@ void dxs::FileLoader::requestFile (const QString &fileName, const QString &url, 
 //--------------------------------------------------------------------------
 void dxs::FileLoader::writeToFile(const QString &fileName, const QString &content)
 {
-    QDir dir;
-    dir.mkdir("cache/");
-    QFile file ("cache/" + fileName);
+    //QDir dir;
+    //dir.mkdir("cache/");
+    //QFile file ("cache/" + fileName);
+    QFile file (fileName);
 
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         file.write (content.toUtf8());
@@ -119,7 +120,8 @@ void dxs::FileLoader::writeToFile(const QString &fileName, const QString &conten
 //--------------------------------------------------------------------------
 QString dxs::FileLoader::readFromFile(const QString &fileName)
 {
-    QFile file ("cache/" + fileName);
+    //QFile file ("cache/" + fileName);
+    QFile file (fileName);
 
     if (file.exists() && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString content;
