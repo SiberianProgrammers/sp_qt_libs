@@ -42,10 +42,10 @@ class FileLoader: public QObject, public QQmlParserStatus
           * @param fileName наименование файла
           * @param content содержимое файла для записи
           */
-        Q_INVOKABLE void writeToFile (const QString& fileName, const QString& content);
+        Q_INVOKABLE void writeToFile (const QString &fileName, const QString &content);
 
         /**
-          * @brief Читает содержимое из файла, если файла нет - возвращает пустую строку
+          * @brief Читает содержимое из файла, возвращает пустую строку если не удалось прочитать.
           *
           * @param fileName наименование файла
           * @param content содержимое файла для записи
