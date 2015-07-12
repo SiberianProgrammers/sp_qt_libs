@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/DxsQml">
+        <file>qmldir</file>
+        <file>Debug.qml</file>
+    </qresource>
+</RCC>
