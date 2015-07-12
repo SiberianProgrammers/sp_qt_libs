@@ -2,9 +2,9 @@
 #include "NetworkAccessManagerWorker.h"
 
 //--------------------------------------------------------------------------------
-QThread DXS::NetworkAccessManagerWorker::_thread;
+QThread dxs::NetworkAccessManagerWorker::_thread;
 //--------------------------------------------------------------------------------
-DXS::NetworkAccessManagerWorker::NetworkAccessManagerWorker()
+dxs::NetworkAccessManagerWorker::NetworkAccessManagerWorker()
     : QObject(NULL)
     , _nam(new QNetworkAccessManager(NULL))
     , _requestQueue(new QList<NetworkRequest *>)
@@ -33,14 +33,14 @@ DXS::NetworkAccessManagerWorker::NetworkAccessManagerWorker()
 }
 
 //--------------------------------------------------------------------------------
-DXS::NetworkAccessManagerWorker::~NetworkAccessManagerWorker()
+dxs::NetworkAccessManagerWorker::~NetworkAccessManagerWorker()
 {
     _nam->deleteLater();
     _reloadTimer->deleteLater();
 }
 
 //--------------------------------------------------------------------------------
-void DXS::NetworkAccessManagerWorker::_get(const QUrl &url)
+void dxs::NetworkAccessManagerWorker::_get(const QUrl &url)
 {
     // Добавляем запрос в очередь, если это первый запрос - то тут же его выполняем
     _requestQueue->append (new NetworkRequest(url, NetworkRequest::GET));
@@ -51,7 +51,7 @@ void DXS::NetworkAccessManagerWorker::_get(const QUrl &url)
 }
 
 //--------------------------------------------------------------------------------
-void DXS::NetworkAccessManagerWorker::_post(const QUrl &url, QHttpMultiPart *multiPart)
+void dxs::NetworkAccessManagerWorker::_post(const QUrl &url, QHttpMultiPart *multiPart)
 {
     // Добавляем запрос в очередь, если это первый запрос - то тут же его выполняем
     _requestQueue->append (new NetworkRequest(url, NetworkRequest::POST, multiPart));
@@ -62,7 +62,7 @@ void DXS::NetworkAccessManagerWorker::_post(const QUrl &url, QHttpMultiPart *mul
 }
 
 //--------------------------------------------------------------------------------
-void DXS::NetworkAccessManagerWorker::_finished(QNetworkReply *reply)
+void dxs::NetworkAccessManagerWorker::_finished(QNetworkReply *reply)
 {
     // Если нет ошибок передаем дальше, если есть ошибка - обрабатываем ее
     if (reply->error() == QNetworkReply::NoError) {
@@ -118,7 +118,7 @@ void DXS::NetworkAccessManagerWorker::_finished(QNetworkReply *reply)
 }
 
 //--------------------------------------------------------------------------------
-void DXS::NetworkAccessManagerWorker::sendRequestFromQueue()
+void dxs::NetworkAccessManagerWorker::sendRequestFromQueue()
 {
     if (_requestQueue->isEmpty()) {
         return ;
@@ -141,7 +141,7 @@ void DXS::NetworkAccessManagerWorker::sendRequestFromQueue()
 }
 
 //--------------------------------------------------------------------------
-DXS::NetworkAccessManagerWorker::NetworkRequest::NetworkRequest(const QUrl &url, NetworkAccessManagerWorker::NetworkRequest::RequestMethod method, QHttpMultiPart *multipart) :
+dxs::NetworkAccessManagerWorker::NetworkRequest::NetworkRequest(const QUrl &url, NetworkAccessManagerWorker::NetworkRequest::RequestMethod method, QHttpMultiPart *multipart) :
     _method(method)
   , _request(url)
   , _multipart(multipart)

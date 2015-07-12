@@ -5,12 +5,12 @@
 #include <QQmlParserStatus>
 #include "NetworkAccessManagerWorker.h"
 
-namespace DXS {
+namespace dxs {
 /**
  * @brief Класс для загрузки статичных фалов из сети с поддержкой кеширования.
  * @note Экземпляр класс переносится в отдельный поток при создании.
  */
-class StaticFileLoader: public QObject, public QQmlParserStatus
+class FileLoader: public QObject, public QQmlParserStatus
 {
     Q_OBJECT
 
@@ -23,8 +23,8 @@ class StaticFileLoader: public QObject, public QQmlParserStatus
     Q_PROPERTY (bool    forceUseNetwork MEMBER _forceUseNetwork)
 
     public:
-        StaticFileLoader(QObject *parent = NULL);
-        ~StaticFileLoader();
+        FileLoader(QObject *parent = NULL);
+        ~FileLoader();
 
         /**
          * @brief Запрашивает файл с сервера или из кеша. Ответ приходит по сигналу responseRecieved.

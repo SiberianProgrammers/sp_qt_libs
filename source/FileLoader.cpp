@@ -6,7 +6,7 @@
 
 #include "FileLoader.h"
 
-DXS::StaticFileLoader::StaticFileLoader(QObject *parent)
+dxs::FileLoader::FileLoader(QObject *parent)
     : QObject(parent)
     , _forceUseNetwork(false)
 {
@@ -15,16 +15,14 @@ DXS::StaticFileLoader::StaticFileLoader(QObject *parent)
 }
 
 //--------------------------------------------------------------------------
-DXS::StaticFileLoader::~StaticFileLoader()
+dxs::FileLoader::~FileLoader()
 {
 
 }
 
 //--------------------------------------------------------------------------
-void DXS::StaticFileLoader::finishedRequest (QNetworkReply *reply)
+void dxs::FileLoader::finishedRequest (QNetworkReply *reply)
 {
-    //qDebug() << "StaticFileLoader::finishedRequest";
-
     _error = "";
     QByteArray data = reply->readAll();
     _fileContent = QString::fromUtf8(data);
@@ -49,20 +47,18 @@ void DXS::StaticFileLoader::finishedRequest (QNetworkReply *reply)
 }
 
 //--------------------------------------------------------------------------
-void DXS::StaticFileLoader::errorRequest(QNetworkReply *replyWithError) {
-    //qDebug() << "StaticFileLoader::errorRequest";
-
+void dxs::FileLoader::errorRequest(QNetworkReply *replyWithError) {
     _error = replyWithError->errorString();
     replyWithError->deleteLater();
     emit errorReady();
 }
 
 //--------------------------------------------------------------------------
-void DXS::StaticFileLoader::requestFile() {
+void dxs::FileLoader::requestFile() {
     requestFile(_fileName, _url, _version);
 }
 //--------------------------------------------------------------------------
-void DXS::StaticFileLoader::requestFile (const QString &fileName, const QString &url, int version)
+void dxs::FileLoader::requestFile (const QString &fileName, const QString &url, int version)
 {
     _fileName = fileName;
     _url = url;
@@ -109,7 +105,7 @@ void DXS::StaticFileLoader::requestFile (const QString &fileName, const QString 
 }
 
 //--------------------------------------------------------------------------
-void DXS::StaticFileLoader::writeToFile(const QString &fileName, const QString &content)
+void dxs::FileLoader::writeToFile(const QString &fileName, const QString &content)
 {
     QDir dir;
     dir.mkdir("cache/");
@@ -121,7 +117,7 @@ void DXS::StaticFileLoader::writeToFile(const QString &fileName, const QString &
 }
 
 //--------------------------------------------------------------------------
-QString DXS::StaticFileLoader::readFromFile(const QString &fileName)
+QString dxs::FileLoader::readFromFile(const QString &fileName)
 {
     QFile file ("cache/" + fileName);
 
@@ -142,19 +138,19 @@ QString DXS::StaticFileLoader::readFromFile(const QString &fileName)
 }
 
 //--------------------------------------------------------------------------
-void DXS::StaticFileLoader::clearCache()
+void dxs::FileLoader::clearCache()
 {
     QFile file ("cache/" + _fileName);
     file.remove();
 }
 
 //--------------------------------------------------------------------------
-void DXS::StaticFileLoader::classBegin() {
+void dxs::FileLoader::classBegin() {
 
 }
 
 //--------------------------------------------------------------------------
-void DXS::StaticFileLoader::componentComplete()
+void dxs::FileLoader::componentComplete()
 {
     if (!_url.isEmpty()) {
         requestFile ();

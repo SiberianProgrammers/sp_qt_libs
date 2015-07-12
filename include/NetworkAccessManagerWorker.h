@@ -9,7 +9,7 @@
 #include <QTimer>
 #include <QHttpMultiPart>
 
-namespace DXS {
+namespace dxs {
 /**
  * @brief Класс для загрузки статичных фалов из сети с поддержкой кеширования.
  * @note Экземпляр класс переносится в отдельный поток при создании.
