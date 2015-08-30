@@ -2,5 +2,13 @@
     <qresource prefix="/DxsQml">
         <file>qmldir</file>
         <file>Debug.qml</file>
+        <file>ActionBar.qml</file>
+        <file>ButtonPrototype.qml</file>
+        <file>MaterialButton.qml</file>
+        <file>MenuButton.qml</file>
+        <file>StackView.qml</file>
+        <file>TextBig.qml</file>
+        <file>TextNormal.qml</file>
+        <file>TextSmall.qml</file>
     </qresource>
 </RCC>
