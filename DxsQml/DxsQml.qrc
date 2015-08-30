@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/DxsQml">
         <file>qmldir</file>
+        <file>ConstsPrototype.qml</file>
         <file>Debug.qml</file>
         <file>ActionBar.qml</file>
         <file>ButtonPrototype.qml</file>
