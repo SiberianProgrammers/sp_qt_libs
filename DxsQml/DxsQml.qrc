@@ -3,13 +3,14 @@
         <file>qmldir</file>
         <file>ConstsPrototype.qml</file>
         <file>Debug.qml</file>
+        <file>TextBig.qml</file>
+        <file>TextNormal.qml</file>
+        <file>TextSmall.qml</file>
         <file>ActionBar.qml</file>
+        <file>Drawer.qml</file>
         <file>ButtonPrototype.qml</file>
         <file>MaterialButton.qml</file>
         <file>MenuButton.qml</file>
         <file>StackView.qml</file>
-        <file>TextBig.qml</file>
-        <file>TextNormal.qml</file>
-        <file>TextSmall.qml</file>
     </qresource>
 </RCC>
