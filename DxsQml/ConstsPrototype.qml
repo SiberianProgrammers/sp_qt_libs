@@ -14,7 +14,7 @@ Item {
     property real buttonNormalWidth: minWidth - 4*margin
     property real fadeWidth: 5*mm
 
-    property string gray: "#2a2a2a"
+    property string gray: "#5a5a5a"
     property string lightGray: "#cacaca"
     property string buttonActiveColor : "#72f7d6"
     property string buttonPassiveColor: "#c8e6df"

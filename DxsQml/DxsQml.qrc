@@ -12,5 +12,7 @@
         <file>MaterialButton.qml</file>
         <file>MenuButton.qml</file>
         <file>StackView.qml</file>
+        <file>ShadowBottom.qml</file>
+        <file>ShadowTop.qml</file>
     </qresource>
 </RCC>

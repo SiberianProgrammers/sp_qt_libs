@@ -107,18 +107,9 @@ Rectangle {
     }
 
     //--------------------------------------------------------------------------
-    Rectangle {
-        id: shadow
-
-        visible: !transparent
-        width: parent.width
-        height: 1*Consts.mm
+    ShadowBottom {
         anchors.top: parent.bottom
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#30000000"}
-            GradientStop { position: 0.2; color: "#15000000"}
-            GradientStop { position: 1.0; color: "#00000000"}
-        }
+        visible: !transparent
     }
 
     Component.onCompleted: {
