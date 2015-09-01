@@ -30,7 +30,7 @@ Rectangle {
     /// @brief Координата y прокручиваемого содержимого
     property real contentY: content.contentY
     
-    color: "black"
+    color: Consts.actionBarColor
     width: parent.width
     height: Math.max (Consts.actionBarHeight, imageHeight-contentY)
 
@@ -40,15 +40,7 @@ Rectangle {
         
         fillMode: Image.PreserveAspectCrop
         anchors.fill: parent
-        sourceSize.width: 2*width
-        sourceSize.height: 2*height
-    }
-    
-    //--------------------------------------------------------------------------
-    Rectangle {
-        anchors.fill: parent
-        opacity: 2-parent.height / Consts.actionBarHeight
-        color: Consts.actionBarColor
+        opacity: 1-_p.shift
     }
 
     //--------------------------------------------------------------------------
@@ -61,15 +53,18 @@ Rectangle {
         height: Consts.actionBarHeight
     }
 
+    //--------------------------------------------------------------------------
     Item {
         id: titlesContainer
 
         anchors {
-            top: parent.top
-            left: leftButton.right
+            left: parent.left
             right: parent.right
             bottom: parent.bottom
+            leftMargin: Consts.margin + (leftButton.width-Consts.margin)*_p.shift
         }
+        height: Consts.actionBarHeight
+        //x: Consts.margin + (leftButton.width*_p.shift)
 
         Column {
             anchors {
@@ -125,6 +120,7 @@ Rectangle {
     //--------------------------------------------------------------------------
     Item {
         id: _p
-        readonly property real shift: 2-Math.pow(ActionBarImage.height / Consts.actionBarHeight, 2)
+
+        readonly property real shift: 1 -(actionBarImage.height - Consts.actionBarHeight)/(imageHeight - Consts.actionBarHeight)
     }
 }
