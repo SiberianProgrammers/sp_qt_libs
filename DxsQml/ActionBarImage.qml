@@ -31,7 +31,6 @@ Rectangle {
     property real contentY: content.contentY
     
     color: "black"
-    clip: true
     width: parent.width
     height: Math.max (Consts.actionBarHeight, imageHeight-contentY)
 
@@ -48,7 +47,7 @@ Rectangle {
     //--------------------------------------------------------------------------
     Rectangle {
         anchors.fill: parent
-        opacity: 2-Math.pow(parent.height / Consts.actionBarHeight, 2)
+        opacity: 2-parent.height / Consts.actionBarHeight
         color: Consts.actionBarColor
     }
 
@@ -115,5 +114,17 @@ Rectangle {
     //--------------------------------------------------------------------------
     ShadowTop {
         anchors.bottom: parent.bottom
+        opacity: 1-_p.shift
+    }
+
+    ShadowBottom {
+        anchors.top: parent.bottom
+        opacity: _p.shift
+    }
+
+    //--------------------------------------------------------------------------
+    Item {
+        id: _p
+        readonly property real shift: 2-Math.pow(ActionBarImage.height / Consts.actionBarHeight, 2)
     }
 }
