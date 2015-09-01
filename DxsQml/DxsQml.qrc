@@ -14,5 +14,6 @@
         <file>StackView.qml</file>
         <file>ShadowBottom.qml</file>
         <file>ShadowTop.qml</file>
+        <file>ActionBarImage.qml</file>
     </qresource>
 </RCC>

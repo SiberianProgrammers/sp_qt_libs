@@ -7,22 +7,22 @@ Rectangle {
     id: actionBar
 
     /// @brief Текст основной надписи.
-    property alias mainCaption: mainCaption.text
+    property alias title: title.text
 
     /// @brief Текст подстрочной надписи.
-    property alias subCaption: subCaption.text
+    property alias subTitle: subTitle.text
+
+    /// @brief Цвет надписи.
+    property alias titleColor: title.color
+
+    /// @brief Варавнивание надписи.
+    property alias titleAlignment: title.horizontalAlignment
 
     /// @brief Компонент левой кнопки
     property alias leftButton: leftButton.sourceComponent
 
     /// @brief Компонент второй строки ActionBar'а
     property alias secondLine: secondLine.sourceComponent
-
-    /// @brief Цвет надписи.
-    property alias captionColor: mainCaption.color
-
-    /// @brief Варавнивание надписи.
-    property alias captionAlignment: mainCaption.horizontalAlignment
 
     /// @brief Флаг, указывающий на прозрачность.
     property bool transparent: false
@@ -48,7 +48,7 @@ Rectangle {
         }
 
         Item {
-            id: captionsContainer
+            id: titlesContainer
 
             anchors {
                 top: parent.top
@@ -67,7 +67,7 @@ Rectangle {
                 }
 
                 TextNormal {
-                    id: mainCaption
+                    id: title
 
                     color: "#555555"
                     elide: Text.ElideRight
@@ -80,10 +80,10 @@ Rectangle {
                 }
 
                 TextSmall {
-                    id: subCaption
+                    id: subTitle
 
-                    color: mainCaption.color
-                    horizontalAlignment: mainCaption.horizontalAlignment
+                    color: title.color
+                    horizontalAlignment: title.horizontalAlignment
                     elide: Text.ElideRight
                     wrapMode: Text.NoWrap
                     anchors {
