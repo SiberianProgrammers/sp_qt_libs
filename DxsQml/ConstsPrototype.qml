@@ -8,19 +8,21 @@ Item {
     readonly property alias maxWidth: _p.maxWidth
 
     property real margin: 3*mm
-    property real spacing: 2*mm
+    property real spacing: 1*mm
     property real marginCorner: 10*mm
-    property real buttonRadius: 0.5*mm
     property real buttonNormalWidth: minWidth - 4*margin
     property real fadeWidth: 5*mm
+    property real radius: 1*mm
 
     property string gray: "#5a5a5a"
     property string lightGray: "#cacaca"
     property string buttonActiveColor : "#72f7d6"
     property string buttonPassiveColor: "#c8e6df"
 
-    property real   borderWidth: 1*mm
+    property real   borderWidth: Math.ceil(0.2*mm)
     property string borderColor: "#d9d9d9"
+    property string shadowColor: "#dadada"
+    property string backgroundColor: "#f0f0f0"
 
     //--------------------------------------------------------------------------
     // Шрифты

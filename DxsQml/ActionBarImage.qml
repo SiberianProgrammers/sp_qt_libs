@@ -6,6 +6,8 @@ import "../"
 Rectangle {
     id: actionBarImage
 
+    property alias shift: _p.shift
+
     /// @brief Источник изображения
     property alias source: image.source
 
@@ -28,7 +30,7 @@ Rectangle {
     property alias leftButton: leftButton.sourceComponent
 
     /// @brief Координата y прокручиваемого содержимого
-    property real contentY: content.contentY
+    property real contentY: 0
     
     color: Consts.actionBarColor
     width: parent.width
@@ -64,7 +66,6 @@ Rectangle {
             leftMargin: Consts.margin + (leftButton.width-Consts.margin)*_p.shift
         }
         height: Consts.actionBarHeight
-        //x: Consts.margin + (leftButton.width*_p.shift)
 
         Column {
             anchors {
@@ -82,6 +83,7 @@ Rectangle {
                 elide: Text.ElideRight
                 wrapMode: Text.NoWrap
                 font.weight: Font.Bold
+
                 anchors {
                     left: parent.left
                     right: parent.right
