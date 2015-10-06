@@ -15,5 +15,7 @@
         <file>ShadowBottom.qml</file>
         <file>ShadowTop.qml</file>
         <file>ActionBarImage.qml</file>
+        <file>SwipeAnimationDelegate.qml</file>
+        <file>SwipeView.qml</file>
     </qresource>
 </RCC>
