@@ -21,7 +21,8 @@ Item {
     property alias delegate: listView.delegate
 
     property real initialIndex: 0 // Начальный индекс с которого начинается просмотр
-    readonly property alias currentIndex: listView._currentIndex // Текущий индекс элемента
+    readonly property alias activeIndex: listView._activeIndex // Активный индекс, т.е. на котором остановился SwipeView
+    readonly property alias currentIndex: listView._currentIndex // Текущий индекс элемента. @note Может несколько раз поменяться после setCurrentIndex
     readonly property alias currentItem: listView.currentItem // Текущий элемент в списке
     readonly property alias isMoving: listView.isMoving // Флаг того, что листание в процессе.
     property real maximumFlickVelocity: 3 * width // Скорость анимации пролистывания
@@ -42,6 +43,7 @@ Item {
         property bool isMoving: false
         property bool movedBySwipe: false
         property int _currentIndex: Math.floor((diffX + width/2)/ width)
+        property int _activeIndex: 0
         readonly property real inEdge: diffX % width === 0
         readonly property real diffX: contentX - originX
         readonly property real shiftX: diffX - (_currentIndex)*width
@@ -69,6 +71,12 @@ Item {
             isMoving = !inEdge;
         }
 
+        onIsMovingChanged: {
+            if (!isMoving) {
+                _activeIndex = _currentIndex;
+            }
+        }
+
         Behavior on contentX {
             id: behOnContentX
             enabled: false
@@ -87,6 +95,7 @@ Item {
             }
         }
 
+        //--------------------------------------------------------------------------
         Component.onCompleted: {
             if (initialIndex > 0 && initialIndex < model.count) {
                 //contentX = initialIndex*width+originX;
@@ -134,7 +143,7 @@ Item {
         }
     }
 
-    //
+    //--------------------------------------------------------------------------
     // Переход к предыдущему элементу
     function decrementCurrentIndex () {
         if (!interactive || isMoving) {
@@ -152,7 +161,7 @@ Item {
         }
     }
 
-    //
+    //--------------------------------------------------------------------------
     // Установка _currentIndex в конкретное значение index.
     // Если установлен флаг withAnimation в true, то переход происходит
     // с анимацией, иначе - без.
@@ -160,21 +169,18 @@ Item {
         if (!interactive || isMoving) {
             return;
         }
-        //print ("setCurrentIndex");
 
         var contentX = index*width+listView.originX;
 
         if (listView.contentX !== contentX) {
             listView.movedBySwipe = false;
+
             if (withAnimation !== undefined && withAnimation) {
                 listView.isMoving = true;
                 behOnContentX.enabled = true;
             }
-            listView.contentX = contentX;
 
-            //if (withAnimation === undefined || !withAnimation) {
-            //    listView._currentIndex = index;
-            //}
+            listView.contentX = contentX;
         } else {
             //print ("It's already at this index");
         }
