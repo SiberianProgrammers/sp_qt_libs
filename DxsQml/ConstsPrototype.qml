@@ -7,7 +7,7 @@ Item {
     readonly property alias minWidth: _p.minWidth
     readonly property alias maxWidth: _p.maxWidth
 
-    property real margin: 3*mm
+    property real margin: 2.4*mm
     property real spacing: 1*mm
     property real marginCorner: 10*mm
     property real buttonNormalWidth: minWidth - 4*margin
@@ -34,7 +34,7 @@ Item {
 
     property real fontBig: 22
     property real fontNormal: 17
-    property real fontSmall : 12
+    property real fontSmall : 13
     property real fontNormalLetterSpacing: 0.2*mm
     property real fontBigLetterSpacing: 0.4*mm
     property real fontSmallLetterSpacing: 0.1*mm
