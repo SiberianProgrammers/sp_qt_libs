@@ -16,6 +16,13 @@ Rectangle {
         SmoothedAnimation { velocity: width/0.3}
     }
 
+    MouseArea {
+        id: stubMa
+
+        anchors.fill: parent
+        onClicked: {}
+    }
+
     //--------------------------------------------------------------------------
     MouseArea {
         id: maForShowAndHide

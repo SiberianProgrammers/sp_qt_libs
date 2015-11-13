@@ -14,6 +14,7 @@ MaterialButton {
     activeColor: "transparent"
     width: height
 
+
     Column {
         anchors.centerIn: parent
         spacing: Math.ceil(0.5*Consts.mm)
@@ -22,7 +23,7 @@ MaterialButton {
             id: rectangleTop
 
             color: menuButton.color
-            height: Math.ceil(0.5*Consts.mm)
+            height: Consts.lineWidth
             width: 4*Consts.mm
         }
 
@@ -30,7 +31,7 @@ MaterialButton {
             id: rectangleMiddle
 
             color: menuButton.color
-            height: Math.ceil(0.5*Consts.mm)
+            height: Consts.lineWidth
             width: 4*Consts.mm
         }
 
@@ -38,7 +39,7 @@ MaterialButton {
             id: rectangleBottom
 
             color: menuButton.color
-            height: Math.ceil(0.5*Consts.mm)
+            height: Consts.lineWidth
             width: 4*Consts.mm
         }
     }

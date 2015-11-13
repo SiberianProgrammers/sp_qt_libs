@@ -8,13 +8,16 @@ Item {
     readonly property alias maxWidth: _p.maxWidth
 
     property real margin: 2.4*mm
+    property real marginBig: 4.8*mm
     property real spacing: 1*mm
     property real marginCorner: 10*mm
     property real buttonNormalWidth: minWidth - 4*margin
     property real fadeWidth: 5*mm
     property real radius: 1*mm
+    property real lineWidth: Math.ceil(0.5*mm)
 
-    property string gray: "#5a5a5a"
+    property string gray: "#8a8a8a"
+    property string darkGray: "#4a4a4a"
     property string lightGray: "#cacaca"
     property string buttonActiveColor : "#72f7d6"
     property string buttonPassiveColor: "#c8e6df"

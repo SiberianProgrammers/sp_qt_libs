@@ -17,5 +17,6 @@
         <file>ActionBarImage.qml</file>
         <file>SwipeAnimationDelegate.qml</file>
         <file>SwipeView.qml</file>
+        <file>BackButton.qml</file>
     </qresource>
 </RCC>
