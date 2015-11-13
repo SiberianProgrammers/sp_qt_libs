@@ -7,7 +7,7 @@
         <file>TextNormal.qml</file>
         <file>TextSmall.qml</file>
         <file>ActionBar.qml</file>
-        <file>Drawer.qml</file>
+        <file>DrawerPrototype.qml</file>
         <file>ButtonPrototype.qml</file>
         <file>MaterialButton.qml</file>
         <file>MenuButton.qml</file>
