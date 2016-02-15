@@ -8,6 +8,7 @@ Text {
         letterSpacing: Consts.fontNormalLetterSpacing
     }
 
-    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+    minimumPointSize: 1
+    fontSizeMode: Text.HorizontalFit
     height: contentHeight
 }

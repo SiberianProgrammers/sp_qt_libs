@@ -27,6 +27,8 @@ Rectangle {
     /// @brief Флаг, указывающий на прозрачность.
     property bool transparent: false
 
+    property alias shadowVisible: shadow.visible
+
     color: transparent ? "transparent" : Consts.actionBarColor
     height: firstLine.height + secondLine.height
     width: parent.width
@@ -108,6 +110,8 @@ Rectangle {
 
     //--------------------------------------------------------------------------
     ShadowBottom {
+        id: shadow
+
         anchors.top: parent.bottom
         visible: !transparent
     }

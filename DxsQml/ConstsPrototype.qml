@@ -8,7 +8,7 @@ Item {
     readonly property alias maxWidth: _p.maxWidth
 
     property real margin: 2.4*mm
-    property real marginBig: 4.8*mm
+    property real marginBig: 3.4*mm
     property real spacing: 1*mm
     property real marginCorner: 10*mm
     property real buttonNormalWidth: minWidth - 4*margin

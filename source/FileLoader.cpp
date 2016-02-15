@@ -62,7 +62,7 @@ void dxs::FileLoader::requestFile (const QString &fileName, const QString &url, 
 {
     _fileName = fileName;
     _url = url;
-    _version = _version;
+    _version = version;
 
     QFile file ("cache/" + fileName);
 

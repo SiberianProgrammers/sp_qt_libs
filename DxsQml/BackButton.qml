@@ -21,9 +21,10 @@ MaterialButton {
         height: Consts.lineWidth
         width: 3*Consts.mm
         anchors {
-            left: rectangleMiddle.left
-            leftMargin: -height
             top: rectangleMiddle.verticalCenter
+            left: rectangleMiddle.left
+            topMargin: -0.25*height
+            leftMargin: -height
         }
         rotation: -45
         transformOrigin: Item.TopLeft
@@ -46,8 +47,9 @@ MaterialButton {
         width: 3*Consts.mm
         anchors {
             left: rectangleMiddle.left
-            leftMargin: -height
             bottom: rectangleMiddle.verticalCenter
+            leftMargin: -height
+            bottomMargin: 0.25*height
         }
         rotation: 45
         transformOrigin: Item.BottomLeft
