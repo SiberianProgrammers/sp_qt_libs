@@ -19,11 +19,11 @@ MaterialButton {
 
         color: backButton.color
         height: Consts.lineWidth
-        width: 3*Consts.mm
+        width: 2.5*Consts.mm
         anchors {
             top: rectangleMiddle.verticalCenter
             left: rectangleMiddle.left
-            topMargin: -0.25*height
+            topMargin: -0.15*height
             leftMargin: -height
         }
         rotation: -45
@@ -35,7 +35,7 @@ MaterialButton {
 
         color: backButton.color
         height: Consts.lineWidth
-        width: 4*Consts.mm
+        width: 3*Consts.mm
         anchors.centerIn: parent
     }
 
@@ -44,12 +44,12 @@ MaterialButton {
 
         color: backButton.color
         height: Consts.lineWidth
-        width: 3*Consts.mm
+        width: 2.5*Consts.mm
         anchors {
             left: rectangleMiddle.left
             bottom: rectangleMiddle.verticalCenter
             leftMargin: -height
-            bottomMargin: 0.25*height
+            bottomMargin: 0.15*height
         }
         rotation: 45
         transformOrigin: Item.BottomLeft

@@ -14,18 +14,17 @@ Item {
     property real buttonNormalWidth: minWidth - 4*margin
     property real fadeWidth: 5*mm
     property real radius: 1*mm
-    property real lineWidth: Math.ceil(0.5*mm)
+    property real lineWidth: Math.ceil(0.4*mm)
+    property real  borderWidth: Math.ceil(0.2*mm)
 
-    property string gray: "#8a8a8a"
-    property string darkGray: "#4a4a4a"
-    property string lightGray: "#cacaca"
-    property string buttonActiveColor : "#72f7d6"
-    property string buttonPassiveColor: "#c8e6df"
-
-    property real   borderWidth: Math.ceil(0.2*mm)
-    property string borderColor: "#d9d9d9"
-    property string shadowColor: "#dadada"
-    property string backgroundColor: "#f0f0f0"
+    property color gray: "#8a8a8a"
+    property color darkGray: "#4a4a4a"
+    property color lightGray: "#cacaca"
+    property color buttonActiveColor : "#72f7d6"
+    property color buttonPassiveColor: "#c8e6df"
+    property color borderColor: "#d9d9d9"
+    property color shadowColor: "#dadada"
+    property color backgroundColor: "#f0f0f0"
 
     //--------------------------------------------------------------------------
     // Шрифты
@@ -48,7 +47,7 @@ Item {
     property real actionBarHeight: Qt.platform.os === "ios"
                                    ? 7*mm
                                    : 9.5*mm
-    property string actionBarColor: "#7395FA"
+    property color actionBarColor: "#7395FA"
 
     //--------------------------------------------------------------------------
     // Drawer
