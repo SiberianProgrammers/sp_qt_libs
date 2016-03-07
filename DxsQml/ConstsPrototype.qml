@@ -20,6 +20,7 @@ Item {
     property color gray: "#8a8a8a"
     property color darkGray: "#4a4a4a"
     property color lightGray: "#cacaca"
+    property color green: "#71ad6f"
     property color buttonActiveColor : "#72f7d6"
     property color buttonPassiveColor: "#c8e6df"
     property color borderColor: "#d9d9d9"
@@ -44,9 +45,10 @@ Item {
     //--------------------------------------------------------------------------
     // ActionBar
     //--------------------------------------------------------------------------
-    property real actionBarHeight: Qt.platform.os === "ios"
-                                   ? 7*mm
-                                   : 9.5*mm
+    property real actionBarHeight: Math.ceil(
+                                       Qt.platform.os === "ios"
+                                       ? 7*mm
+                                       : 9.5*mm )
     property color actionBarColor: "#7395FA"
 
     //--------------------------------------------------------------------------
