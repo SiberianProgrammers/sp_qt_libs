@@ -18,5 +18,6 @@
         <file>SwipeAnimationDelegate.qml</file>
         <file>SwipeView.qml</file>
         <file>BackButton.qml</file>
+        <file>ShadowRectangle.qml</file>
     </qresource>
 </RCC>
