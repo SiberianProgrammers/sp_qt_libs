@@ -13,6 +13,7 @@ MaterialButton {
 
     activeColor: "transparent"
     width: height
+    radius: height/2
 
     Rectangle {
         id: rectangleTop

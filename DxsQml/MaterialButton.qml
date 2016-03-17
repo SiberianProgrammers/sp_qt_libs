@@ -11,28 +11,41 @@ ButtonPrototype {
 
     property alias activeColor: background.color
     property alias pressedColor: pressedPlace.color
+    property alias radius: background.radius
 
     Rectangle {
         id: background
 
         color: Consts.buttonActiveColor
         anchors.fill: parent
-    }
+        clip: true
 
-    //--------------------------------------------------------------------------
-    // TODO При нажатии сделать, чтобы углы оставались закгруглёнными
-    Rectangle {
-        id: pressedPlace
+        //--------------------------------------------------------------------------
+        // TODO При нажатии сделать, чтобы углы оставались закгруглёнными
+        //--------------------------------------------------------------------------
+        Rectangle {
+            id: pressedPlace
 
-        x: pressedX
-        y: pressedY
-        width: 3*radius
-        height: width
-        color: "#000000"
-        opacity: 0.1
-        transform: Translate {
-            x: -pressedPlace.width/2
-            y: -pressedPlace.height/2
+            readonly property real rightShift: pressedX+width/2 - background.width
+            readonly property real leftShift: width/2 - pressedX
+            readonly property bool inEdge: rightShift > 0 || leftShift > 0
+
+            x: rightShift > 0
+               ? pressedX - rightShift
+               : leftShift > 0
+                 ? pressedX + leftShift
+                 : pressedX
+            y: parent.height/2
+            height: Math.min(width, background.height)
+            color: "#000000"
+            opacity: 0.1
+            radius: inEdge
+                    ? background.radius
+                    : height/2
+            transform: Translate {
+                x: -pressedPlace.width/2
+                y: -pressedPlace.height/2
+            }
         }
     }
 
@@ -46,7 +59,8 @@ ButtonPrototype {
                 name: "pressed"
                 PropertyChanges {
                     target: pressedPlace
-                    radius: materialButton.width
+                    //radius: materialButton.width/2
+                    width: background.width
                 }
             }
         ]
@@ -56,7 +70,7 @@ ButtonPrototype {
                 to: "pressed"
                 NumberAnimation {
                     target: pressedPlace
-                    property: "radius"
+                    property: "width"
                     duration: 400
                 }
             }
@@ -64,7 +78,7 @@ ButtonPrototype {
                 from: "pressed"
                 NumberAnimation {
                     target: pressedPlace
-                    property: "radius"
+                    property: "width"
                     duration: 200
                 }
             }

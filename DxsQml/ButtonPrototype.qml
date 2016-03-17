@@ -18,8 +18,6 @@ Item {
     signal clicked
 
     //--------------------------------------------------------------------------
-    clip: true
-
     MouseArea {
         anchors.fill: parent
 
