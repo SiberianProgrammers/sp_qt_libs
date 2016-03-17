@@ -21,6 +21,7 @@ Item {
     property color darkGray: "#4a4a4a"
     property color lightGray: "#cacaca"
     property color green: "#71ad6f"
+    property color blue: "#0096d5"
     property color buttonActiveColor : "#72f7d6"
     property color buttonPassiveColor: "#c8e6df"
     property color borderColor: "#d9d9d9"
@@ -30,14 +31,14 @@ Item {
     //--------------------------------------------------------------------------
     // Шрифты
     //--------------------------------------------------------------------------
-    property alias mainFont: _mainFont
+    //property alias mainFont: _mainFont
     property alias fontMetricsBig: _fontMetricsBig
     property alias fontMetricsNormal: _fontMetricsNormal
     property alias fontMetricsSmall: _fontMetricsSmall
 
-    property real fontBig: 22
-    property real fontNormal: 17
-    property real fontSmall : 13
+    property real fontBig: 5*mm
+    property real fontNormal: 4*mm
+    property real fontSmall : 3*mm
     property real fontNormalLetterSpacing: 0.2*mm
     property real fontBigLetterSpacing: 0.4*mm
     property real fontSmallLetterSpacing: 0.1*mm
@@ -66,21 +67,21 @@ Item {
         property real maxWidth
     }
 
-    FontLoader { id: _mainFont; source: "qrc:/fonts/CTCSplashRounded.otf" }
+    //FontLoader { id: _mainFont; source: "qrc:/fonts/CTCSplashRounded.otf" }
     FontMetrics {
         id: _fontMetricsBig
-        font.family: _mainFont.name
-        font.pointSize: fontBig
+        //font.family: _mainFont.name
+        font.pixelSize: fontBig
     }
     FontMetrics {
         id: _fontMetricsNormal
-        font.family: _mainFont.name
-        font.pointSize: fontNormal
+        //font.family: _mainFont.name
+        font.pixelSize: fontNormal
     }
     FontMetrics {
         id: _fontMetricsSmall
-        font.family: _mainFont.name
-        font.pointSize: fontSmall
+        //font.family: _mainFont.name
+        font.pixelSize: fontSmall
     }
 
     // Инициализирует константы согласно параметрам экрана и окна

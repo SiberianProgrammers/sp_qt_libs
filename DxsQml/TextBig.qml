@@ -3,8 +3,8 @@ import "../"
 
 Text {
     font {
-        family: Consts.mainFont.name
-        pointSize: Consts.fontBig
+        //family: Consts.mainFont.name
+        pixelSize: Consts.fontBig
         letterSpacing: Consts.fontBigLetterSpacing
     }
     wrapMode: Text.WrapAtWordBoundaryOrAnywhere

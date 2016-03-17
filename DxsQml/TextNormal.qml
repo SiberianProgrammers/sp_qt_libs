@@ -3,12 +3,12 @@ import "../"
 
 Text {
     font {
-        family: Consts.mainFont.name
-        pointSize: Consts.fontNormal
+        //family: Consts.mainFont.name
+        pixelSize: Consts.fontNormal
         letterSpacing: Consts.fontNormalLetterSpacing
     }
 
-    minimumPointSize: 1
+    minimumPixelSize: 1
     fontSizeMode: Text.HorizontalFit
     height: contentHeight
 }

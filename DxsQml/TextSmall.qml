@@ -4,7 +4,7 @@ import "../"
 Text {
     font {
         //family: Consts.mainFont.name
-        pointSize: Consts.fontSmall
+        pixelSize: Consts.fontSmall
         letterSpacing: Consts.fontSmallLetterSpacing
     }
 
