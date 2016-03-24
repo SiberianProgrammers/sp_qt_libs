@@ -5,9 +5,11 @@ import "../"
 
 //------------------------------------------------------------------------------
 // @brief Протип кнопки. Обрабатывает сигналы нажатия, и т.п.
+// @note Необходим для обхода узких мест, к примеру, в MouseArea нельзя послать
+//       сигнал pressed() программно.
 //------------------------------------------------------------------------------
 Item {
-    id: buttonPrototype
+    id: _buttonPrototype
 
     property bool isPressed: false
     property real pressedX: 0
@@ -16,26 +18,32 @@ Item {
     signal pressed
     signal released
     signal clicked
+    signal pressedAndHold
 
     //--------------------------------------------------------------------------
     MouseArea {
         anchors.fill: parent
+        enabled: parent.enabled
 
         onPressed: {
             pressedX = mouse.x;
             pressedY = mouse.y;
 
             isPressed = true;
-            buttonPrototype.pressed();
+            _buttonPrototype.pressed();
         }
 
         onReleased: {
             isPressed = false;
-            buttonPrototype.released();
+            _buttonPrototype.released();
         }
 
         onClicked: {
-            buttonPrototype.clicked();
+            _buttonPrototype.clicked();
+        }
+
+        onPressAndHold: {
+            _buttonPrototype.pressedAndHold();
         }
     }
 }

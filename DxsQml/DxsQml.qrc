@@ -19,5 +19,6 @@
         <file>SwipeView.qml</file>
         <file>BackButton.qml</file>
         <file>ShadowRectangle.qml</file>
+        <file>DebugRectangle.qml</file>
     </qresource>
 </RCC>

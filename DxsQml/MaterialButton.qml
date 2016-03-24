@@ -7,9 +7,9 @@ import "../"
 // @brief Прототип кнопки с материальным дизайном (анимация фона при нажатии)
 //------------------------------------------------------------------------------
 ButtonPrototype {
-    id: materialButton
+    id: _materialButton
 
-    property alias activeColor: background.color
+    property alias color: background.color
     property alias pressedColor: pressedPlace.color
     property alias radius: background.radius
 
@@ -37,7 +37,7 @@ ButtonPrototype {
                  : pressedX
             y: parent.height/2
             height: Math.min(width, background.height)
-            color: "#000000"
+            color: "white"
             opacity: 0.1
             radius: inEdge
                     ? background.radius
@@ -68,10 +68,13 @@ ButtonPrototype {
         transitions: [
             Transition {
                 to: "pressed"
-                NumberAnimation {
-                    target: pressedPlace
-                    property: "width"
-                    duration: 400
+                SequentialAnimation {
+                    NumberAnimation {
+                        target: pressedPlace
+                        property: "width"
+                        easing.type: Easing.InQuad
+                        duration: 800
+                    }
                 }
             }
             ,Transition {

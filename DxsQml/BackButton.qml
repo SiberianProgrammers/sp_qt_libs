@@ -9,16 +9,16 @@ import "../"
 MaterialButton {
     id: backButton
 
-    property string color: "white"
+    property string arrowColor: "white"
 
-    activeColor: "transparent"
+    color: "transparent"
     width: height
     radius: height/2
 
     Rectangle {
         id: rectangleTop
 
-        color: backButton.color
+        color: backButton.arrowColor
         height: Consts.lineWidth
         width: 2.5*Consts.mm
         anchors {
@@ -34,7 +34,7 @@ MaterialButton {
     Rectangle {
         id: rectangleMiddle
 
-        color: backButton.color
+        color: backButton.arrowColor
         height: Consts.lineWidth
         width: 3*Consts.mm
         anchors.centerIn: parent
@@ -43,7 +43,7 @@ MaterialButton {
     Rectangle {
         id: rectangleBottom
 
-        color: backButton.color
+        color: backButton.arrowColor
         height: Consts.lineWidth
         width: 2.5*Consts.mm
         anchors {

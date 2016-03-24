@@ -11,7 +11,7 @@ MaterialButton {
 
     property string color: "white"
 
-    activeColor: "transparent"
+    color: "transparent"
     width: height
 
 
