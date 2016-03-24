@@ -21,6 +21,7 @@ Item {
     property color darkGray: "#4a4a4a"
     property color lightGray: "#cacaca"
     property color green: "#71ad6f"
+    property color lightGreen: "#d1ecd0"
     property color blue: "#0096d5"
     property color buttonActiveColor : "#72f7d6"
     property color buttonPassiveColor: "#c8e6df"
