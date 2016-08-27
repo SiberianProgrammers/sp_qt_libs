@@ -20,5 +20,6 @@
         <file>BackButton.qml</file>
         <file>ShadowRectangle.qml</file>
         <file>DebugRectangle.qml</file>
+        <file>SwipeSelector.qml</file>
     </qresource>
 </RCC>

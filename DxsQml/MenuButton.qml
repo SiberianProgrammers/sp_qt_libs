@@ -9,7 +9,7 @@ import "../"
 MaterialButton {
     id: menuButton
 
-    property string color: "white"
+    //property string color: "white"
 
     color: "transparent"
     width: height

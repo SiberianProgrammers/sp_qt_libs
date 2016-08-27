@@ -11,4 +11,4 @@ SOURCES += \
 
 # Внешние ресурсы
 RESOURCES += \
-    ../dxs_qt_libs/DxsQml/DxsQml.qrc \
+    $$PWD/DxsQml/DxsQml.qrc \
