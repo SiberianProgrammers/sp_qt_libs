@@ -21,6 +21,7 @@ class ImageDxs : public QQuickPaintedItem
     Q_PROPERTY (Status   status       READ status                             NOTIFY statusChanged)
     Q_PROPERTY (bool     antialiasing READ antialiasing WRITE setAntialiasing )
     Q_PROPERTY (bool     blur         READ blur         WRITE setBlur         NOTIFY blurChanged)
+    Q_PROPERTY (bool     asynchronous READ asynchronous WRITE setAsynchronous NOTIFY asynchronousChanged)
 
     Q_PROPERTY (HorizontalAlignment horizontalAlignment READ horizontalAlignment WRITE setHorizontalAlignment NOTIFY horizontalAlignmentChanged)
     Q_PROPERTY (VerticalAlignment   verticalAlignment   READ verticalAlignment   WRITE setVerticalAlignment   NOTIFY verticalAlignmentChanged)
@@ -72,6 +73,7 @@ class ImageDxs : public QQuickPaintedItem
         FillMode fillMode() const;
         Status   status() const;
         bool     blur() const;
+        bool     asynchronous () const;
         HorizontalAlignment horizontalAlignment() const;
         VerticalAlignment   verticalAlignment() const;
 
@@ -79,15 +81,9 @@ class ImageDxs : public QQuickPaintedItem
         void setRadius(double radius);
         void setFillMode(FillMode fillMode);
         void setBlur(bool blur);
+        void setAsynchronous (bool asynchronous);
         void setHorizontalAlignment (HorizontalAlignment horizontalAlignment);
         void setVerticalAlignment (VerticalAlignment verticalAlignment);
-
-
-    private:
-        void drawPad (QPainter *painter, const QImage &image);
-        void drawStretch (QPainter *painter, const QImage &image);
-        void drawPreserveAcpectFit (QPainter *painter, const QImage &image);
-        void drawPreserveAspectCrop (QPainter *painter, const QImage &image);
 
     signals:
         void sourceChanged(const QString&);
@@ -96,8 +92,19 @@ class ImageDxs : public QQuickPaintedItem
         void fillModeChanged(FillMode);
         void statusChanged(Status);
         void blurChanged(bool);
+        void asynchronousChanged(bool);
         void horizontalAlignmentChanged(HorizontalAlignment);
         void verticalAlignmentChanged(VerticalAlignment);
+
+    private:
+        void drawPad (QPainter *painter, const QImage &image);
+        void drawStretch (QPainter *painter, const QImage &image);
+        void drawPreserveAcpectFit (QPainter *painter, const QImage &image);
+        void drawPreserveAspectCrop (QPainter *painter, const QImage &image);
+
+    private slots:
+        void onImageDxsLoaded (const QString &source, QImage *image);
+        void onImageDxsError (const QString &source, QImage *image, const QString &reason);
 
     private:
         bool     _completed = false; // Флаг для инициализации объекта
@@ -107,6 +114,7 @@ class ImageDxs : public QQuickPaintedItem
         FillMode _fillMode = PreserveAspectCrop;
         Status   _status = Null;
         bool     _blur = false;
+        bool     _asynchronous = true;
         HorizontalAlignment _horizontalAlignment = AlignHCenter;
         VerticalAlignment _verticalAlignment = AlignVCenter;
 };

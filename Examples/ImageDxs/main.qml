@@ -14,7 +14,7 @@ Window {
     //ListView {
     //    id: listView
 
-    //    model: 100
+    //    model: 400
     //    delegate: ContactDelegate {}
     //    anchors.fill: parent
     //    maximumFlickVelocity: 8*height

@@ -1,5 +1,7 @@
+#include <QDebug>
 #include <QGraphicsScene>
 #include "ImageDxs.h"
+#include "ImageDxsLoader.h"
 
 //------------------------------------------------------------------------------
 dxs::ImageDxs::ImageDxs(QQuickItem *parent)
@@ -45,7 +47,7 @@ void dxs::ImageDxs::componentComplete()
 //------------------------------------------------------------------------------
 void dxs::ImageDxs::paint(QPainter *painter)
 {
-    if (_image.isNull()) {
+    if (_status != Ready) {
         return;
     }
 
@@ -231,6 +233,53 @@ void dxs::ImageDxs::drawPreserveAspectCrop(QPainter *painter, const QImage &imag
 }
 
 //------------------------------------------------------------------------------
+// Обработка сигнала на загрузки изображения в ImageDxsLoader'е.
+//------------------------------------------------------------------------------
+void dxs::ImageDxs::onImageDxsLoaded(const QString &source, QImage *image)
+{
+    if (image != &_image) {
+        return;
+    }
+
+    qDebug() << " Загрузили изображение:" << source;
+
+    disconnect (&ImageDxsLoader::instance(), 0, this, 0);
+
+    _status = Ready;
+    emit statusChanged(_status);
+
+    setImplicitWidth (_image.width());
+    setImplicitHeight(_image.height());
+
+    emit sourceSizeChanged(_image.size());
+    if (_completed) {
+        update();
+    }
+}
+
+//------------------------------------------------------------------------------
+// Обработка сигнала об ошибке загрузки изображения в ImageDxsLoader'е.
+//------------------------------------------------------------------------------
+void dxs::ImageDxs::onImageDxsError(const QString &source, QImage *image, const QString &reason)
+{
+    if (image != &_image) {
+        return;
+    }
+
+    disconnect (&ImageDxsLoader::instance(), 0, this, 0);
+
+    _image = QImage();
+    _status = Error;
+
+    setImplicitHeight(_image.height());
+
+    emit sourceSizeChanged(_image.size());
+    if (_completed) {
+        update();
+    }
+}
+
+//------------------------------------------------------------------------------
 void dxs::ImageDxs::setSource(const QString &source)
 {
     if (_source != source) {
@@ -240,26 +289,37 @@ void dxs::ImageDxs::setSource(const QString &source)
             _image = QImage();
             _status = Null;
         } else {
-            // Изображение из ресурсов
-            if (source.startsWith("qrc")) {
-                _image.load(source.mid(3));
-            }
+            if (!_asynchronous) {
+                // Изображение из ресурсов
+                ImageDxsLoader::instance().get(_source, &_image);
 
-            _status = _image.isNull()
-                      ? Error
-                      : Ready;
+                _status = _image.isNull()
+                          ? Error
+                          : Ready;
+            } else {
+                _status = Loading;
+
+                // TODO добавить кеширование
+                connect (&ImageDxsLoader::instance(), SIGNAL(loaded(const QString&, QImage*))
+                         , SLOT(onImageDxsLoaded(const QString&, QImage*))
+                         , Qt::UniqueConnection);
+                connect (&ImageDxsLoader::instance(), SIGNAL(error(const QString&, QImage*, const QString&))
+                         , SLOT(onImageDxsError(const QString&, QImage*, const QString&))
+                         , Qt::UniqueConnection);
+                ImageDxsLoader::instance().loadTo (_source, &_image);
+            }
         }
+
+        emit statusChanged(_status);
+        emit sourceChanged(_source);
 
         setImplicitWidth (_image.width());
         setImplicitHeight(_image.height());
 
-        emit sourceChanged(_source);
         emit sourceSizeChanged(_image.size());
         if (_completed) {
-
             update();
         }
-        emit statusChanged(_status);
     }
 }
 
@@ -300,6 +360,16 @@ void dxs::ImageDxs::setBlur(bool blur)
         if (_completed) {
             update();
         }
+    }
+}
+
+//------------------------------------------------------------------------------
+void dxs::ImageDxs::setAsynchronous(bool asynchronous)
+{
+    if (_asynchronous != asynchronous) {
+        _asynchronous = asynchronous;
+
+        emit asynchronousChanged(_asynchronous);
     }
 }
 
@@ -352,6 +422,11 @@ dxs::ImageDxs::Status dxs::ImageDxs::status() const {
 
 bool dxs::ImageDxs::blur() const {
     return _blur;
+}
+
+bool dxs::ImageDxs::asynchronous() const
+{
+    return _asynchronous;
 }
 
 dxs::ImageDxs::HorizontalAlignment dxs::ImageDxs::horizontalAlignment() const {
