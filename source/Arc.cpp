@@ -28,13 +28,32 @@ void dxs::Arc::paint(QPainter *painter)
     pen.setColor(_color);
     painter->setPen(pen);
 
-    painter->drawArc(QRectF(_penWidth, _penWidth, width()-2*_penWidth, height()-2*_penWidth), static_cast<int>(16*_startAngle), static_cast<int>(16*_spanAngle));
+    if (_arcHeight <= 2*_penWidth) {
+
+         painter->drawLine(QLineF (_penWidth
+                                 , 0.5*height()
+                                 , width() - _penWidth
+                                 , 0.5*height() ));
+    } else {
+        painter->drawArc(QRectF(_penWidth
+                            , _penWidth + 0.5*(height() - _arcHeight)
+                            , width()-2*_penWidth
+                            , _arcHeight-2*_penWidth
+                            )
+                            , static_cast<int>(16*_startAngle)
+                            , static_cast<int>(16*_spanAngle));
+    }
 }
 
 //------------------------------------------------------------------------------
 double dxs::Arc::penWidth() const
 {
     return _penWidth;
+}
+
+double dxs::Arc::arcHeight() const
+{
+    return _arcHeight;
 }
 
 double dxs::Arc::startAngle() const
@@ -58,6 +77,18 @@ void dxs::Arc::setPenWidth(double penWidth)
     if (_penWidth != penWidth) {
         _penWidth = penWidth;
         emit penWidthChanged(_penWidth);
+
+        if (_complete) {
+            update();
+        }
+    }
+}
+
+void dxs::Arc::setArcHeight(double arcHeight)
+{
+    if (_arcHeight != arcHeight) {
+        _arcHeight = arcHeight;
+        emit arcHeightChanged(_arcHeight);
 
         if (_complete) {
             update();
