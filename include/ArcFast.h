@@ -1,5 +1,4 @@
-#ifndef ARCFAST_H
-#define ARCFAST_H
+#pragma once
 
 #include <QQuickItem>
 
@@ -27,7 +26,7 @@ class ArcFast : public QQuickItem
 
         virtual void classBegin() override;
         virtual void componentComplete() override;
-        QSGNode* updatePaintNode(QSGNode *node, UpdatePaintNodeData *);
+        QSGNode* updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
 
         double penWidth() const;
         double startAngle() const;
@@ -57,5 +56,3 @@ class ArcFast : public QQuickItem
         int _segmentCount = 64;
 };
 } // namespace dxs {
-
-#endif // ARCFAST_H

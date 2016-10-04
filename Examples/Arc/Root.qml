@@ -1,13 +1,12 @@
 import QtQuick 2.5
-import QtQuick.Window 2.2
 import DXS 1.0
 
 Item {
-    readonly property double mm: Screen.pixelDensity
     readonly property double margin: 2*mm
     property bool fast: false
 
-    anchors.fill: parent
+    width: Window.width
+    height: Window.height
 
     //--------------------------------------------------------------------------
     Loader {

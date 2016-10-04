@@ -1,5 +1,4 @@
-#ifndef ARC_H
-#define ARC_H
+#pragma once
 
 #include <QtQuick>
 #include <QColor>
@@ -56,5 +55,3 @@ class Arc : public QQuickPaintedItem
         double _arcHeight = 0;
 };
 } // namespace dxs {
-
-#endif // ARC_H

@@ -1,12 +1,8 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#include <DxsApplication.h>
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    DxsApplication app(argc, argv, "Swipe Selector Example");
 
     return app.exec();
 }

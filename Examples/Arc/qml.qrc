@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>Root.qml</file>
     </qresource>
 </RCC>

@@ -1,28 +1,25 @@
 import QtQuick 2.5
-import QtQuick.Window 2.2
 import DXS 1.0
 
-Window {
-    readonly property double mm: Screen.pixelDensity
+Item {
     readonly property double margin: 2*mm
 
     visible: true
-    width: 400
-    height: 450
-    title: qsTr("Hello World")
+    width: Window.width
+    height: Window.height
 
-    //ListView {
-    //    id: listView
+    ListView {
+        id: listView
 
-    //    model: 400
-    //    delegate: ContactDelegate {}
-    //    anchors.fill: parent
-    //    maximumFlickVelocity: 8*height
-    //}
-
-    BenchmarkItem {
-        id: benchmarkItem
+        model: 400
+        delegate: ContactDelegate {}
+        anchors.fill: parent
+        maximumFlickVelocity: 8*height
     }
+
+    //BenchmarkItem {
+    //    id: benchmarkItem
+    //}
 
     //--------------------------------------------------------------------------
     //ImageDxs {

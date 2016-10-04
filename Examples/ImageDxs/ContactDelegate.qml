@@ -1,5 +1,4 @@
 import QtQuick 2.5
-import QtQuick.Window 2.2
 import DXS 1.0
 
 Item {

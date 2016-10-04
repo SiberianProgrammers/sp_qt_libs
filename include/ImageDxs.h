@@ -1,9 +1,10 @@
-#ifndef IMAGEDXS_H
-#define IMAGEDXS_H
+#pragma once
 
 #include <QtQuick>
 #include <QImage>
 #include <QString>
+
+#include "ImageDxsLoader.h"
 
 namespace dxs {
 /**
@@ -103,21 +104,19 @@ class ImageDxs : public QQuickPaintedItem
         void drawPreserveAspectCrop (QPainter *painter, const QImage &image);
 
     private slots:
-        void onImageDxsLoaded (const QString &source, QImage *image);
-        void onImageDxsError (const QString &source, QImage *image, const QString &reason);
+        void onImageDxsLoaded (const QString &source, dxs::WeakImage image);
+        void onImageDxsError  (const QString &source, dxs::WeakImage image, const QString &reason);
 
     private:
-        bool     _completed = false; // Флаг для инициализации объекта
-        QImage   _image;
-        QString  _source;
-        double   _radius = 0.0;
-        FillMode _fillMode = PreserveAspectCrop;
-        Status   _status = Null;
-        bool     _blur = false;
-        bool     _asynchronous = true;
-        HorizontalAlignment _horizontalAlignment = AlignHCenter;
-        VerticalAlignment _verticalAlignment = AlignVCenter;
+        bool                   _completed = false; // Флаг для инициализации объекта
+        QSharedPointer<QImage> _image;
+        QString                _source;
+        double                 _radius = 0.0;
+        FillMode               _fillMode = PreserveAspectCrop;
+        Status                 _status = Null;
+        bool                   _blur = false;
+        bool                   _asynchronous = true;
+        HorizontalAlignment    _horizontalAlignment = AlignHCenter;
+        VerticalAlignment      _verticalAlignment = AlignVCenter;
 };
 }// namespace experiment {
-
-#endif // IMAGEDXS_H
