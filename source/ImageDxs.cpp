@@ -232,52 +232,7 @@ void dxs::ImageDxs::drawPreserveAspectCrop(QPainter *painter, const QImage &imag
 }
 
 //------------------------------------------------------------------------------
-// Обработка сигнала на загрузки изображения в ImageDxsLoader'е.
-//------------------------------------------------------------------------------
-void dxs::ImageDxs::onImageDxsLoaded(const QString &/*source*/, QWeakPointer<QImage> image)
-{
-    if (image != _image) {
-        return;
-    }
-
-    disconnect (&ImageDxsLoader::instance(), 0, this, 0);
-
-    _status = Ready;
-    emit statusChanged(_status);
-
-    setImplicitWidth (_image->width());
-    setImplicitHeight(_image->height());
-
-    emit sourceSizeChanged(_image->size());
-    if (_completed) {
-        update();
-    }
-}
-
-//------------------------------------------------------------------------------
-// Обработка сигнала об ошибке загрузки изображения в ImageDxsLoader'е.
-//------------------------------------------------------------------------------
-void dxs::ImageDxs::onImageDxsError(const QString &/*source*/, QWeakPointer<QImage> image, const QString &/*reason*/)
-{
-    if (image != _image) {
-        return;
-    }
-
-    //TODO Добавить сообщение об ошибке
-
-    disconnect (&ImageDxsLoader::instance(), 0, this, 0);
-
-    *_image = QImage();
-    _status = Error;
-
-    setImplicitHeight(_image->height());
-
-    emit sourceSizeChanged(_image->size());
-    if (_completed) {
-        update();
-    }
-}
-
+// 0. Устанавливает источник изображение и начинает его загрузку.
 //------------------------------------------------------------------------------
 void dxs::ImageDxs::setSource(const QString &source)
 {
@@ -323,6 +278,52 @@ void dxs::ImageDxs::setSource(const QString &source)
     }
 }
 
+//------------------------------------------------------------------------------
+// 1. Обработка сигнала успешной загрузки изображения в ImageDxsLoader'е.
+//------------------------------------------------------------------------------
+void dxs::ImageDxs::onImageDxsLoaded(const QString &/*source*/, QWeakPointer<QImage> image)
+{
+    if (image != _image) {
+        return;
+    }
+
+    disconnect (&ImageDxsLoader::instance(), 0, this, 0);
+
+    _status = Ready;
+    emit statusChanged(_status);
+
+    setImplicitWidth (_image->width());
+    setImplicitHeight(_image->height());
+
+    emit sourceSizeChanged(_image->size());
+    if (_completed) {
+        update();
+    }
+}
+
+//------------------------------------------------------------------------------
+// 1e. Обработка сигнала об ошибке загрузки изображения в ImageDxsLoader'е.
+//------------------------------------------------------------------------------
+void dxs::ImageDxs::onImageDxsError(const QString &/*source*/, QWeakPointer<QImage> image, const QString &/*reason*/)
+{
+    if (image != _image) {
+        return;
+    }
+
+    //TODO Добавить сообщение об ошибке
+
+    disconnect (&ImageDxsLoader::instance(), 0, this, 0);
+
+    *_image = QImage();
+    _status = Error;
+
+    setImplicitHeight(_image->height());
+
+    emit sourceSizeChanged(_image->size());
+    if (_completed) {
+        update();
+    }
+}
 //------------------------------------------------------------------------------
 void dxs::ImageDxs::setRadius(qreal radius)
 {

@@ -5,7 +5,7 @@
 #include "ImageDxs.h"
 
 //--------------------------------------------------------------------------
-DxsApplication::DxsApplication(int &argc, char **argv, const QString &title, int width, int height)
+dxs::DxsApplication::DxsApplication(int &argc, char **argv, const QString &title, int width, int height)
     : QGuiApplication (argc, argv)
     , _view ()
 {
@@ -38,8 +38,7 @@ DxsApplication::DxsApplication(int &argc, char **argv, const QString &title, int
 }
 
 //--------------------------------------------------------------------------
-
-int DxsApplication::exec(const QUrl &source)
+int dxs::DxsApplication::exec(const QUrl &source)
 {
     _view.setSource(source); // по умолчанию "qrc:/Root.qml"
 

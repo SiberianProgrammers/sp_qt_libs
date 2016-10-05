@@ -1,8 +1,10 @@
 #pragma once
 
+#include <QDebug>
 #include <QtGui>
 #include <QtQuick>
 
+namespace dxs {
 /**
  * @brief Базовый класс приложения для проектов DXS.
  *        Регистрирует компоненты и объекты QML.
@@ -21,3 +23,4 @@ class DxsApplication : public QGuiApplication
     protected:
         QQuickView _view;
 };
+}

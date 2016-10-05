@@ -1,25 +1,18 @@
 import QtQuick 2.5
 
 Item {
-    // Флаг, указывающий, что ОС - мобильная ОС.
-    readonly property bool   mobileOs: Qt.platform.os === "ios" || Qt.platform.os === "android"
-    readonly property alias  mm: _p.mm
-    readonly property alias minWidth: _p.minWidth
-    readonly property alias maxWidth: _p.maxWidth
-
     property real margin: 2.4*mm
     property real marginBig: 3.4*mm
     property real spacing: 1*mm
     property real marginCorner: 10*mm
-    property real buttonNormalWidth: minWidth - 4*margin
     property real fadeWidth: 5*mm
     property real radius: 1*mm
     property real lineWidth: Math.ceil(0.4*mm)
-    property real  borderWidth: Math.ceil(0.2*mm)
+    property real borderWidth: Math.ceil(0.2*mm)
 
     property color gray: "#8a8a8a"
     property color darkGray: "#4a4a4a"
-    property color lightGray: "#cacaca"
+    property color lightGray: "#f0f0f0"
     property color green: "#71ad6f"
     property color lightGreen: "#d1ecd0"
     property color blue: "#0096d5"
@@ -39,7 +32,8 @@ Item {
 
     property real fontBig: 5*mm
     property real fontNormal: 4*mm
-    property real fontSmall : 3*mm
+    property real fontSmall: 3*mm
+    property real fontTiny: 2*mm
     property real fontNormalLetterSpacing: 0.2*mm
     property real fontBigLetterSpacing: 0.4*mm
     property real fontSmallLetterSpacing: 0.1*mm
@@ -59,15 +53,6 @@ Item {
     property real drawerWidth: 40*mm
     property real drawerDragWidth: 2*mm
 
-    //--------------------------------------------------------------------------
-    Item {
-        id: _p
-
-        property real mm
-        property real minWidth
-        property real maxWidth
-    }
-
     //FontLoader { id: _mainFont; source: "qrc:/fonts/CTCSplashRounded.otf" }
     FontMetrics {
         id: _fontMetricsBig
@@ -83,12 +68,5 @@ Item {
         id: _fontMetricsSmall
         //font.family: _mainFont.name
         font.pixelSize: fontSmall
-    }
-
-    // Инициализирует константы согласно параметрам экрана и окна
-    function init (screen, window) {
-        _p.mm = screen.pixelDensity;
-        _p.minWidth = Math.min (window.width, window.height);
-        _p.maxWidth = Math.max (window.width, window.height);
     }
 }
