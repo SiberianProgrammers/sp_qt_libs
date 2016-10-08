@@ -115,7 +115,6 @@ Item {
 
     //--------------------------------------------------------------------------
     onModelChanged: {
-        //print("SwipeView:onModelChanged set _currentIndex = 0");
         //listView._currentIndex = 0;
     }
 
@@ -139,7 +138,7 @@ Item {
             behOnContentX.enabled = true;
             listView.contentX += width;
         } else {
-            print ("It's already at end of SwipeView");
+            Log.warning ("It's already at end of SwipeView");
         }
     }
 
@@ -150,14 +149,13 @@ Item {
             return;
         }
 
-        //print ("\n\ndecrementCurrentIndex");
         if (listView._currentIndex >= 1) {
             //listView.isMoving = true;
             listView.movedBySwipe = false;
             behOnContentX.enabled = true;
             listView.contentX -= width;
         } else {
-            //print ("It's already at begining of SwipeView");
+            Log.warning ("It's already at begining of SwipeView");
         }
     }
 
@@ -182,7 +180,7 @@ Item {
 
             listView.contentX = contentX;
         } else {
-            //print ("It's already at this index");
+            Log.warning ("It's already at this index");
         }
     }
 }
