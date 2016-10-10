@@ -1,12 +1,12 @@
 import QtQuick 2.5
 
 Item {
-    property real margin: 2.4*mm
-    property real marginBig: 3.4*mm
-    property real spacing: 1*mm
-    property real marginCorner: 10*mm
-    property real fadeWidth: 5*mm
-    property real radius: 1*mm
+    property real margin: Math.ceil(2.4*mm)
+    property real marginBig: Math.ceil(3.4*mm)
+    property real spacing: Math.ceil(1*mm)
+    property real marginCorner: Math.ceil(10*mm)
+    property real fadeWidth: Math.ceil(5*mm)
+    property real radius: Math.ceil(1*mm)
     property real lineWidth: Math.ceil(0.4*mm)
     property real borderWidth: Math.ceil(0.2*mm)
 
@@ -30,13 +30,17 @@ Item {
     property alias fontMetricsNormal: _fontMetricsNormal
     property alias fontMetricsSmall: _fontMetricsSmall
 
-    property real fontBig: 5*mm
-    property real fontNormal: 4*mm
-    property real fontSmall: 3*mm
-    property real fontTiny: 2*mm
-    property real fontNormalLetterSpacing: 0.2*mm
-    property real fontBigLetterSpacing: 0.4*mm
-    property real fontSmallLetterSpacing: 0.1*mm
+    property real fontBig   : Math.ceil(5*mm)
+    property real fontNormal: Math.ceil(3*mm)
+    property real fontSmall : Math.ceil(2*mm)
+    property real fontTiny  : Math.ceil(1*mm)
+    property real fontBigHeight   : Math.ceil(1.73 * fontBig)
+    property real fontNormalHeight: Math.ceil(1.73 * fontNormal)
+    property real fontSmallHeight : Math.ceil(1.73 * fontSmall)
+    property real fontTinyHeight  : Math.ceil(1.73 * fontTiny)
+    property real fontNormalLetterSpacing: Math.ceil(0.2*mm)
+    property real fontBigLetterSpacing   : Math.ceil(0.4*mm)
+    property real fontSmallLetterSpacing : Math.ceil(0.1*mm)
 
     //--------------------------------------------------------------------------
     // ActionBar
