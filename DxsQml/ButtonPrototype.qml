@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.7
 
 import "./"
 import "../"
@@ -11,7 +11,7 @@ import "../"
 Item {
     id: _buttonPrototype
 
-    property bool isPressed: false
+    readonly property alias isPressed: mouseArea.pressed
     property real pressedX: 0
     property real pressedY: 0
 
@@ -22,6 +22,8 @@ Item {
 
     //--------------------------------------------------------------------------
     MouseArea {
+        id: mouseArea
+
         anchors.fill: parent
         enabled: parent.enabled
 
@@ -29,12 +31,10 @@ Item {
             pressedX = mouse.x;
             pressedY = mouse.y;
 
-            isPressed = true;
             _buttonPrototype.pressed();
         }
 
         onReleased: {
-            isPressed = false;
             _buttonPrototype.released();
         }
 

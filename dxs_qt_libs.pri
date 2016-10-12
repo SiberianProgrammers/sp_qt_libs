@@ -1,24 +1,26 @@
 QT += widgets
-INCLUDEPATH += $$PWD/include
+INCLUDEPATH += $$PWD/Include
 HEADERS += \
-    $$PWD/include/NetworkAccessManagerWorker.h \
-    $$PWD/include/FileLoader.h \
-    $$PWD/include/ImageDxs.h \
-    $$PWD/include/Settings.h \
-    $$PWD/include/ImageDxsLoader.h \
-    $$PWD/include/Arc.h \
-    $$PWD/include/ArcFast.h \
-    $$PWD/include/DxsApplicationPrototype.h
+    $$PWD/Include/NetworkAccessManagerWorker.h \
+    $$PWD/Include/FileLoader.h \
+    $$PWD/Include/ImageDxs.h \
+    $$PWD/Include/Settings.h \
+    $$PWD/Include/ImageDxsLoader.h \
+    $$PWD/Include/Arc.h \
+    $$PWD/Include/ArcFast.h \
+    $$PWD/Include/DxsApplicationPrototype.h \
+    $$PWD/Include/LogDxs.h
 
 SOURCES += \
-    $$PWD/source/NetworkAccessManagerWorker.cpp \
-    $$PWD/source/FileLoader.cpp \
-    $$PWD/source/Settings.cpp \
-    $$PWD/source/ImageDxs.cpp \
-    $$PWD/source/ImageDxsLoader.cpp \
-    $$PWD/source/Arc.cpp \
-    $$PWD/source/ArcFast.cpp \
-    $$PWD/source/DxsApplicationPrototype.cpp
+    $$PWD/Source/NetworkAccessManagerWorker.cpp \
+    $$PWD/Source/FileLoader.cpp \
+    $$PWD/Source/Settings.cpp \
+    $$PWD/Source/ImageDxs.cpp \
+    $$PWD/Source/ImageDxsLoader.cpp \
+    $$PWD/Source/Arc.cpp \
+    $$PWD/Source/ArcFast.cpp \
+    $$PWD/Source/DxsApplicationPrototype.cpp \
+    $$PWD/Source/LogDxs.cpp
 
 # Внешние ресурсы
 RESOURCES += \

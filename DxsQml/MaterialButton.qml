@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.7
 
 import "./"
 import "../"
@@ -9,9 +9,14 @@ import "../"
 ButtonPrototype {
     id: _materialButton
 
+    property alias text: textItem.text
+    property alias font: textItem.font
+    property alias textItem: textItem
     property alias color: background.color
     property alias pressedColor: pressedPlace.color
     property alias radius: background.radius
+
+    width: textItem.width + 2*Consts.margin
 
     Rectangle {
         id: background
@@ -19,6 +24,7 @@ ButtonPrototype {
         color: Consts.buttonActiveColor
         anchors.fill: parent
         clip: true
+        radius: Consts.radius
 
         //--------------------------------------------------------------------------
         // TODO При нажатии сделать, чтобы углы оставались закгруглёнными
@@ -37,7 +43,7 @@ ButtonPrototype {
                  : pressedX
             y: parent.height/2
             height: Math.min(width, background.height)
-            color: "white"
+            color: "gray"
             opacity: 0.1
             radius: inEdge
                     ? background.radius
@@ -47,6 +53,14 @@ ButtonPrototype {
                 y: -pressedPlace.height/2
             }
         }
+    } // Rectangle { id: background
+
+    //--------------------------------------------------------------------------
+    Text {
+        id: textItem
+
+        anchors.centerIn: parent
+        font.pixelSize: Consts.fontNormal
     }
 
     //--------------------------------------------------------------------------
@@ -73,7 +87,7 @@ ButtonPrototype {
                         target: pressedPlace
                         property: "width"
                         easing.type: Easing.InQuad
-                        duration: 800
+                        duration: 400
                     }
                 }
             }
