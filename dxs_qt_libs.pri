@@ -8,7 +8,7 @@ HEADERS += \
     $$PWD/include/ImageDxsLoader.h \
     $$PWD/include/Arc.h \
     $$PWD/include/ArcFast.h \
-    $$PWD/include/DxsApplication.h
+    $$PWD/include/DxsApplicationPrototype.h
 
 SOURCES += \
     $$PWD/source/NetworkAccessManagerWorker.cpp \
@@ -18,8 +18,13 @@ SOURCES += \
     $$PWD/source/ImageDxsLoader.cpp \
     $$PWD/source/Arc.cpp \
     $$PWD/source/ArcFast.cpp \
-    $$PWD/source/DxsApplication.cpp
+    $$PWD/source/DxsApplicationPrototype.cpp
 
 # Внешние ресурсы
 RESOURCES += \
     $$PWD/DxsQml/DxsQml.qrc \
+
+android {
+    DISTFILES += \
+        $$PWD/android/src/dxs/DxsActivity.java
+}

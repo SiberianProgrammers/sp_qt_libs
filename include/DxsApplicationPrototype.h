@@ -9,10 +9,10 @@ namespace dxs {
  * @brief Базовый класс приложения для проектов DXS.
  *        Регистрирует компоненты и объекты QML.
  */
-class DxsApplication : public QGuiApplication
+class DxsApplicationPrototype : public QGuiApplication
 {
     public:
-        DxsApplication(int &argc, char **argv
+        DxsApplicationPrototype(int &argc, char **argv
                        , const QString &title
                        , int width = 250, int height = 400);
 

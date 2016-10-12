@@ -1,11 +1,11 @@
-#include "DxsApplication.h"
+#include "DxsApplicationPrototype.h"
 
 #include "Arc.h"
 #include "ArcFast.h"
 #include "ImageDxs.h"
 
 //--------------------------------------------------------------------------
-dxs::DxsApplication::DxsApplication(int &argc, char **argv, const QString &title, int width, int height)
+dxs::DxsApplicationPrototype::DxsApplicationPrototype(int &argc, char **argv, const QString &title, int width, int height)
     : QGuiApplication (argc, argv)
     , _view ()
 {
@@ -38,7 +38,7 @@ dxs::DxsApplication::DxsApplication(int &argc, char **argv, const QString &title
 }
 
 //--------------------------------------------------------------------------
-int dxs::DxsApplication::exec(const QUrl &source)
+int dxs::DxsApplicationPrototype::exec(const QUrl &source)
 {
     _view.setSource(source); // по умолчанию "qrc:/Root.qml"
 
