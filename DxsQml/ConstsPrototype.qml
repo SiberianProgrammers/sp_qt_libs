@@ -10,7 +10,7 @@ Item {
     property real lineWidth: Math.ceil(0.4*mm)
     property real borderWidth: Math.ceil(0.2*mm)
 
-    property color gray: "#8a8a8a"
+    property color gray: "#c0c0c0"
     property color darkGray: "#4a4a4a"
     property color lightGray: "#f0f0f0"
     property color green: "#71ad6f"

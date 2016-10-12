@@ -69,8 +69,16 @@ ButtonPrototype {
 
         states: [
             State {
-                when: isPressed
+                name: "disabled"
+                when: !_materialButton.enabled
+                PropertyChanges {
+                    target: textItem
+                    opacity: 0.5
+                }
+            }
+            ,State {
                 name: "pressed"
+                when: isPressed
                 PropertyChanges {
                     target: pressedPlace
                     //radius: materialButton.width/2
