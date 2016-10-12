@@ -3,6 +3,7 @@
 #include "Arc.h"
 #include "ArcFast.h"
 #include "ImageDxs.h"
+#include "LogDxs.h"
 
 //--------------------------------------------------------------------------
 dxs::DxsApplicationPrototype::DxsApplicationPrototype(int &argc, char **argv, const QString &title, int width, int height)
@@ -35,6 +36,7 @@ dxs::DxsApplicationPrototype::DxsApplicationPrototype(int &argc, char **argv, co
     const double mmInInch = 25.4;
     _view.rootContext()->setContextProperty("mm", screens().first()->physicalDotsPerInch()/mmInInch);
     _view.rootContext()->setContextProperty("Window", &_view);
+    _view.rootContext()->setContextProperty("Log", &dxs::Log::instance());
 }
 
 //--------------------------------------------------------------------------
