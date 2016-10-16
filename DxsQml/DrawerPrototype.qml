@@ -81,7 +81,7 @@ Rectangle {
 
         visible: drawer.x !== -drawer.width
         width: parent.height
-        height: 1*Consts.mm
+        height: 1*mm
         rotation: -90
         anchors {
             left: parent.right

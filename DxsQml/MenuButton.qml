@@ -17,14 +17,14 @@ MaterialButton {
 
     Column {
         anchors.centerIn: parent
-        spacing: Math.ceil(0.5*Consts.mm)
+        spacing: Math.ceil(0.5*mm)
 
         Rectangle {
             id: rectangleTop
 
             color: menuButton.color
             height: Consts.lineWidth
-            width: 4*Consts.mm
+            width: 4*mm
         }
 
         Rectangle {
@@ -32,7 +32,7 @@ MaterialButton {
 
             color: menuButton.color
             height: Consts.lineWidth
-            width: 4*Consts.mm
+            width: 4*mm
         }
 
         Rectangle {
@@ -40,7 +40,7 @@ MaterialButton {
 
             color: menuButton.color
             height: Consts.lineWidth
-            width: 4*Consts.mm
+            width: 4*mm
         }
     }
 }

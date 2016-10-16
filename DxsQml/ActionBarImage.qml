@@ -12,7 +12,7 @@ Rectangle {
     property alias source: image.source
 
     /// @brief Высота изображения
-    property real imageHeight: 30*Consts.mm
+    property real imageHeight: 30*mm
 
     /// @brief Текст основной надписи.
     property alias title: title.text

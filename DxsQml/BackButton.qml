@@ -20,7 +20,7 @@ MaterialButton {
 
         color: backButton.arrowColor
         height: Consts.lineWidth
-        width: 2.5*Consts.mm
+        width: 2.5*mm
         anchors {
             top: rectangleMiddle.verticalCenter
             left: rectangleMiddle.left
@@ -36,7 +36,7 @@ MaterialButton {
 
         color: backButton.arrowColor
         height: Consts.lineWidth
-        width: 3*Consts.mm
+        width: 3*mm
         anchors.centerIn: parent
     }
 
@@ -45,7 +45,7 @@ MaterialButton {
 
         color: backButton.arrowColor
         height: Consts.lineWidth
-        width: 2.5*Consts.mm
+        width: 2.5*mm
         anchors {
             left: rectangleMiddle.left
             bottom: rectangleMiddle.verticalCenter

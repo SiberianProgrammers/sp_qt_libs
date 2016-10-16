@@ -22,5 +22,6 @@
         <file>DebugRectangle.qml</file>
         <file>SwipeSelector.qml</file>
         <file>SmileForRate.qml</file>
+        <file>Counter.qml</file>
     </qresource>
 </RCC>

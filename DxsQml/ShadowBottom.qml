@@ -7,7 +7,7 @@ Rectangle {
     id: shadowBottom
     
     width: parent.width
-    height: 1*Consts.mm
+    height: 1*mm
     gradient: Gradient {
         GradientStop { position: 0.0; color: "#30000000"}
         GradientStop { position: 0.2; color: "#15000000"}

@@ -12,8 +12,10 @@ ButtonPrototype {
     property alias text: textItem.text
     property alias font: textItem.font
     property alias textItem: textItem
+    property color textDisabledColor: "#88000000"
     property alias color: background.color
     property alias pressedColor: pressedPlace.color
+    property color disabledColor: color
     property alias radius: background.radius
 
     width: textItem.width + 2*Consts.margin
@@ -73,7 +75,11 @@ ButtonPrototype {
                 when: !_materialButton.enabled
                 PropertyChanges {
                     target: textItem
-                    opacity: 0.5
+                    color: textDisabledColor
+                }
+                PropertyChanges {
+                    target: _materialButton
+                    color: disabledColor
                 }
             }
             ,State {
