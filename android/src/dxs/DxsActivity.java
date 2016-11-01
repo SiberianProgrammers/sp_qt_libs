@@ -4,70 +4,25 @@ import org.qtproject.qt5.android.QtNative;
 import org.qtproject.qt5.android.bindings.QtActivity;
 
 import android.app.Activity;
+import android.app.Application;
 import android.os.Bundle;
 import android.os.Build;
-import android.content.Intent;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.ContactsContract;
-import android.content.Context;
-import android.provider.Contacts.Intents;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.view.View;
-import android.view.Window;
-import android.graphics.Rect;
-import android.util.Log;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.PackageInfo;
-import android.os.AsyncTask;
-import android.media.ExifInterface;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiInfo;
-import android.provider.ContactsContract.Contacts;
-import android.content.ContentUris;
-import android.provider.ContactsContract.DisplayPhoto;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import java.io.InputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.Map;
-
-import android.app.PendingIntent;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View;
+import android.content.Intent;
 import android.telephony.SmsManager;
 import android.util.TypedValue;
 import android.text.TextUtils;
-import android.app.Application;
-import android.view.WindowManager;
 import android.graphics.Color;
 import android.R.style;
+import android.graphics.Rect;
+import android.content.Context;
 
 public class DxsActivity extends QtActivity
 {
-                  final int REQUEST_SHOW_GALLERY        = 255; ///< Номер запроса в галерею (по нему смотрми точно ли мы из галереи получили ответ)
-    public static final int SHARE_REQUEST               = 256;
-    public static final int REQUEST_SHOW_NATIVE_GALLERY = 257;
-    public static final int REQUEST_SHOW_NATIVE_PHOTO   = 258;
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000; ///< Запрос в плей маркет (№)
-
-    // Идентефиактор под которым клюс хранится в локальном хранилище
-    public static final String PROPERTY_REG_ID = "registration_id";
-
-    // Версия приложения (менять при обновлении)
-    // TODO Фига се, это вообще то название поля
-    private static final String PROPERTY_APP_VERSION = "6.0";
-
     public String mac_address = "";
     public int statusBarHeight = 0; // Высота статус бара
 
