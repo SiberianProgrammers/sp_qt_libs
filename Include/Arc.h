@@ -3,7 +3,7 @@
 #include <QtQuick>
 #include <QColor>
 
-namespace dxs {
+namespace sp {
 /**
  * @brief Класс для отрисовки дуги. Использует QPainter. Для быстрой отрисовки смотри ArcFast
  */
@@ -54,4 +54,4 @@ class Arc : public QQuickPaintedItem
         QColor _color = Qt::black;
         double _arcHeight = 0;
 };
-} // namespace dxs {
+} // namespace sp {

@@ -1,9 +1,7 @@
 import QtQuick 2.5
-import DXS 1.0
+import SP 1.0
 
 // Оценка с помощью смайла. Для работы требуются Arc & ArcFast поключаемые с помощью
-// qmlRegisterType<dxs::Arc>("DXS", 1, 0, "Arc");
-// qmlRegisterType<dxs::ArcFast>("DXS", 1, 0, "ArcFast");
 
 Item {
     id: smileForRate

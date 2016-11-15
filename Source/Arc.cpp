@@ -1,6 +1,6 @@
 #include "Arc.h"
 
-dxs::Arc::Arc(QQuickItem *parent)
+sp::Arc::Arc(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
     setPerformanceHint(QQuickPaintedItem::FastFBOResizing, true);
@@ -8,19 +8,19 @@ dxs::Arc::Arc(QQuickItem *parent)
 }
 
 //------------------------------------------------------------------------------
-void dxs::Arc::classBegin()
+void sp::Arc::classBegin()
 {
     // Ничего нет
 }
 
 //------------------------------------------------------------------------------
-void dxs::Arc::componentComplete()
+void sp::Arc::componentComplete()
 {
     _complete = true;
 }
 
 //------------------------------------------------------------------------------
-void dxs::Arc::paint(QPainter *painter)
+void sp::Arc::paint(QPainter *painter)
 {
     QPen pen;
     pen.setStyle(Qt::SolidLine);
@@ -46,33 +46,33 @@ void dxs::Arc::paint(QPainter *painter)
 }
 
 //------------------------------------------------------------------------------
-double dxs::Arc::penWidth() const
+double sp::Arc::penWidth() const
 {
     return _penWidth;
 }
 
-double dxs::Arc::arcHeight() const
+double sp::Arc::arcHeight() const
 {
     return _arcHeight;
 }
 
-double dxs::Arc::startAngle() const
+double sp::Arc::startAngle() const
 {
     return _startAngle;
 }
 
-double dxs::Arc::spanAngle() const
+double sp::Arc::spanAngle() const
 {
     return _spanAngle;
 }
 
-QColor dxs::Arc::color() const
+QColor sp::Arc::color() const
 {
     return _color;
 }
 
 //------------------------------------------------------------------------------
-void dxs::Arc::setPenWidth(double penWidth)
+void sp::Arc::setPenWidth(double penWidth)
 {
     if (_penWidth != penWidth) {
         _penWidth = penWidth;
@@ -84,7 +84,7 @@ void dxs::Arc::setPenWidth(double penWidth)
     }
 }
 
-void dxs::Arc::setArcHeight(double arcHeight)
+void sp::Arc::setArcHeight(double arcHeight)
 {
     if (_arcHeight != arcHeight) {
         _arcHeight = arcHeight;
@@ -96,7 +96,7 @@ void dxs::Arc::setArcHeight(double arcHeight)
     }
 }
 
-void dxs::Arc::setStartAngle(double startAngle)
+void sp::Arc::setStartAngle(double startAngle)
 {
     if (_startAngle != startAngle) {
         _startAngle = startAngle;
@@ -108,7 +108,7 @@ void dxs::Arc::setStartAngle(double startAngle)
     }
 }
 
-void dxs::Arc::setSpanAngle(double spanAngle)
+void sp::Arc::setSpanAngle(double spanAngle)
 {
     if (_spanAngle != spanAngle) {
         _spanAngle = spanAngle;
@@ -120,7 +120,7 @@ void dxs::Arc::setSpanAngle(double spanAngle)
     }
 }
 
-void dxs::Arc::setColor(const QColor &color)
+void sp::Arc::setColor(const QColor &color)
 {
     if (_color != color) {
         _color = color;

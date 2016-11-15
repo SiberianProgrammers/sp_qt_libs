@@ -5,9 +5,9 @@
 #include <android/log.h>
 #endif
 
-#include "LogDxs.h"
+#include "LogSp.h"
 
-using namespace dxs;
+using namespace sp;
 
 Log         Log::_instance;
 QTime       Log::_time;
@@ -96,7 +96,7 @@ void Log::fatal(const QString &str)
 
 //--------------------------------------------------------------------------
 void Log::aleus(const QString &str) {
-#ifdef DXS_ALEUS
+#ifdef SP_ALEUS
     LOG_ALEUS(str);
 #else
     Q_UNUSED(str);
@@ -105,17 +105,8 @@ void Log::aleus(const QString &str) {
 
 //--------------------------------------------------------------------------
 void Log::vonabirg(const QString &str) {
-#ifdef DXS_VONABIRG
+#ifdef SP_VONABIRG
     LOG_VONABIRG(str);
-#else
-    Q_UNUSED(str);
-#endif
-}
-
-//--------------------------------------------------------------------------
-void Log::ded(const QString &str) {
-#ifdef DXS_DED
-    LOG_DED(str);
 #else
     Q_UNUSED(str);
 #endif

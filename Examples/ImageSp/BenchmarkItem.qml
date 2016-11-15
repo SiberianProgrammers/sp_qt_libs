@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
-import DXS 1.0
+import SP 1.0
 
 Item {
     id: _benchmarkItem
@@ -10,12 +10,12 @@ Item {
     anchors.fill: parent
     
     //--------------------------------------------------------------------------
-    ImageDxs {
+    ImageSp {
         id: image
 
         source: "qrc:/image.jpg"
         anchors.centerIn: parent
-        fillMode: ImageDxs.PreserveAspectCrop
+        fillMode: ImageSp.PreserveAspectCrop
         width: benchmarkItem.width/2
         height: width
         radius: 20

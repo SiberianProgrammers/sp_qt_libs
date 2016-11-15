@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import DXS 1.0
+import SP 1.0
 
 Item {
     readonly property double margin: 2*mm
@@ -22,12 +22,12 @@ Item {
     //}
 
     //--------------------------------------------------------------------------
-    //ImageDxs {
+    //ImageSp {
     //    id: image
 
     //    source: "qrc:/avatar.jpg"
     //    anchors.centerIn: parent
-    //    fillMode: ImageDxs.PreserveAspectCrop
+    //    fillMode: ImageSp.PreserveAspectCrop
 
     //    width: parent.width - 2*margin
     //    height: width

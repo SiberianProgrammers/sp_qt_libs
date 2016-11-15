@@ -1,12 +1,12 @@
-#include "DxsApplicationPrototype.h"
+#include "SpApplicationPrototype.h"
 
 #include "Arc.h"
 #include "ArcFast.h"
-#include "ImageDxs.h"
-#include "LogDxs.h"
+#include "ImageSp.h"
+#include "LogSp.h"
 
 //--------------------------------------------------------------------------
-dxs::DxsApplicationPrototype::DxsApplicationPrototype(int &argc, char **argv, const QString &title, int width, int height)
+sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const QString &title, int width, int height)
     : QGuiApplication (argc, argv)
     , _view ()
 {
@@ -29,19 +29,19 @@ dxs::DxsApplicationPrototype::DxsApplicationPrototype(int &argc, char **argv, co
     _view.setFormat(format);
 
     // Регистрируем C++ класса в QML
-    qmlRegisterType<dxs::Arc>("DXS", 1, 0, "Arc");
-    qmlRegisterType<dxs::ArcFast>("DXS", 1, 0, "ArcFast");
-    qmlRegisterType<dxs::ImageDxs>("DXS", 1, 0, "ImageDxs");
+    qmlRegisterType<sp::Arc>("SP", 1, 0, "Arc");
+    qmlRegisterType<sp::ArcFast>("SP", 1, 0, "ArcFast");
+    qmlRegisterType<sp::ImageSp>("SP", 1, 0, "ImageSp");
 
     // Создаём объекты QML
     const double mmInInch = 25.4;
     _view.rootContext()->setContextProperty("mm", screens().first()->physicalDotsPerInch()/mmInInch);
     _view.rootContext()->setContextProperty("Window", &_view);
-    _view.rootContext()->setContextProperty("Log", &dxs::Log::instance());
+    _view.rootContext()->setContextProperty("Log", &sp::Log::instance());
 }
 
 //--------------------------------------------------------------------------
-int dxs::DxsApplicationPrototype::exec(const QUrl &source)
+int sp::SpApplicationPrototype::exec(const QUrl &source)
 {
     _view.setSource(source); // по умолчанию "qrc:/Root.qml"
 

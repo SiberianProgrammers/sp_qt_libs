@@ -6,20 +6,20 @@
 #include <QWeakPointer>
 #include <QImage>
 
-namespace dxs {
+namespace sp {
 typedef QSharedPointer<QImage> SharedImage;
 typedef QWeakPointer<QImage> WeakImage;
 
 /***************************************************************************//**
- * @brief Класс-singleton загрузщика изображений для ImageDxs.
+ * @brief Класс-singleton загрузщика изображений для ImageSp.
  *
  * @note Работает в параллельном потоке.
  ******************************************************************************/
-class ImageDxsLoader : public QObject {
+class ImageSpLoader : public QObject {
     Q_OBJECT
 
     public:
-        static ImageDxsLoader& instance();
+        static ImageSpLoader& instance();
 
     public slots:
         /// @brief Загружает изображение синхронно.
@@ -36,12 +36,12 @@ class ImageDxsLoader : public QObject {
         void error(const QString &source, WeakImage image, const QString &reason);
 
     private:
-        ImageDxsLoader ();
+        ImageSpLoader ();
 
     private:
         QThread _thread;
-}; // class ImageDxsLoader
-} // namespace dxs {
+}; // class ImageSpLoader
+} // namespace sp {
 
-Q_DECLARE_METATYPE(dxs::SharedImage)
-Q_DECLARE_METATYPE(dxs::WeakImage)
+Q_DECLARE_METATYPE(sp::SharedImage)
+Q_DECLARE_METATYPE(sp::WeakImage)

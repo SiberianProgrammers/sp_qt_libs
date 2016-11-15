@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import "qrc:/DxsQml"
+import "qrc:/SpQml"
 
 Rectangle {
     id: debugDelegate

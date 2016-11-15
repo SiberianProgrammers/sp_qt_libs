@@ -9,7 +9,7 @@
 #include <QTimer>
 #include <QHttpMultiPart>
 
-namespace dxs {
+namespace sp {
 /**
  * @brief Класс для загрузки статичных фалов из сети с поддержкой кеширования.
  * @note Экземпляр класс переносится в отдельный поток при создании.
@@ -61,7 +61,7 @@ class NetworkAccessManagerWorker: public QObject
         const int _MIN_TIMEOUT;
         const int _TIMEOUT_STEP;
 };
-} // namespace DXS
+} // namespace sp
 
 #endif // NETWORKACCESSMANAGERWORKER_H
 

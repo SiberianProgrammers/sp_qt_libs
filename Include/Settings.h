@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QSettings>
 
-namespace dxs {
+namespace sp {
     class Settings : public QObject
     {
         Q_OBJECT
@@ -26,6 +26,6 @@ namespace dxs {
         private:
             QSettings _settings;
     };
-} // namespace dxs
+} // namespace sp
 
 #endif // SETTINGS_H

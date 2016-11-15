@@ -4,13 +4,13 @@
 #include <QImage>
 #include <QString>
 
-#include "ImageDxsLoader.h"
+#include "ImageSpLoader.h"
 
-namespace dxs {
+namespace sp {
 /**
  * @brief Класс QML-объекта изображения с закруглёнными углами. Должен работать быстро.
  */
-class ImageDxs : public QQuickPaintedItem
+class ImageSp : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
@@ -62,7 +62,7 @@ class ImageDxs : public QQuickPaintedItem
         Q_ENUM (Status)
 
     public:
-        ImageDxs(QQuickItem *parent = nullptr);
+        ImageSp(QQuickItem *parent = nullptr);
 
         virtual void classBegin() override;
         virtual void componentComplete() override;
@@ -104,8 +104,8 @@ class ImageDxs : public QQuickPaintedItem
         void drawPreserveAspectCrop (QPainter *painter, const QImage &image);
 
     private slots:
-        void onImageDxsLoaded (const QString &source, dxs::WeakImage image);
-        void onImageDxsError  (const QString &source, dxs::WeakImage image, const QString &reason);
+        void onImageSpLoaded (const QString &source, sp::WeakImage image);
+        void onImageSpError  (const QString &source, sp::WeakImage image, const QString &reason);
 
     private:
         bool                   _completed = false; // Флаг для инициализации объекта

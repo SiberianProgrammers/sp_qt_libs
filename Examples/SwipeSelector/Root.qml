@@ -1,6 +1,6 @@
 import QtQuick 2.5
-import DXS 1.0
-import "qrc:/DxsQml"
+import SP 1.0
+import "qrc:/SpQml"
 
 Item {
     width: Window.width

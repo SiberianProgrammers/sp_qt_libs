@@ -5,7 +5,7 @@
 #include <QQmlParserStatus>
 #include "NetworkAccessManagerWorker.h"
 
-namespace dxs {
+namespace sp {
 /**
  * @brief Класс для загрузки статичных фалов из сети с поддержкой кеширования.
  * @note Экземпляр класс переносится в отдельный поток при создании.
@@ -92,7 +92,7 @@ class FileLoader: public QObject, public QQmlParserStatus
         int                        _version;
         bool                       _forceUseNetwork;
 };
-} //namespace DXS
+} //namespace sp
 
 #endif // STATICFILELOADER_H
 

@@ -6,7 +6,7 @@
 
 #include "FileLoader.h"
 
-dxs::FileLoader::FileLoader(QObject *parent)
+sp::FileLoader::FileLoader(QObject *parent)
     : QObject(parent)
     , _forceUseNetwork(false)
 {
@@ -15,13 +15,13 @@ dxs::FileLoader::FileLoader(QObject *parent)
 }
 
 //--------------------------------------------------------------------------
-dxs::FileLoader::~FileLoader()
+sp::FileLoader::~FileLoader()
 {
 
 }
 
 //--------------------------------------------------------------------------
-void dxs::FileLoader::finishedRequest (QNetworkReply *reply)
+void sp::FileLoader::finishedRequest (QNetworkReply *reply)
 {
     _error = "";
     QByteArray data = reply->readAll();
@@ -47,18 +47,18 @@ void dxs::FileLoader::finishedRequest (QNetworkReply *reply)
 }
 
 //--------------------------------------------------------------------------
-void dxs::FileLoader::errorRequest(QNetworkReply *replyWithError) {
+void sp::FileLoader::errorRequest(QNetworkReply *replyWithError) {
     _error = replyWithError->errorString();
     replyWithError->deleteLater();
     emit errorReady();
 }
 
 //--------------------------------------------------------------------------
-void dxs::FileLoader::requestFile() {
+void sp::FileLoader::requestFile() {
     requestFile(_fileName, _url, _version);
 }
 //--------------------------------------------------------------------------
-void dxs::FileLoader::requestFile (const QString &fileName, const QString &url, int version)
+void sp::FileLoader::requestFile (const QString &fileName, const QString &url, int version)
 {
     _fileName = fileName;
     _url = url;
@@ -105,7 +105,7 @@ void dxs::FileLoader::requestFile (const QString &fileName, const QString &url, 
 }
 
 //--------------------------------------------------------------------------
-void dxs::FileLoader::writeToFile(const QString &fileName, const QString &content)
+void sp::FileLoader::writeToFile(const QString &fileName, const QString &content)
 {
     QFile file (fileName);
 
@@ -115,7 +115,7 @@ void dxs::FileLoader::writeToFile(const QString &fileName, const QString &conten
 }
 
 //--------------------------------------------------------------------------
-QString dxs::FileLoader::readFromFile(const QString &fileName)
+QString sp::FileLoader::readFromFile(const QString &fileName)
 {
     QFile file (fileName);
 
@@ -136,19 +136,19 @@ QString dxs::FileLoader::readFromFile(const QString &fileName)
 }
 
 //--------------------------------------------------------------------------
-void dxs::FileLoader::clearCache()
+void sp::FileLoader::clearCache()
 {
     QFile file ("cache/" + _fileName);
     file.remove();
 }
 
 //--------------------------------------------------------------------------
-void dxs::FileLoader::classBegin() {
+void sp::FileLoader::classBegin() {
 
 }
 
 //--------------------------------------------------------------------------
-void dxs::FileLoader::componentComplete()
+void sp::FileLoader::componentComplete()
 {
     if (!_url.isEmpty()) {
         requestFile ();

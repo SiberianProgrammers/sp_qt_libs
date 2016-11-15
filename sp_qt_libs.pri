@@ -3,30 +3,30 @@ INCLUDEPATH += $$PWD/Include
 HEADERS += \
     $$PWD/Include/NetworkAccessManagerWorker.h \
     $$PWD/Include/FileLoader.h \
-    $$PWD/Include/ImageDxs.h \
     $$PWD/Include/Settings.h \
-    $$PWD/Include/ImageDxsLoader.h \
     $$PWD/Include/Arc.h \
     $$PWD/Include/ArcFast.h \
-    $$PWD/Include/DxsApplicationPrototype.h \
-    $$PWD/Include/LogDxs.h
+    $$PWD/Include/SpApplicationPrototype.h \
+    $$PWD/Include/LogSp.h \
+    $$PWD/Include/ImageSp.h \
+    $$PWD/Include/ImageSpLoader.h
 
 SOURCES += \
     $$PWD/Source/NetworkAccessManagerWorker.cpp \
     $$PWD/Source/FileLoader.cpp \
     $$PWD/Source/Settings.cpp \
-    $$PWD/Source/ImageDxs.cpp \
-    $$PWD/Source/ImageDxsLoader.cpp \
     $$PWD/Source/Arc.cpp \
     $$PWD/Source/ArcFast.cpp \
-    $$PWD/Source/DxsApplicationPrototype.cpp \
-    $$PWD/Source/LogDxs.cpp
+    $$PWD/Source/SpApplicationPrototype.cpp \
+    $$PWD/Source/LogSp.cpp \
+    $$PWD/Source/ImageSp.cpp \
+    $$PWD/Source/ImageSpLoader.cpp
 
 # Внешние ресурсы
 RESOURCES += \
-    $$PWD/DxsQml/DxsQml.qrc \
+    $$PWD/SpQml/SpQml.qrc \
 
 android {
     DISTFILES += \
-        $$PWD/android/src/dxs/DxsActivity.java
+        $$PWD/android/src/sp/SpActivity.java
 }

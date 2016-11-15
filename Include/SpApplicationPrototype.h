@@ -4,15 +4,15 @@
 #include <QtGui>
 #include <QtQuick>
 
-namespace dxs {
+namespace sp {
 /**
- * @brief Базовый класс приложения для проектов DXS.
+ * @brief Базовый класс приложения для проектов SP.
  *        Регистрирует компоненты и объекты QML.
  */
-class DxsApplicationPrototype : public QGuiApplication
+class SpApplicationPrototype : public QGuiApplication
 {
     public:
-        DxsApplicationPrototype(int &argc, char **argv
+        SpApplicationPrototype(int &argc, char **argv
                        , const QString &title
                        , int width = 250, int height = 400);
 
