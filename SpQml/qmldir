@@ -1,2 +1,2 @@
-module DxsQml
+module SpQml
 singleton Debug 1.0 Debug.qml

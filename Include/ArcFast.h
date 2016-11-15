@@ -2,7 +2,7 @@
 
 #include <QQuickItem>
 
-namespace dxs {
+namespace sp {
 /**
  * @brief Класс для отрисовки дуги через Scene Graph. Для более плавной отрисовки смотри Arc
  * @note Антиалиасинг осуществляется с помощью QSurfaceFormat format; format.setSample(16).
@@ -55,4 +55,4 @@ class ArcFast : public QQuickItem
         QColor _color = Qt::black;
         int _segmentCount = 64;
 };
-} // namespace dxs {
+} // namespace sp {

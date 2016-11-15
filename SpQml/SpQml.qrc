@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/DxsQml">
+    <qresource prefix="/SpQml">
         <file>qmldir</file>
         <file>ConstsPrototype.qml</file>
         <file>Debug.qml</file>

@@ -1,11 +1,11 @@
 #include <QDebug>
 #include "Settings.h"
 
-using namespace dxs;
+using namespace sp;
 
 Settings::Settings(const QString &applicationName, QObject *parent)
     : QObject(parent)
-    , _settings(QSettings::IniFormat, QSettings::UserScope, "DXS", applicationName)
+    , _settings(QSettings::IniFormat, QSettings::UserScope, "SP", applicationName)
 {
     //qDebug() << "settings file path" << _settings.fileName();
 }

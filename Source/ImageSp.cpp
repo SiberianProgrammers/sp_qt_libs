@@ -1,9 +1,9 @@
 #include <QDebug>
 #include <QGraphicsScene>
-#include "ImageDxs.h"
+#include "ImageSp.h"
 
 //------------------------------------------------------------------------------
-dxs::ImageDxs::ImageDxs(QQuickItem *parent)
+sp::ImageSp::ImageSp(QQuickItem *parent)
     : QQuickPaintedItem(parent)
     , _image(new QImage())
 {
@@ -12,13 +12,13 @@ dxs::ImageDxs::ImageDxs(QQuickItem *parent)
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::classBegin()
+void sp::ImageSp::classBegin()
 {
     // Ничего нет
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::componentComplete()
+void sp::ImageSp::componentComplete()
 {
     _completed = true;
 
@@ -44,7 +44,7 @@ void dxs::ImageDxs::componentComplete()
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::paint(QPainter *painter)
+void sp::ImageSp::paint(QPainter *painter)
 {
     if (_status != Ready) {
         return;
@@ -84,7 +84,7 @@ void dxs::ImageDxs::paint(QPainter *painter)
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::drawPad(QPainter *painter, const QImage &image)
+void sp::ImageSp::drawPad(QPainter *painter, const QImage &image)
 {
     QBrush brush(image);
     painter->setBrush(brush);
@@ -94,7 +94,7 @@ void dxs::ImageDxs::drawPad(QPainter *painter, const QImage &image)
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::drawStretch(QPainter *painter, const QImage &image)
+void sp::ImageSp::drawStretch(QPainter *painter, const QImage &image)
 {
     qreal wi = static_cast<qreal>(image.width());
     qreal hi = static_cast<qreal>(image.height());
@@ -108,7 +108,7 @@ void dxs::ImageDxs::drawStretch(QPainter *painter, const QImage &image)
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::drawPreserveAcpectFit(QPainter *painter, const QImage &image)
+void sp::ImageSp::drawPreserveAcpectFit(QPainter *painter, const QImage &image)
 {
     qreal wi = static_cast<qreal>(image.width());
     qreal hi = static_cast<qreal>(image.height());
@@ -186,7 +186,7 @@ void dxs::ImageDxs::drawPreserveAcpectFit(QPainter *painter, const QImage &image
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::drawPreserveAspectCrop(QPainter *painter, const QImage &image)
+void sp::ImageSp::drawPreserveAspectCrop(QPainter *painter, const QImage &image)
 {
     qreal w = width();
     qreal h = height();
@@ -234,7 +234,7 @@ void dxs::ImageDxs::drawPreserveAspectCrop(QPainter *painter, const QImage &imag
 //------------------------------------------------------------------------------
 // 0. Устанавливает источник изображение и начинает его загрузку.
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::setSource(const QString &source)
+void sp::ImageSp::setSource(const QString &source)
 {
     if (_source != source) {
         _source = source;
@@ -245,7 +245,7 @@ void dxs::ImageDxs::setSource(const QString &source)
         } else {
             if (!_asynchronous) {
                 // Изображение из ресурсов
-                ImageDxsLoader::instance().get(_source, _image);
+                ImageSpLoader::instance().get(_source, _image);
 
                 _status = _image->isNull()
                           ? Error
@@ -254,14 +254,14 @@ void dxs::ImageDxs::setSource(const QString &source)
                 _status = Loading;
 
                 // TODO добавить кеширование
-                connect (&ImageDxsLoader::instance(), SIGNAL(loaded(const QString&, WeakImage))
-                         , SLOT(onImageDxsLoaded(const QString&, WeakImage))
+                connect (&ImageSpLoader::instance(), SIGNAL(loaded(const QString&, WeakImage))
+                         , SLOT(onImageSpLoaded(const QString&, WeakImage))
                          , Qt::UniqueConnection);
-                connect (&ImageDxsLoader::instance(), SIGNAL(error(const QString&, WeakImage, const QString&))
-                         , SLOT(onImageDxsError(const QString&, WeakImage, const QString&))
+                connect (&ImageSpLoader::instance(), SIGNAL(error(const QString&, WeakImage, const QString&))
+                         , SLOT(onImageSpError(const QString&, WeakImage, const QString&))
                          , Qt::UniqueConnection);
 
-                ImageDxsLoader::instance().loadTo (_source, _image);
+                ImageSpLoader::instance().loadTo (_source, _image);
             }
         }
 
@@ -279,15 +279,15 @@ void dxs::ImageDxs::setSource(const QString &source)
 }
 
 //------------------------------------------------------------------------------
-// 1. Обработка сигнала успешной загрузки изображения в ImageDxsLoader'е.
+// 1. Обработка сигнала успешной загрузки изображения в ImageSpLoader'е.
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::onImageDxsLoaded(const QString &/*source*/, QWeakPointer<QImage> image)
+void sp::ImageSp::onImageSpLoaded(const QString &/*source*/, QWeakPointer<QImage> image)
 {
     if (image != _image) {
         return;
     }
 
-    disconnect (&ImageDxsLoader::instance(), 0, this, 0);
+    disconnect (&ImageSpLoader::instance(), 0, this, 0);
 
     _status = Ready;
     emit statusChanged(_status);
@@ -302,9 +302,9 @@ void dxs::ImageDxs::onImageDxsLoaded(const QString &/*source*/, QWeakPointer<QIm
 }
 
 //------------------------------------------------------------------------------
-// 1e. Обработка сигнала об ошибке загрузки изображения в ImageDxsLoader'е.
+// 1e. Обработка сигнала об ошибке загрузки изображения в ImageSpLoader'е.
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::onImageDxsError(const QString &/*source*/, QWeakPointer<QImage> image, const QString &/*reason*/)
+void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QImage> image, const QString &/*reason*/)
 {
     if (image != _image) {
         return;
@@ -312,7 +312,7 @@ void dxs::ImageDxs::onImageDxsError(const QString &/*source*/, QWeakPointer<QIma
 
     //TODO Добавить сообщение об ошибке
 
-    disconnect (&ImageDxsLoader::instance(), 0, this, 0);
+    disconnect (&ImageSpLoader::instance(), 0, this, 0);
 
     *_image = QImage();
     _status = Error;
@@ -325,7 +325,7 @@ void dxs::ImageDxs::onImageDxsError(const QString &/*source*/, QWeakPointer<QIma
     }
 }
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::setRadius(qreal radius)
+void sp::ImageSp::setRadius(qreal radius)
 {
     if (radius != _radius) {
         _radius = radius;
@@ -339,7 +339,7 @@ void dxs::ImageDxs::setRadius(qreal radius)
 
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::setFillMode(dxs::ImageDxs::FillMode fillMode)
+void sp::ImageSp::setFillMode(sp::ImageSp::FillMode fillMode)
 {
     if (_fillMode != fillMode) {
         _fillMode = fillMode;
@@ -352,7 +352,7 @@ void dxs::ImageDxs::setFillMode(dxs::ImageDxs::FillMode fillMode)
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::setBlur(bool blur)
+void sp::ImageSp::setBlur(bool blur)
 {
     if (_blur != blur) {
         _blur = blur;
@@ -365,7 +365,7 @@ void dxs::ImageDxs::setBlur(bool blur)
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::setAsynchronous(bool asynchronous)
+void sp::ImageSp::setAsynchronous(bool asynchronous)
 {
     if (_asynchronous != asynchronous) {
         _asynchronous = asynchronous;
@@ -375,7 +375,7 @@ void dxs::ImageDxs::setAsynchronous(bool asynchronous)
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::setHorizontalAlignment(dxs::ImageDxs::HorizontalAlignment horizontalAlignment)
+void sp::ImageSp::setHorizontalAlignment(sp::ImageSp::HorizontalAlignment horizontalAlignment)
 {
     if (_horizontalAlignment != horizontalAlignment) {
         _horizontalAlignment = horizontalAlignment;
@@ -388,7 +388,7 @@ void dxs::ImageDxs::setHorizontalAlignment(dxs::ImageDxs::HorizontalAlignment ho
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxs::setVerticalAlignment(dxs::ImageDxs::VerticalAlignment verticalAlignment)
+void sp::ImageSp::setVerticalAlignment(sp::ImageSp::VerticalAlignment verticalAlignment)
 {
     if (_verticalAlignment != verticalAlignment) {
         _verticalAlignment = verticalAlignment;
@@ -401,39 +401,39 @@ void dxs::ImageDxs::setVerticalAlignment(dxs::ImageDxs::VerticalAlignment vertic
 }
 
 //------------------------------------------------------------------------------
-QString dxs::ImageDxs::source() const {
+QString sp::ImageSp::source() const {
     return _source;
 }
 
-QSize dxs::ImageDxs::sourceSize() const {
+QSize sp::ImageSp::sourceSize() const {
     return _image->size();
 }
 
-qreal dxs::ImageDxs::radius() const {
+qreal sp::ImageSp::radius() const {
     return _radius;
 }
 
-dxs::ImageDxs::FillMode dxs::ImageDxs::fillMode() const {
+sp::ImageSp::FillMode sp::ImageSp::fillMode() const {
     return _fillMode;
 }
 
-dxs::ImageDxs::Status dxs::ImageDxs::status() const {
+sp::ImageSp::Status sp::ImageSp::status() const {
     return _status;
 }
 
-bool dxs::ImageDxs::blur() const {
+bool sp::ImageSp::blur() const {
     return _blur;
 }
 
-bool dxs::ImageDxs::asynchronous() const
+bool sp::ImageSp::asynchronous() const
 {
     return _asynchronous;
 }
 
-dxs::ImageDxs::HorizontalAlignment dxs::ImageDxs::horizontalAlignment() const {
+sp::ImageSp::HorizontalAlignment sp::ImageSp::horizontalAlignment() const {
     return _horizontalAlignment;
 }
 
-dxs::ImageDxs::VerticalAlignment dxs::ImageDxs::verticalAlignment() const {
+sp::ImageSp::VerticalAlignment sp::ImageSp::verticalAlignment() const {
     return _verticalAlignment;
 }

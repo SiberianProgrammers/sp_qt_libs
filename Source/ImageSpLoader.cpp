@@ -2,21 +2,21 @@
 #include <QThread>
 #include <QMetaType>
 
-#include "ImageDxsLoader.h"
+#include "ImageSpLoader.h"
 
-//int id = qRegisterMetaType<dxs::SharedImage>();
-int id = qRegisterMetaType<dxs::SharedImage>("SharedImage");
-int id2 = qRegisterMetaType<dxs::WeakImage>("WeakImage");
+//int id = qRegisterMetaType<sp::SharedImage>();
+int id = qRegisterMetaType<sp::SharedImage>("SharedImage");
+int id2 = qRegisterMetaType<sp::WeakImage>("WeakImage");
 
 //------------------------------------------------------------------------------
-dxs::ImageDxsLoader& dxs::ImageDxsLoader::instance()
+sp::ImageSpLoader& sp::ImageSpLoader::instance()
 {
-    static ImageDxsLoader instance;
+    static ImageSpLoader instance;
     return instance;
 }
 
 //------------------------------------------------------------------------------
-dxs::ImageDxsLoader::ImageDxsLoader()
+sp::ImageSpLoader::ImageSpLoader()
     : QObject (nullptr)
 {
     moveToThread(&_thread);
@@ -25,7 +25,7 @@ dxs::ImageDxsLoader::ImageDxsLoader()
 }
 
 //------------------------------------------------------------------------------
-void dxs::ImageDxsLoader::get(const QString &source, QSharedPointer<QImage> image)
+void sp::ImageSpLoader::get(const QString &source, QSharedPointer<QImage> image)
 {
     if (source.startsWith("qrc:/")) {
         image->load(source.mid(3));

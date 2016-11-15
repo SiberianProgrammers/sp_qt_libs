@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import DXS 1.0
+import SP 1.0
 
 Item {
     id: _contactDelegate
@@ -8,7 +8,7 @@ Item {
     height: avatar.height + margin
 
     //--------------------------------------------------------------------------
-    ImageDxs {
+    ImageSp {
         id: avatar
 
         source: "qrc:/avatar.jpg"

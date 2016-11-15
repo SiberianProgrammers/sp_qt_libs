@@ -2,24 +2,24 @@
 #include <QtMath>
 #include "ArcFast.h"
 
-dxs::ArcFast::ArcFast(QQuickItem *parent)
+sp::ArcFast::ArcFast(QQuickItem *parent)
     : QQuickItem (parent)
 {
     setFlag(QQuickItem::ItemHasContents);
 }
 
-void dxs::ArcFast::classBegin()
+void sp::ArcFast::classBegin()
 {
     // Ничего нет
 }
 
-void dxs::ArcFast::componentComplete()
+void sp::ArcFast::componentComplete()
 {
     _complete = true;
 }
 
 //------------------------------------------------------------------------------
-QSGNode* dxs::ArcFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *)
+QSGNode* sp::ArcFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *)
 {
     QSGGeometryNode *node = 0;
     QSGGeometry *geometry = 0;
@@ -60,33 +60,33 @@ QSGNode* dxs::ArcFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaint
 }
 
 //------------------------------------------------------------------------------
-double dxs::ArcFast::penWidth() const
+double sp::ArcFast::penWidth() const
 {
     return _penWidth;
 }
 
-double dxs::ArcFast::startAngle() const
+double sp::ArcFast::startAngle() const
 {
     return _startAngle;
 }
 
-double dxs::ArcFast::spanAngle() const
+double sp::ArcFast::spanAngle() const
 {
     return _spanAngle;
 }
 
-QColor dxs::ArcFast::color() const
+QColor sp::ArcFast::color() const
 {
     return _color;
 }
 
-int dxs::ArcFast::segmentCount() const
+int sp::ArcFast::segmentCount() const
 {
     return _segmentCount;
 }
 
 //------------------------------------------------------------------------------
-void dxs::ArcFast::setPenWidth(double penWidth)
+void sp::ArcFast::setPenWidth(double penWidth)
 {
     if (_penWidth != penWidth) {
         _penWidth = penWidth;
@@ -98,7 +98,7 @@ void dxs::ArcFast::setPenWidth(double penWidth)
     }
 }
 
-void dxs::ArcFast::setStartAngle(double startAngle)
+void sp::ArcFast::setStartAngle(double startAngle)
 {
     if (_startAngle != startAngle) {
         _startAngle = startAngle;
@@ -110,7 +110,7 @@ void dxs::ArcFast::setStartAngle(double startAngle)
     }
 }
 
-void dxs::ArcFast::setSpanAngle(double spanAngle)
+void sp::ArcFast::setSpanAngle(double spanAngle)
 {
     if (_spanAngle != spanAngle) {
         _spanAngle = spanAngle;
@@ -122,7 +122,7 @@ void dxs::ArcFast::setSpanAngle(double spanAngle)
     }
 }
 
-void dxs::ArcFast::setColor(const QColor &color)
+void sp::ArcFast::setColor(const QColor &color)
 {
     if (_color != color) {
         _color = color;
@@ -134,7 +134,7 @@ void dxs::ArcFast::setColor(const QColor &color)
     }
 }
 
-void dxs::ArcFast::setSegmentCount(int segmentCount)
+void sp::ArcFast::setSegmentCount(int segmentCount)
 {
     if (_segmentCount != segmentCount) {
         _segmentCount = segmentCount;

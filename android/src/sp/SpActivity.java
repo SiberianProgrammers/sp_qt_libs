@@ -1,4 +1,4 @@
-package dxs;
+package sp;
 
 import org.qtproject.qt5.android.QtNative;
 import org.qtproject.qt5.android.bindings.QtActivity;
@@ -21,7 +21,7 @@ import android.R.style;
 import android.graphics.Rect;
 import android.content.Context;
 
-public class DxsActivity extends QtActivity
+public class SpActivity extends QtActivity
 {
     public String mac_address = "";
     public int statusBarHeight = 0; // Высота статус бара
@@ -34,7 +34,7 @@ public class DxsActivity extends QtActivity
     //--------------------------------------------------------------------------
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("#### onCreate DxsActivity!");
+        System.out.println("#### onCreate SpActivity!");
         context = this.getApplicationContext();
 
         super.onCreate(savedInstanceState);
