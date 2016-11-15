@@ -14,12 +14,13 @@ dxs::DxsApplicationPrototype::DxsApplicationPrototype(int &argc, char **argv, co
 
     _view.setTitle(title);
     _view.setColor(Qt::white);
-    #ifdef Q_OS_OSX
-        _view.setWidth(width);
-        _view.setHeight(height);
-    #else
+
+    #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
         _view.setWidth(primaryScreen()->size().width());
         _view.setHeight(primaryScreen()->size().height());
+    #else
+        _view.setWidth(width);
+        _view.setHeight(height);
     #endif
 
     // Включаем антиалиасинг

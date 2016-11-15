@@ -1,4 +1,4 @@
-#include <qDebug>
+#include <QDebug>
 #include "NetworkAccessManagerWorker.h"
 
 //--------------------------------------------------------------------------------
