@@ -17,6 +17,11 @@ ButtonPrototype {
     property alias pressedColor: pressedPlace.color
     property color disabledColor: color
     property alias radius: background.radius
+    property alias border: background.border
+    property alias pressedPlaceOpacity: pressedPlace.opacity
+
+    property int durationAnimationPressed: 400
+    property int durationAnimationReleased: 200
 
     width: textItem.width + 2*Consts.margin
 
@@ -47,6 +52,10 @@ ButtonPrototype {
             height: Math.min(width, background.height)
             color: "gray"
             opacity: 0.1
+            border {
+                width: background.border.width
+                color: background.border.color
+            }
             radius: inEdge
                     ? background.radius
                     : height/2
@@ -101,7 +110,7 @@ ButtonPrototype {
                         target: pressedPlace
                         property: "width"
                         easing.type: Easing.InQuad
-                        duration: 400
+                        duration: durationAnimationPressed
                     }
                 }
             }
@@ -110,7 +119,7 @@ ButtonPrototype {
                 NumberAnimation {
                     target: pressedPlace
                     property: "width"
-                    duration: 200
+                    duration: durationAnimationReleased
                 }
             }
         ]

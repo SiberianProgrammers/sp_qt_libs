@@ -12,6 +12,7 @@ MaterialButton {
     property string arrowColor: "white"
 
     color: "transparent"
+    border.width: 0
     width: height
     radius: height/2
 
