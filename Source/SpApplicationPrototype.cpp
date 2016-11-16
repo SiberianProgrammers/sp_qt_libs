@@ -4,6 +4,7 @@
 #include "ArcFast.h"
 #include "ImageSp.h"
 #include "LogSp.h"
+#include "deviceinfo.h"
 
 //--------------------------------------------------------------------------
 sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const QString &title, int width, int height)
@@ -38,6 +39,7 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     _view.rootContext()->setContextProperty("mm", screens().first()->physicalDotsPerInch()/mmInInch);
     _view.rootContext()->setContextProperty("Window", &_view);
     _view.rootContext()->setContextProperty("Log", &sp::Log::instance());
+    _view.rootContext()->setContextProperty("deviceInfo", &sp::DeviceInfo::instance());
 }
 
 //--------------------------------------------------------------------------

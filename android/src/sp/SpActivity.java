@@ -4,6 +4,8 @@ import org.qtproject.qt5.android.QtNative;
 import org.qtproject.qt5.android.bindings.QtActivity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
 import android.app.Application;
 import android.os.Bundle;
 import android.os.Build;
@@ -20,6 +22,7 @@ import android.graphics.Color;
 import android.R.style;
 import android.graphics.Rect;
 import android.content.Context;
+import android.provider.Settings.Secure;
 
 public class SpActivity extends QtActivity
 {
@@ -94,7 +97,8 @@ public class SpActivity extends QtActivity
     // @brief Возвращает размер statusBar'a
     //--------------------------------------------------------------------------
     public int getStatusBarHeight() {
-        if (!availibleChangeStatusBar()) { return 0; }
+        if (!availibleChangeStatusBar()) {
+            return 0; }
         if ( statusBarHeight != 0) { return statusBarHeight; }
 
         int result = 0;
@@ -131,11 +135,39 @@ public class SpActivity extends QtActivity
         return heightDifference;
     }
 
+    public static String getDeviceID(Context context) {
+        return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+    }
+
     //--------------------------------------------------------------------------
     float pixelDencity()
     {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1,
                         getResources().getDisplayMetrics());
     }
+
+    //--------------------------------------------------------------------------
+    public static long availableRAM(Context context) {
+        MemoryInfo mi = new MemoryInfo();
+        ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        long availableMegs = mi.availMem / 1048576L;
+        return availableMegs;
+    }
+
+    //--------------------------------------------------------------------------
+    public static int getVersion() {
+        return Build.VERSION.SDK_INT;
+    }
+
+    //--------------------------------------------------------------------------
+    public static long totalRam(Context context) {
+        MemoryInfo mi = new MemoryInfo();
+        ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        long totalMegs = mi.totalMem / 1048576L;
+        return totalMegs;
+    }
+
 }
 

@@ -1,4 +1,5 @@
-import QtQuick 2.5
+import QtQuick 2.7
+import SP 1.0
 
 Item {
     property real margin: Math.ceil(2.4*mm)
@@ -50,6 +51,8 @@ Item {
                                        ? 7*mm
                                        : 9.5*mm )
     property color actionBarColor: "#7395FA"
+
+    property int statusBarHeight: deviceInfo.getStatusBarHeight()
 
     //--------------------------------------------------------------------------
     // Drawer
