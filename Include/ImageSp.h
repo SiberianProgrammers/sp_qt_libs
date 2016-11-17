@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QtQuick>
-#include <QImage>
+#include <QPixmap>
 #include <QString>
 
 #include "ImageSpLoader.h"
@@ -98,10 +98,10 @@ class ImageSp : public QQuickPaintedItem
         void verticalAlignmentChanged(VerticalAlignment);
 
     private:
-        void drawPad (QPainter *painter, const QImage &image);
-        void drawStretch (QPainter *painter, const QImage &image);
-        void drawPreserveAcpectFit (QPainter *painter, const QImage &image);
-        void drawPreserveAspectCrop (QPainter *painter, const QImage &image);
+        void drawPad (QPainter *painter, const QPixmap &image);
+        void drawStretch (QPainter *painter, const QPixmap &image);
+        void drawPreserveAcpectFit (QPainter *painter, const QPixmap &image);
+        void drawPreserveAspectCrop (QPainter *painter, const QPixmap &image);
 
     private slots:
         void onImageSpLoaded (const QString &source, sp::WeakImage image);
@@ -109,7 +109,7 @@ class ImageSp : public QQuickPaintedItem
 
     private:
         bool                   _completed = false; // Флаг для инициализации объекта
-        QSharedPointer<QImage> _image;
+        QSharedPointer<QPixmap> _image;
         QString                _source;
         double                 _radius = 0.0;
         FillMode               _fillMode = PreserveAspectCrop;

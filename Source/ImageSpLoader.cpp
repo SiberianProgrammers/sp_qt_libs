@@ -25,7 +25,7 @@ sp::ImageSpLoader::ImageSpLoader()
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSpLoader::get(const QString &source, QSharedPointer<QImage> image)
+void sp::ImageSpLoader::get(const QString &source, SharedImage image)
 {
     if (source.startsWith("qrc:/")) {
         image->load(source.mid(3));
@@ -33,6 +33,6 @@ void sp::ImageSpLoader::get(const QString &source, QSharedPointer<QImage> image)
         return;
     }
 
-    *image = QImage();
+    *image = QPixmap();
     emit error(source, image, "Неизвестный способ загрузки изображения.");
 }

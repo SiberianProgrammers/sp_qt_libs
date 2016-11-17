@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 sp::ImageSp::ImageSp(QQuickItem *parent)
     : QQuickPaintedItem(parent)
-    , _image(new QImage())
+    , _image(new QPixmap())
 {
     setPerformanceHint(QQuickPaintedItem::FastFBOResizing, true);
     setAntialiasing(true); // По умолчанию antialiasing включен
@@ -54,10 +54,10 @@ void sp::ImageSp::paint(QPainter *painter)
     pen.setStyle(Qt::NoPen);
     painter->setPen(pen);
 
-    QImage *image = _image.data();
+    QPixmap *image = _image.data();
     if (_blur) {
         qreal sc = qMax(8.0, 4*width()/_image->width());
-        image = new QImage(_image->scaledToWidth(static_cast<int>(_image->width()/sc), Qt::SmoothTransformation));
+        image = new QPixmap(_image->scaledToWidth(static_cast<int>(_image->width()/sc), Qt::SmoothTransformation));
     }
 
     switch (_fillMode) {
@@ -84,7 +84,7 @@ void sp::ImageSp::paint(QPainter *painter)
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSp::drawPad(QPainter *painter, const QImage &image)
+void sp::ImageSp::drawPad(QPainter *painter, const QPixmap &image)
 {
     QBrush brush(image);
     painter->setBrush(brush);
@@ -94,7 +94,7 @@ void sp::ImageSp::drawPad(QPainter *painter, const QImage &image)
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSp::drawStretch(QPainter *painter, const QImage &image)
+void sp::ImageSp::drawStretch(QPainter *painter, const QPixmap &image)
 {
     qreal wi = static_cast<qreal>(image.width());
     qreal hi = static_cast<qreal>(image.height());
@@ -108,7 +108,7 @@ void sp::ImageSp::drawStretch(QPainter *painter, const QImage &image)
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSp::drawPreserveAcpectFit(QPainter *painter, const QImage &image)
+void sp::ImageSp::drawPreserveAcpectFit(QPainter *painter, const QPixmap &image)
 {
     qreal wi = static_cast<qreal>(image.width());
     qreal hi = static_cast<qreal>(image.height());
@@ -160,25 +160,25 @@ void sp::ImageSp::drawPreserveAcpectFit(QPainter *painter, const QImage &image)
         if (sw > sh) {
             switch (_verticalAlignment) {
                 case AlignTop:
-                    painter->drawImage(QRectF(0, 0, width(), hi/sw), image);
+                    painter->drawPixmap(QRect(0, 0, width(), hi/sw), image);
                     break;
                 case AlignVCenter:
-                    painter->drawImage(QRectF(0, 0.5*(height() - hi/sw), width(), hi/sw), image);
+                    painter->drawPixmap(QRect(0, 0.5*(height() - hi/sw), width(), hi/sw), image);
                     break;
                 case AlignBottom:
-                    painter->drawImage(QRectF(0, height() - hi/sw, width(), hi/sw), image);
+                    painter->drawPixmap(QRect(0, height() - hi/sw, width(), hi/sw), image);
                     break;
             }
         } else {
             switch (_horizontalAlignment) {
                 case AlignLeft:
-                    painter->drawImage(QRectF(0, 0, wi/sh, height()), image);
+                    painter->drawPixmap(QRect(0, 0, wi/sh, height()), image);
                     break;
                 case AlignHCenter:
-                    painter->drawImage(QRectF(0.5*(width() - wi/sh), 0, wi/sh, height()), image);
+                    painter->drawPixmap(QRect(0.5*(width() - wi/sh), 0, wi/sh, height()), image);
                     break;
                 case AlignRight:
-                    painter->drawImage(QRectF(width() - wi/sh, 0, wi/sh, height()), image);
+                    painter->drawPixmap(QRect(width() - wi/sh, 0, wi/sh, height()), image);
                     break;
             }
         }
@@ -186,7 +186,7 @@ void sp::ImageSp::drawPreserveAcpectFit(QPainter *painter, const QImage &image)
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSp::drawPreserveAspectCrop(QPainter *painter, const QImage &image)
+void sp::ImageSp::drawPreserveAspectCrop(QPainter *painter, const QPixmap &image)
 {
     qreal w = width();
     qreal h = height();
@@ -240,7 +240,7 @@ void sp::ImageSp::setSource(const QString &source)
         _source = source;
 
         if (source.isEmpty()) {
-            *_image = QImage();
+            *_image = QPixmap();
             _status = Null;
         } else {
             if (!_asynchronous) {
@@ -281,7 +281,7 @@ void sp::ImageSp::setSource(const QString &source)
 //------------------------------------------------------------------------------
 // 1. Обработка сигнала успешной загрузки изображения в ImageSpLoader'е.
 //------------------------------------------------------------------------------
-void sp::ImageSp::onImageSpLoaded(const QString &/*source*/, QWeakPointer<QImage> image)
+void sp::ImageSp::onImageSpLoaded(const QString &/*source*/, QWeakPointer<QPixmap> image)
 {
     if (image != _image) {
         return;
@@ -304,7 +304,7 @@ void sp::ImageSp::onImageSpLoaded(const QString &/*source*/, QWeakPointer<QImage
 //------------------------------------------------------------------------------
 // 1e. Обработка сигнала об ошибке загрузки изображения в ImageSpLoader'е.
 //------------------------------------------------------------------------------
-void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QImage> image, const QString &/*reason*/)
+void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QPixmap> image, const QString &/*reason*/)
 {
     if (image != _image) {
         return;
@@ -314,7 +314,7 @@ void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QImage>
 
     disconnect (&ImageSpLoader::instance(), 0, this, 0);
 
-    *_image = QImage();
+    *_image = QPixmap();
     _status = Error;
 
     setImplicitHeight(_image->height());

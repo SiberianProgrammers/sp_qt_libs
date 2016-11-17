@@ -4,11 +4,11 @@
 #include <QThread>
 #include <QSharedPointer>
 #include <QWeakPointer>
-#include <QImage>
+#include <QPixmap>
 
 namespace sp {
-typedef QSharedPointer<QImage> SharedImage;
-typedef QWeakPointer<QImage> WeakImage;
+typedef QSharedPointer<QPixmap> SharedImage;
+typedef QWeakPointer<QPixmap> WeakImage;
 
 /***************************************************************************//**
  * @brief Класс-singleton загрузщика изображений для ImageSp.
