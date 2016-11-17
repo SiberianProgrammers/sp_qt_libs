@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QDebug>
 #include <QObject>
 #include <QTime>
 #include <QStringList>

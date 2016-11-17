@@ -105,11 +105,14 @@ class ImageSp : public QQuickPaintedItem
 
     private slots:
         void onImageSpLoaded (const QString &source, sp::WeakImage image);
+        void onImageSpRendered (sp::WeakImage sourceImage, QPixmap renderImage);
         void onImageSpError  (const QString &source, sp::WeakImage image, const QString &reason);
+        void renderImage();
 
     private:
         bool                   _completed = false; // Флаг для инициализации объекта
         QSharedPointer<QPixmap> _image;
+        QPixmap                _renderImage;
         QString                _source;
         double                 _radius = 0.0;
         FillMode               _fillMode = PreserveAspectCrop;
@@ -118,5 +121,6 @@ class ImageSp : public QQuickPaintedItem
         bool                   _asynchronous = true;
         HorizontalAlignment    _horizontalAlignment = AlignHCenter;
         VerticalAlignment      _verticalAlignment = AlignVCenter;
+        bool                   _inRender = false;
 };
 }// namespace experiment {

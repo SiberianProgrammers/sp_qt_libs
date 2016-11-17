@@ -1,4 +1,4 @@
-#include <QDebug>
+#include <LogSp.h>
 #include <QGraphicsScene>
 #include "ImageSp.h"
 
@@ -9,6 +9,9 @@ sp::ImageSp::ImageSp(QQuickItem *parent)
 {
     setPerformanceHint(QQuickPaintedItem::FastFBOResizing, true);
     setAntialiasing(true); // По умолчанию antialiasing включен
+
+    connect(this, SIGNAL(widthChanged()), SLOT(renderImage()));
+    connect(this, SIGNAL(heightChanged()), SLOT(renderImage()));
 }
 
 //------------------------------------------------------------------------------
@@ -41,6 +44,8 @@ void sp::ImageSp::componentComplete()
             setRenderTarget (QQuickPaintedItem::FramebufferObject);
         #endif
     }
+
+    renderImage();
 }
 
 //------------------------------------------------------------------------------
@@ -70,7 +75,9 @@ void sp::ImageSp::paint(QPainter *painter)
             break;
 
         case PreserveAspectCrop:
-            drawPreserveAspectCrop(painter, *image);
+            //Debug!!!
+            //drawPreserveAspectCrop(painter, *image);
+            painter->drawPixmap(QPoint(0,0), _renderImage);
             break;
 
         case Pad:
@@ -188,47 +195,6 @@ void sp::ImageSp::drawPreserveAcpectFit(QPainter *painter, const QPixmap &image)
 //------------------------------------------------------------------------------
 void sp::ImageSp::drawPreserveAspectCrop(QPainter *painter, const QPixmap &image)
 {
-    qreal w = width();
-    qreal h = height();
-    qreal wi = static_cast<qreal>(image.width());
-    qreal hi = static_cast<qreal>(image.height());
-    qreal sw = wi / w;
-    qreal sh = hi / h;
-
-    QBrush brush(image);
-
-    // Костыль, исправляющий смещение изображение в Brush по вертикали
-    QTransform workaround = QTransform().translate(0, _blur ? -4 : -1);
-
-    if (sw > sh) {
-        switch (_horizontalAlignment) {
-            case AlignLeft:
-                brush.setTransform(workaround.scale(1/sh, 1/sh));
-                break;
-            case AlignRight:
-                brush.setTransform(workaround.scale(1/sh, 1/sh).translate(sh*width() - wi, 0));
-                break;
-            case AlignHCenter:
-                brush.setTransform(workaround.scale(1/sh, 1/sh).translate(0.5*(sh*width() - wi), 0));
-                break;
-        }
-
-    } else {
-        switch (_verticalAlignment) {
-            case AlignTop:
-                brush.setTransform(workaround.scale(1/sw, 1/sw));
-                break;
-            case AlignBottom:
-                brush.setTransform(workaround.scale(1/sw, 1/sw).translate(0, sw*height() - hi));
-                break;
-            case AlignVCenter:
-                brush.setTransform(workaround.scale(1/sw, 1/sw).translate(0, 0.5*(sw*height() - hi)));
-                break;
-        }
-    }
-
-    painter->setBrush(brush);
-    painter->drawRoundedRect(QRectF(0, 0, w, h), _radius, _radius);
 }
 
 //------------------------------------------------------------------------------
@@ -289,16 +255,21 @@ void sp::ImageSp::onImageSpLoaded(const QString &/*source*/, QWeakPointer<QPixma
 
     disconnect (&ImageSpLoader::instance(), 0, this, 0);
 
-    _status = Ready;
-    emit statusChanged(_status);
+    if (_fillMode == PreserveAspectCrop) {
+
+        renderImage();
+    } else {
+        _status = Ready;
+        emit statusChanged(_status);
+    }
 
     setImplicitWidth (_image->width());
     setImplicitHeight(_image->height());
 
     emit sourceSizeChanged(_image->size());
-    if (_completed) {
-        update();
-    }
+    //if (_completed) {
+    //    update();
+    //}
 }
 
 //------------------------------------------------------------------------------
@@ -324,6 +295,47 @@ void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QPixmap
         update();
     }
 }
+
+//------------------------------------------------------------------------------
+// 2. Отрисовка изображения нужных размеров
+//------------------------------------------------------------------------------
+void sp::ImageSp::renderImage()
+{
+    if (width() && height() && !_image->isNull() && _completed) {
+        if (_renderImage.isNull()) {
+            connect (&ImageSpLoader::instance(), SIGNAL(rendered(WeakImage,QPixmap))
+                     , SLOT(onImageSpRendered(WeakImage,QPixmap))
+                     , Qt::UniqueConnection);
+        }
+
+        _inRender = true;
+        ImageSpLoader::instance().renderImageCrop(_image, width(), height(), _radius);
+    }
+}
+
+//------------------------------------------------------------------------------
+// 3. Отрисовка завершиалась.
+//------------------------------------------------------------------------------
+void sp::ImageSp::onImageSpRendered(sp::WeakImage sourceImage, QPixmap renderImage)
+{
+    if (_image != sourceImage) {
+        return;
+    }
+
+    _renderImage = renderImage;
+    _inRender = false;
+    _status = Ready;
+    emit statusChanged(_status);
+
+    //if ((int)_renderImage.width() != (int)width() || (int)_renderImage.height() != (int)height()) {
+    //    ImageSpLoader::instance().renderImageCrop(_image, width(), height(), _radius);
+    //}
+
+    if (_completed) {
+        update();
+    }
+}
+
 //------------------------------------------------------------------------------
 void sp::ImageSp::setRadius(qreal radius)
 {
