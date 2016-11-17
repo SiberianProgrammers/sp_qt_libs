@@ -23,5 +23,6 @@
         <file>SwipeSelector.qml</file>
         <file>SmileForRate.qml</file>
         <file>Counter.qml</file>
+        <file>DebugTimer.qml</file>
     </qresource>
 </RCC>

@@ -4,6 +4,7 @@
 #include "ArcFast.h"
 #include "ImageSp.h"
 #include "LogSp.h"
+#include "ImageParallax.h"
 #include "deviceinfo.h"
 
 //--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     qmlRegisterType<sp::Arc>("SP", 1, 0, "Arc");
     qmlRegisterType<sp::ArcFast>("SP", 1, 0, "ArcFast");
     qmlRegisterType<sp::ImageSp>("SP", 1, 0, "ImageSp");
+    qmlRegisterType<sp::ImageParallax>("SP", 1, 0, "ImageParallax");
 
     // Создаём объекты QML
     const double mmInInch = 25.4;
