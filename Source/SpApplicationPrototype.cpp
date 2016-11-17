@@ -4,7 +4,7 @@
 #include "ArcFast.h"
 #include "ImageSp.h"
 #include "LogSp.h"
-#include "deviceinfo.h"
+#include "DeviceInfo.h"
 
 //--------------------------------------------------------------------------
 sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const QString &title, int width, int height)
@@ -24,10 +24,14 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
         _view.setHeight(height);
     #endif
 
-    // Включаем антиалиасинг
-    QSurfaceFormat format = _view.format();
-    format.setSamples(16);
-    _view.setFormat(format);
+
+    // Включаем антиалиасинг.
+    #if !defined(Q_OS_LINUX) // Под линуксом на старющей видеокарте не работает setSamples 16.
+        QSurfaceFormat format = _view.format();
+        LOG_ALEUS(QString("Version of OpenGL %1.%2").arg(format.version().first).arg(format.version().second));
+        format.setSamples(16);
+        _view.setFormat(format);
+    #endif
 
     // Регистрируем C++ класса в QML
     qmlRegisterType<sp::Arc>("SP", 1, 0, "Arc");

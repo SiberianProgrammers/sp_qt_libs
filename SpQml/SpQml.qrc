@@ -23,5 +23,7 @@
         <file>SwipeSelector.qml</file>
         <file>SmileForRate.qml</file>
         <file>Counter.qml</file>
+        <file>Toast.qml</file>
+        <file>KeysHandler.qml</file>
     </qresource>
 </RCC>
