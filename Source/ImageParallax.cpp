@@ -9,10 +9,9 @@ sp::ImageParallax::ImageParallax(QQuickItem *parent)
     connect (this, SIGNAL(heightChanged()), this, SLOT(updateImageSize()));
     connect (this, SIGNAL(widthChanged()), this, SLOT(updateImageSize()));
 
-
-
     connect (this, SIGNAL(relativeItemChanged(const QQuickItem*)), this, SLOT(updateImagePosition()));
     connect (this, SIGNAL(delegateChanged(const QQuickItem*)),     this, SLOT(updateImagePosition()));
+
     connect (_image, SIGNAL(heightChanged()), this, SLOT(updateImagePosition()));
     connect (_image, SIGNAL(widthChanged()),  this, SLOT(updateImagePosition()));
     connect (_image, SIGNAL(statusChanged(const Status)),  this, SLOT(updateImagePosition()));
@@ -83,6 +82,12 @@ void sp::ImageParallax::setAntialiasing(bool antialiasing)
     }
 }
 
+void sp::ImageParallax::setFreezed(bool freezed)
+{
+    _freezed = freezed;
+    emit freezedChanged(_freezed);
+}
+
 //--------------------------------------------------------------------------
 void sp::ImageParallax::setIsDebug(bool isDebug)
 {
@@ -95,7 +100,7 @@ void sp::ImageParallax::updateImageSize()
     qreal h = this->height();
     qreal w = this->width();
 
-    if (h > 0 && w > 0) {
+    if (h > 0 && w > 0 && !_freezed) {
         _image->setY(-0.25*h);
         _image->setX(-0.25*w);
 
@@ -123,7 +128,9 @@ void sp::ImageParallax::updateImagePosition()
 
     if (_delegate == nullptr || _relativeItem == nullptr
         || _image->width() <= 0 || _image->height() <= 0
-        || _image->status() != sp::ImageSp::Ready)
+        || _image->status() != sp::ImageSp::Ready
+        || _freezed
+            )
     {
         return;
     }

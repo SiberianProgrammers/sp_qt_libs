@@ -16,6 +16,7 @@ class ImageParallax: public QQuickItem
     Q_PROPERTY(Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged)
     Q_PROPERTY(QQuickItem* relativeItem  WRITE setRelativeItem NOTIFY relativeItemChanged)
     Q_PROPERTY(QQuickItem* delegate      WRITE setDelegate     NOTIFY delegateChanged)
+    Q_PROPERTY(bool freezed READ freezed WRITE setFreezed      NOTIFY freezedChanged)
 
     // Поля для ImageSp
     Q_PROPERTY (QString  source       READ source       WRITE setSource       NOTIFY sourceChanged)
@@ -45,8 +46,10 @@ class ImageParallax: public QQuickItem
         void setSource(const QString &source);
         void setAsynchronous (bool asynchronous);
         void setAntialiasing (bool antialiasing);
+        void setFreezed (bool freezed);
 
         bool isDebug()         const { return _isDebug; }
+        bool freezed()         const { return _freezed; }
         QString source()       const { return _source; }
         QSize   sourceSize()   const { return _image->sourceSize(); }
         bool    asynchronous() const { return _asynchronous; }
@@ -61,6 +64,7 @@ class ImageParallax: public QQuickItem
         void orientationChanged(const Orientation orientation);
         void delegateChanged(const QQuickItem* delegate);
         void relativeItemChanged(const QQuickItem* relativeItem);
+        void freezedChanged(bool freezed);
 
         void sourceChanged(const QString&);
         void sourceSizeChanged(const QSize&);
@@ -78,6 +82,7 @@ class ImageParallax: public QQuickItem
         bool _blur = false;
         bool _asynchronous = true;
         bool _imageInit = false;
+        bool _freezed = false;
         sp::ImageSp::Status _status = sp::ImageSp::Null;
 };
 }
