@@ -10,7 +10,8 @@ HEADERS += \
     $$PWD/Include/LogSp.h \
     $$PWD/Include/ImageSp.h \
     $$PWD/Include/ImageSpLoader.h \
-    $$PWD/Include/deviceinfo.h
+    $$PWD/Include/deviceinfo.h \
+    $$PWD/Include/ImageParallax.h
 
 SOURCES += \
     $$PWD/Source/NetworkAccessManagerWorker.cpp \
@@ -22,7 +23,8 @@ SOURCES += \
     $$PWD/Source/LogSp.cpp \
     $$PWD/Source/ImageSp.cpp \
     $$PWD/Source/ImageSpLoader.cpp \
-    $$PWD/Source/deviceinfo.cpp
+    $$PWD/Source/deviceinfo.cpp \
+    $$PWD/Source/ImageParallax.cpp
 
 # Внешние ресурсы
 RESOURCES += \

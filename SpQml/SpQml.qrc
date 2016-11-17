@@ -25,5 +25,6 @@
         <file>Counter.qml</file>
         <file>Toast.qml</file>
         <file>KeysHandler.qml</file>
+        <file>DebugTimer.qml</file>
     </qresource>
 </RCC>
