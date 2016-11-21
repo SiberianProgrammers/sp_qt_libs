@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.IBinder;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.content.Intent;
 import android.telephony.SmsManager;
 import android.util.TypedValue;
@@ -37,7 +39,6 @@ public class SpActivity extends QtActivity
     //--------------------------------------------------------------------------
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("#### onCreate SpActivity!");
         context = this.getApplicationContext();
 
         super.onCreate(savedInstanceState);
@@ -52,6 +53,7 @@ public class SpActivity extends QtActivity
             }
         }
         statusBarHeight = getStatusBarHeight();
+        logInfo("SpActivity Create Succesefull!");
     }
 
     //--------------------------------------------------------------------------
@@ -135,6 +137,7 @@ public class SpActivity extends QtActivity
         return heightDifference;
     }
 
+    //--------------------------------------------------------------------------
     public static String getDeviceID(Context context) {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }
@@ -169,5 +172,65 @@ public class SpActivity extends QtActivity
         return totalMegs;
     }
 
+    //--------------------------------------------------------------------------
+    public void hideKeyboard()
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final View v = getCurrentFocus();
+                    if (v == null) {
+                        return;
+                    }
+
+                    InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm == null)  {
+                        logInfo("K12Activity.java::hideKeyboard: InputMethodManager is null");
+                        return;
+                    }
+
+                    IBinder token = v.getWindowToken();
+                    if( token != null ) {
+                        imm.hideSoftInputFromWindow(token, 0);
+                    }
+                } catch (Exception e) {
+                    logError("catch K12Activity.java::hideKeyboard: exception:" + e);
+                }
+            }
+        });
+    }
+
+    //--------------------------------------------------------------------------
+    public void showKeyboard() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final View v = getCurrentFocus();
+                    if (v == null) {
+                        logError(" K12Activity.java::showKeyboard: View is null");
+                        return;
+                    }
+
+                    InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm == null) {
+                        logInfo("K12Activity.java::showKeyboard: InputMethodManager is null");
+                        return;
+                    }
+
+                    imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
+                } catch (Exception e) {
+                    logError("catch  K12Activity.java::showKeyboard: exception:" + e);
+                }
+            }
+        });
+    }
+
+    //--------------------------------------------------------------------------
+    public static native void keyboardVisibleChanged(boolean visible, int height);
+
+    public static native void logInfo(String text);
+    public static native void logError(String text);
 }
 

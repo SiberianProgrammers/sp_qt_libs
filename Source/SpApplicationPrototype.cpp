@@ -6,6 +6,11 @@
 #include "LogSp.h"
 #include "DeviceInfo.h"
 #include "ImageParallax.h"
+#include "KeyboardSp.h"
+
+#if defined(Q_OS_ANDROID)
+#include "JniSetup.h"
+#endif
 
 //--------------------------------------------------------------------------
 sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const QString &title, int width, int height)
@@ -46,6 +51,7 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     _view.rootContext()->setContextProperty("Window", &_view);
     _view.rootContext()->setContextProperty("Log", &sp::Log::instance());
     _view.rootContext()->setContextProperty("deviceInfo", &sp::DeviceInfo::instance());
+    _view.rootContext()->setContextProperty("KeyboardSp", &sp::KeyboardSp::instance());
 }
 
 //--------------------------------------------------------------------------
