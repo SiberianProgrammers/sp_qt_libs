@@ -155,7 +155,19 @@ void sp::ImageParallax::updateImagePosition()
         //qreal imageOffset = -0.25*_image->height();
         //_image->setY(imageOffset + delta*imageOffset);
 
-        qreal delta = (_delegate->y() - _relativeItem->property("contentY").toDouble() - _relativeItem->property("originY").toDouble() + _delegate->height()) / (_relativeItem->height());
+        //qreal delta = (_delegate->y() - _relativeItem->property("contentY").toDouble() - _relativeItem->property("originY").toDouble() + _delegate->height()) / (_relativeItem->height());
+        //qreal delta = (_delegate->y()/* + _delegate->height()*/ - _relativeItem->property("contentY").toDouble() - _relativeItem->property("originY").toDouble())
+        //              / _relativeItem->height();
+        //if (delta >= 1) {
+        //    delta = 1;
+        //} else if (delta <= -1) {
+        //    delta = -1;
+        //}
+
+        //qreal imageOffset = -0.25*_delegate->height();
+        //_image->setY(delta*imageOffset);
+
+        qreal delta = (_delegate->mapToItem(_relativeItem, QPointF(0,0)).y() + y() + height()/2) / (_relativeItem->height());
         delta = delta -1;
 
         if (delta >= 1) {
@@ -164,23 +176,33 @@ void sp::ImageParallax::updateImagePosition()
             delta = -1;
         }
 
-        qreal imageOffset = -0.25*_delegate->height();
-        _image->setY(imageOffset + delta*imageOffset);
-
+        qreal imageOffset = _image->height() - height();
+        _image->setY(delta*imageOffset);
     } else {
         // Смещаем по оси X
 
-        qreal delta = (_delegate->x() - _relativeItem->property("contentX").toDouble() - _relativeItem->property("originX").toDouble() + _delegate->width()) / _relativeItem->width();
-        delta = delta - 1;
+        //qreal delta = (_delegate->x() - _relativeItem->property("contentX").toDouble() - _relativeItem->property("originX").toDouble() + _delegate->width()) / _relativeItem->width();
+        //delta = delta - 1;
+        //if (delta >= 1) {
+        //    delta = 1;
+        //} else if (delta <= -1) {
+        //    delta = -1;
+        //}
+
+        //qreal imageOffset = -0.25*_delegate->width();
+
+        //_image->setX(imageOffset + delta*imageOffset);
+        qreal delta = (_delegate->mapToItem(_relativeItem, QPointF(0,0)).x() + x() + width()/2) / (_relativeItem->width());
+        delta = delta -1;
+
         if (delta >= 1) {
             delta = 1;
         } else if (delta <= -1) {
             delta = -1;
         }
 
-        qreal imageOffset = -0.25*_delegate->width();
-
-        _image->setX(imageOffset + delta*imageOffset);
+        qreal imageOffset = _image->width() - width();
+        _image->setY(delta*imageOffset);
     }
 }
 

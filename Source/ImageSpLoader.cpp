@@ -88,6 +88,5 @@ void sp::ImageSpLoader::onRenderImageCrop(sp::SharedImage sourceImage, qreal w, 
     painter.drawRoundedRect(QRectF(0, 0, w, h), radius, radius);
     painter.end();
 
-    LOG_DEBUG("befor emit rendered");
     emit rendered(sourceImage, renderImage);
 }

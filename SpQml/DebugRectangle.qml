@@ -12,4 +12,5 @@ Rectangle {
     anchors.fill: parent
     color: "green"
     opacity: 0.5
+    z: 1000
 }
