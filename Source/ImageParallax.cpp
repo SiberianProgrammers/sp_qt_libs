@@ -8,6 +8,7 @@ sp::ImageParallax::ImageParallax(QQuickItem *parent)
     this->setClip(true);
     connect (this, SIGNAL(heightChanged()), this, SLOT(updateImageSize()));
     connect (this, SIGNAL(widthChanged()), this, SLOT(updateImageSize()));
+    connect (this, SIGNAL(sizeMultiplierChanged(qreal)), this, SLOT(updateImageSize()));
 
     connect (this, SIGNAL(relativeItemChanged(const QQuickItem*)), this, SLOT(updateImagePosition()));
     connect (this, SIGNAL(delegateChanged(const QQuickItem*)),     this, SLOT(updateImagePosition()));
@@ -82,10 +83,18 @@ void sp::ImageParallax::setAntialiasing(bool antialiasing)
     }
 }
 
+//--------------------------------------------------------------------------
 void sp::ImageParallax::setFreezed(bool freezed)
 {
     _freezed = freezed;
     emit freezedChanged(_freezed);
+}
+
+//--------------------------------------------------------------------------
+void sp::ImageParallax::setSizeMultiplier(qreal sizeMultiplier)
+{
+    _sizeMultiplier = sizeMultiplier;
+    emit sizeMultiplierChanged(_sizeMultiplier);
 }
 
 //--------------------------------------------------------------------------
@@ -101,33 +110,40 @@ void sp::ImageParallax::updateImageSize()
     qreal w = this->width();
 
     if (h > 0 && w > 0 && !_freezed) {
-        _image->setY(-0.25*h);
-        _image->setX(-0.25*w);
+//    if (h > 0 && w > 0 ) {
+//        _image->setY(-0.5*h);
+//        _image->setX(-0.5*w);
+        _image->setY(0.5*h*(1 - _sizeMultiplier));
+        _image->setX(0.5*w*(1 - _sizeMultiplier));
 
         if (_image->height() != h) {
-            _image->setHeight(1.5*h);
+            _image->setHeight(_sizeMultiplier*h);
         }
 
         if (_image->width() != w) {
-            _image->setWidth(1.5*w);
+            _image->setWidth(_sizeMultiplier*w);
         }
-        _image->setSource(_source);
-        _image->componentComplete();
-        _imageInit = true;
+
+        if (!_imageInit) {
+            _imageInit = true;
+            _image->setSource(_source);
+            _image->componentComplete();
+        }
     }
 }
 
 //--------------------------------------------------------------------------
 void sp::ImageParallax::updateImagePosition()
 {
-    if (_isDebug) {
+    if (_isDebug && false) {
         qDebug() << "_image->width() = " << _image->width() << " _image->height() = " << _image->height()
                  << " _delegate " << (_delegate != nullptr)  << " _relativeItem " << (_relativeItem != nullptr)
                  << "_image->status() = " << _image->status();
     }
 
     if (_delegate == nullptr || _relativeItem == nullptr
-        || _image->width() <= 0 || _image->height() <= 0
+        || _image->width() <= 0
+        || _image->height() <= 0
         || _image->status() != sp::ImageSp::Ready
         || _freezed
             )
@@ -137,23 +153,6 @@ void sp::ImageParallax::updateImagePosition()
 
     if (_orientation == Orientation::Vertical) {
         // Смещаем по оси Y
-
-        // Подогнанный? вариант
-        //qreal delta = -1 + 2*(_delegate->y() - _relativeItem->property("contentY").toDouble() - _relativeItem->property("originY").toDouble() + 0.25*_delegate->height()) / (_relativeItem->height() - 0.25*_delegate->height());
-        //  qreal delta = (_delegate->y() - _relativeItem->property("contentY").toDouble() - 0.25*_delegate->height()) / (_relativeItem->height());
-        //
-        //if (_isDebug ) {
-        //    qDebug() << "delta = " << delta;
-        //}
-        //
-        //if (delta >= 1) {
-        //    delta = 1;
-        //} else if (delta <= -1) {
-        //    delta = -1;
-        //}
-        //
-        //qreal imageOffset = -0.25*_image->height();
-        //_image->setY(imageOffset + delta*imageOffset);
 
         //qreal delta = (_delegate->y() - _relativeItem->property("contentY").toDouble() - _relativeItem->property("originY").toDouble() + _delegate->height()) / (_relativeItem->height());
         //qreal delta = (_delegate->y()/* + _delegate->height()*/ - _relativeItem->property("contentY").toDouble() - _relativeItem->property("originY").toDouble())
@@ -167,7 +166,9 @@ void sp::ImageParallax::updateImagePosition()
         //qreal imageOffset = -0.25*_delegate->height();
         //_image->setY(delta*imageOffset);
 
-        qreal delta = (_delegate->mapToItem(_relativeItem, QPointF(0,0)).y() + y() + height()/2) / (_relativeItem->height());
+
+        //qreal delta = (_delegate->mapToItem(_relativeItem, QPointF(0,0)).y() + y() + height()/2) / (_relativeItem->height());
+        qreal delta = (_delegate->mapToItem(_relativeItem, QPointF(0,0)).y() + y()) / (_relativeItem->height());
         delta = delta -1;
 
         if (delta >= 1) {
@@ -176,7 +177,9 @@ void sp::ImageParallax::updateImagePosition()
             delta = -1;
         }
 
-        qreal imageOffset = _image->height() - height();
+
+
+        qreal imageOffset = 0.5*(_image->height() - height());
         _image->setY(delta*imageOffset);
     } else {
         // Смещаем по оси X

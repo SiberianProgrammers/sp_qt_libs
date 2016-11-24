@@ -8,6 +8,7 @@ Item {
 
     property color color: "red"
     anchors.fill: parent
+    z: 1000
 
     //--------------------------------------------------------------------------
     Rectangle {

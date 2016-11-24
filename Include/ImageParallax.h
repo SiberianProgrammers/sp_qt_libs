@@ -17,6 +17,7 @@ class ImageParallax: public QQuickItem
     Q_PROPERTY(QQuickItem* relativeItem  WRITE setRelativeItem NOTIFY relativeItemChanged)
     Q_PROPERTY(QQuickItem* delegate      WRITE setDelegate     NOTIFY delegateChanged)
     Q_PROPERTY(bool freezed READ freezed WRITE setFreezed      NOTIFY freezedChanged)
+    Q_PROPERTY(qreal sizeMultiplier READ sizeMultiplier WRITE setSizeMultiplier NOTIFY sizeMultiplierChanged)
 
     // Поля для ImageSp
     Q_PROPERTY (QString  source       READ source       WRITE setSource       NOTIFY sourceChanged)
@@ -47,9 +48,11 @@ class ImageParallax: public QQuickItem
         void setAsynchronous (bool asynchronous);
         void setAntialiasing (bool antialiasing);
         void setFreezed (bool freezed);
+        void setSizeMultiplier (qreal sizeMultiplier);
 
         bool isDebug()         const { return _isDebug; }
         bool freezed()         const { return _freezed; }
+        qreal sizeMultiplier() const { return _sizeMultiplier; }
         QString source()       const { return _source; }
         QSize   sourceSize()   const { return _image->sourceSize(); }
         bool    asynchronous() const { return _asynchronous; }
@@ -70,6 +73,7 @@ class ImageParallax: public QQuickItem
         void sourceSizeChanged(const QSize&);
         void statusChanged(sp::ImageSp::Status);
         void asynchronousChanged(bool);
+        void sizeMultiplierChanged(qreal sizeMultiplier);
 
     private:
         Orientation _orientation = Orientation::Vertical;
@@ -77,6 +81,7 @@ class ImageParallax: public QQuickItem
         QQuickItem* _delegate = nullptr;
         QQuickItem* _relativeItem = nullptr;
         bool _isDebug = false;
+        qreal _sizeMultiplier = 1.5;
 
         QString  _source;
         bool _blur = false;
