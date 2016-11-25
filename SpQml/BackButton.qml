@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.8
 
 import "./"
 import "../"
@@ -10,6 +10,8 @@ MaterialButton {
     id: backButton
 
     property string arrowColor: "white"
+    property color  borderColor: "transparent"
+    property real   borderWidth: 0.1
 
     color: "transparent"
     border.width: 0
@@ -30,6 +32,11 @@ MaterialButton {
         }
         rotation: -45
         transformOrigin: Item.TopLeft
+
+        border {
+            width: borderWidth
+            color: borderColor
+        }
     }
 
     Rectangle {
@@ -39,6 +46,10 @@ MaterialButton {
         height: Consts.lineWidth
         width: 3*mm
         anchors.centerIn: parent
+        border {
+            width: borderWidth
+            color: borderColor
+        }
     }
 
     Rectangle {
@@ -55,5 +66,9 @@ MaterialButton {
         }
         rotation: 45
         transformOrigin: Item.BottomLeft
+        border {
+            width: borderWidth
+            color: borderColor
+        }
     }
 }

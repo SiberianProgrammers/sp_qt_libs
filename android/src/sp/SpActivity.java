@@ -89,8 +89,7 @@ public class SpActivity extends QtActivity
     //--------------------------------------------------------------------------
     /** @brief Вызывает окно отсылки sms. */
     //--------------------------------------------------------------------------
-    public void sendSms (String text, String phone_number)
-    {
+    public void sendSms (String text, String phone_number) {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phone_number, null, text, null, null);
     }
@@ -100,8 +99,12 @@ public class SpActivity extends QtActivity
     //--------------------------------------------------------------------------
     public int getStatusBarHeight() {
         if (!availibleChangeStatusBar()) {
-            return 0; }
-        if ( statusBarHeight != 0) { return statusBarHeight; }
+            return 0;
+        }
+
+        if ( statusBarHeight != 0) {
+            return statusBarHeight;
+        }
 
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -123,8 +126,7 @@ public class SpActivity extends QtActivity
     // @brief Возвращает размер рабочей области (без клавиатуры)
     // Для расчета клавиатуры взять высоту окна и вычесть размер клавиатуры
     //--------------------------------------------------------------------------
-    public int getHeight()
-    {
+    public int getHeight() {
         Window window = this.getWindow();
         View viewMain = window.getDecorView();
 
@@ -143,8 +145,7 @@ public class SpActivity extends QtActivity
     }
 
     //--------------------------------------------------------------------------
-    float pixelDencity()
-    {
+    float pixelDencity() {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1,
                         getResources().getDisplayMetrics());
     }

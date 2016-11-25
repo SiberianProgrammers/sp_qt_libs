@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.8
 import "./"
 import "../"
 
@@ -52,7 +52,7 @@ Loader {
         interval: 1500
         repeat: false
         onTriggered: {
-            flashMessage.state = ""
+            toast.state = ""
         }
     }
 
@@ -61,11 +61,11 @@ Loader {
         State {
             name: "active"
             PropertyChanges {
-                target: flashMessage
+                target: toast
                 opacity: 0.7
             }
             PropertyChanges {
-                target: flashMessage
+                target: toast
                 sourceComponent: visualComponent
                 restoreEntryValues: false
             }
@@ -73,7 +73,7 @@ Loader {
         State {
             name: ""
             PropertyChanges {
-                target: flashMessage
+                target: toast
                 opacity: 0
             }
         }
@@ -85,12 +85,12 @@ Loader {
     // forceShow - форсировать показ, даже если повторяет предыдущее
     //--------------------------------------------------------------------------
     function showMessage(text, showTime, force) {
-        if (flashMessage.state !== "") {
+        if (toast.state !== "") {
             return
         }
 
         currentMessage = text
-        flashMessage.state = "active";
+        toast.state = "active";
         closeTimer.interval = 1500;
         if (showTime !== undefined) {
             closeTimer.interval = showTime
