@@ -35,8 +35,11 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     // Включаем антиалиасинг.
     #if !defined(Q_OS_LINUX) // Под линуксом на старющей видеокарте не работает setSamples 16.
         QSurfaceFormat format = _view.format();
-        LOG_ALEUS(QString("Version of OpenGL %1.%2").arg(format.version().first).arg(format.version().second));
         format.setSamples(16);
+        _view.setFormat(format);
+    #else
+        QSurfaceFormat format = _view.format();
+        format.setSamples(8);
         _view.setFormat(format);
     #endif
 
@@ -56,6 +59,12 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     _view.rootContext()->setContextProperty("Log", &sp::Log::instance());
     _view.rootContext()->setContextProperty("deviceInfo", &sp::DeviceInfo::instance());
     _view.rootContext()->setContextProperty("KeyboardSp", &sp::KeyboardSp::instance());
+
+    #if defined (Q_OS_LINUX) || defined(Q_OS_OSX)
+        _view.rootContext()->setContextProperty("isDesktop", true);
+    #else
+        _view.rootContext()->setContextProperty("isDesktop", false);
+    #endif
 }
 
 //--------------------------------------------------------------------------

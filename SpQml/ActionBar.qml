@@ -73,26 +73,36 @@ Rectangle {
                     verticalCenter: parent.verticalCenter
                 }
 
-                TextNormal {
+                Text {
                     id: title
 
                     color: "#555555"
                     elide: Text.ElideRight
                     wrapMode: Text.NoWrap
-                    font.weight: Font.Bold
+                    minimumPixelSize: 1
+                    fontSizeMode: Text.HorizontalFit
+                    height: contentHeight
+                    font {
+                        pixelSize: Consts.fontTitle
+                        letterSpacing: Consts.fontTitleLetterSpacing
+                        weight: Font.Bold
+                    }
                     anchors {
                         left: parent.left
                         right: parent.right
                     }
                 }
 
-                TextSmall {
+                Text {
                     id: subTitle
 
                     color: title.color
                     horizontalAlignment: title.horizontalAlignment
                     elide: Text.ElideRight
-                    wrapMode: Text.NoWrap
+                    font {
+                        pixelSize: Consts.fontSmall
+                        letterSpacing: Consts.fontSmallLetterSpacing
+                    }
                     anchors {
                         left: parent.left
                         right: parent.right

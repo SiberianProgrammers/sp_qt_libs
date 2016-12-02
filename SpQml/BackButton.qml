@@ -21,11 +21,13 @@ MaterialButton {
     Arrow {
         id: arrow
 
-        readonly property int originalHeight: Math.ceil(4*mm)
-        width: Math.ceil(4*mm)
+        readonly property int originalHeight: isDesktop
+                                              ? Math.ceil(2.8*mm)
+                                              : Math.ceil(2.5*mm)
         height: originalHeight % 2 === 0
                 ? originalHeight
                 : originalHeight + 1
+        width: height
         color: "white"
         penWidth: Consts.lineWidth
         antialiasing: true

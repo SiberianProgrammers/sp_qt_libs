@@ -2,14 +2,14 @@ import QtQuick 2.8
 import SP 1.0
 
 Item {
-    property double margin: Math.ceil(2.4*mm)
+    property double margin: Math.ceil(2.0*mm)
     property double marginBig: Math.ceil(3.4*mm)
     property double spacing: Math.ceil(1*mm)
     property double marginCorner: Math.ceil(10*mm)
     property double fadeWidth: Math.ceil(5*mm)
     property double radius: Math.ceil(1*mm)
-    property double lineWidth: Math.ceil(0.4*mm)
-    property double borderWidth: Math.ceil(0.2*mm)
+    property double lineWidth: Math.ceil(0.3*mm)
+    property double borderWidth: Math.ceil(0.3*mm)
 
     property color gray: "#c0c0c0"
     property color darkGray: "#4a4a4a"
@@ -27,20 +27,24 @@ Item {
     // Шрифты
     //--------------------------------------------------------------------------
     //property alias mainFont: _mainFont
-    property alias fontMetricsBig: _fontMetricsBig
+    property alias fontMetricsBig   : _fontMetricsBig
+    property alias fontMetricsTitle : _fontMetricsTitle
     property alias fontMetricsNormal: _fontMetricsNormal
-    property alias fontMetricsSmall: _fontMetricsSmall
+    property alias fontMetricsSmall : _fontMetricsSmall
 
     property double fontBig   : Math.ceil(5*mm)
-    property double fontNormal: Math.ceil(3*mm)
+    property double fontTitle : Math.ceil(3.2*mm)
+    property double fontNormal: Math.ceil(2.7*mm)
     property double fontSmall : Math.ceil(2*mm)
     property double fontTiny  : Math.ceil(1*mm)
     property double fontBigHeight   : Math.ceil(1.73 * fontBig)
+    property double fontTitleHeight : Math.ceil(1.73 * fontTitle)
     property double fontNormalHeight: Math.ceil(1.73 * fontNormal)
     property double fontSmallHeight : Math.ceil(1.73 * fontSmall)
     property double fontTinyHeight  : Math.ceil(1.73 * fontTiny)
-    property double fontNormalLetterSpacing: Math.ceil(0.2*mm)
     property double fontBigLetterSpacing   : Math.ceil(0.4*mm)
+    property double fontTitleLetterSpacing : Math.ceil(0.2*mm)
+    property double fontNormalLetterSpacing: Math.ceil(0.2*mm)
     property double fontSmallLetterSpacing : Math.ceil(0.1*mm)
 
     //--------------------------------------------------------------------------
@@ -55,7 +59,6 @@ Item {
                                   ? _actionBarHeight
                                   : _actionBarHeight + 1
     property color actionBarColor: "#7395FA"
-
     property int statusBarHeight: deviceInfo.statusBarHeight()
 
     //--------------------------------------------------------------------------
@@ -69,6 +72,11 @@ Item {
         id: _fontMetricsBig
         //font.family: _mainFont.name
         font.pixelSize: fontBig
+    }
+    FontMetrics {
+        id: _fontMetricsTitle
+        //font.family: _mainFont.name
+        font.pixelSize: fontTitle
     }
     FontMetrics {
         id: _fontMetricsNormal
