@@ -1,4 +1,5 @@
 import QtQuick 2.8
+import SP 1.0
 
 import "./"
 import "../"
@@ -10,65 +11,25 @@ MaterialButton {
     id: backButton
 
     property string arrowColor: "white"
-    property color  borderColor: "transparent"
-    property real   borderWidth: 0.1
+    property real yShift: 0
 
     color: "transparent"
     border.width: 0
     width: height
     radius: height/2
 
-    Rectangle {
-        id: rectangleTop
+    Arrow {
+        id: arrow
 
-        color: backButton.arrowColor
-        height: Consts.lineWidth
-        width: 2.5*mm
-        anchors {
-            top: rectangleMiddle.verticalCenter
-            left: rectangleMiddle.left
-            topMargin: -0.15*height
-            leftMargin: -height
-        }
-        rotation: -45
-        transformOrigin: Item.TopLeft
-
-        border {
-            width: borderWidth
-            color: borderColor
-        }
-    }
-
-    Rectangle {
-        id: rectangleMiddle
-
-        color: backButton.arrowColor
-        height: Consts.lineWidth
-        width: 3*mm
-        anchors.centerIn: parent
-        border {
-            width: borderWidth
-            color: borderColor
-        }
-    }
-
-    Rectangle {
-        id: rectangleBottom
-
-        color: backButton.arrowColor
-        height: Consts.lineWidth
-        width: 2.5*mm
-        anchors {
-            left: rectangleMiddle.left
-            bottom: rectangleMiddle.verticalCenter
-            leftMargin: -height
-            bottomMargin: 0.15*height
-        }
-        rotation: 45
-        transformOrigin: Item.BottomLeft
-        border {
-            width: borderWidth
-            color: borderColor
-        }
+        readonly property int originalHeight: Math.ceil(4*mm)
+        width: Math.ceil(4*mm)
+        height: originalHeight % 2 === 0
+                ? originalHeight
+                : originalHeight + 1
+        color: "white"
+        penWidth: Consts.lineWidth
+        antialiasing: true
+        x: Math.ceil((parent.width-width)/2)
+        y: Math.round((parent.height-height)/2) + yShift
     }
 }

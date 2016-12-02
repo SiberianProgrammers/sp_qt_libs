@@ -12,8 +12,8 @@ Item {
     id: _buttonPrototype
 
     readonly property alias isPressed: mouseArea.pressed
-    property real pressedX: 0
-    property real pressedY: 0
+    property double pressedX: 0
+    property double pressedY: 0
 
     signal pressed
     signal released

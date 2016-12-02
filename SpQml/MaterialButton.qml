@@ -39,8 +39,8 @@ ButtonPrototype {
         Rectangle {
             id: pressedPlace
 
-            readonly property real rightShift: pressedX+width/2 - background.width
-            readonly property real leftShift: width/2 - pressedX
+            readonly property double rightShift: pressedX+width/2 - background.width
+            readonly property double leftShift: width/2 - pressedX
             readonly property bool inEdge: rightShift > 0 || leftShift > 0
 
             x: rightShift > 0

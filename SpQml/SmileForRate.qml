@@ -9,8 +9,8 @@ Item {
     property var  evaluations: ["Ужасно","Плохо","Нормально","Хорошо","Отлично"]
     property alias backgroundColor: background.color
     property bool  useFastArc: false
-    property real  penWidth: mm
-    property real  currentRate: Math.round(evaluations.length * 10*(_p.dragTargetDelta + dragTarget.y) / (2*_p.dragTargetDelta)) / 10
+    property double  penWidth: mm
+    property double  currentRate: Math.round(evaluations.length * 10*(_p.dragTargetDelta + dragTarget.y) / (2*_p.dragTargetDelta)) / 10
 
     //--------------------------------------------------------------------------
     Rectangle {
@@ -128,16 +128,16 @@ Item {
     QtObject {
         id: _p
 
-        property real dragTargetDelta: 0.7*arcLoader.height
-        property real startArcAngle: dragTarget.y < 0
+        property double dragTargetDelta: 0.7*arcLoader.height
+        property double startArcAngle: dragTarget.y < 0
                                         ? 15
                                         : 195
 
-        property real arcHeight: dragTarget.y < 0
+        property double arcHeight: dragTarget.y < 0
                                     ? -dragTarget.y
                                     : dragTarget.y
 
-        property real delta: arcHeight/_p.dragTargetDelta
+        property double delta: arcHeight/_p.dragTargetDelta
 
         property color arcColor: dragTarget.y < 0
                                   ? Qt.rgba( // От синего до красного

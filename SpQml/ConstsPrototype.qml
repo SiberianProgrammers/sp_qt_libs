@@ -2,14 +2,14 @@ import QtQuick 2.8
 import SP 1.0
 
 Item {
-    property real margin: Math.ceil(2.4*mm)
-    property real marginBig: Math.ceil(3.4*mm)
-    property real spacing: Math.ceil(1*mm)
-    property real marginCorner: Math.ceil(10*mm)
-    property real fadeWidth: Math.ceil(5*mm)
-    property real radius: Math.ceil(1*mm)
-    property real lineWidth: Math.ceil(0.4*mm)
-    property real borderWidth: Math.ceil(0.2*mm)
+    property double margin: Math.ceil(2.4*mm)
+    property double marginBig: Math.ceil(3.4*mm)
+    property double spacing: Math.ceil(1*mm)
+    property double marginCorner: Math.ceil(10*mm)
+    property double fadeWidth: Math.ceil(5*mm)
+    property double radius: Math.ceil(1*mm)
+    property double lineWidth: Math.ceil(0.4*mm)
+    property double borderWidth: Math.ceil(0.2*mm)
 
     property color gray: "#c0c0c0"
     property color darkGray: "#4a4a4a"
@@ -31,25 +31,29 @@ Item {
     property alias fontMetricsNormal: _fontMetricsNormal
     property alias fontMetricsSmall: _fontMetricsSmall
 
-    property real fontBig   : Math.ceil(5*mm)
-    property real fontNormal: Math.ceil(3*mm)
-    property real fontSmall : Math.ceil(2*mm)
-    property real fontTiny  : Math.ceil(1*mm)
-    property real fontBigHeight   : Math.ceil(1.73 * fontBig)
-    property real fontNormalHeight: Math.ceil(1.73 * fontNormal)
-    property real fontSmallHeight : Math.ceil(1.73 * fontSmall)
-    property real fontTinyHeight  : Math.ceil(1.73 * fontTiny)
-    property real fontNormalLetterSpacing: Math.ceil(0.2*mm)
-    property real fontBigLetterSpacing   : Math.ceil(0.4*mm)
-    property real fontSmallLetterSpacing : Math.ceil(0.1*mm)
+    property double fontBig   : Math.ceil(5*mm)
+    property double fontNormal: Math.ceil(3*mm)
+    property double fontSmall : Math.ceil(2*mm)
+    property double fontTiny  : Math.ceil(1*mm)
+    property double fontBigHeight   : Math.ceil(1.73 * fontBig)
+    property double fontNormalHeight: Math.ceil(1.73 * fontNormal)
+    property double fontSmallHeight : Math.ceil(1.73 * fontSmall)
+    property double fontTinyHeight  : Math.ceil(1.73 * fontTiny)
+    property double fontNormalLetterSpacing: Math.ceil(0.2*mm)
+    property double fontBigLetterSpacing   : Math.ceil(0.4*mm)
+    property double fontSmallLetterSpacing : Math.ceil(0.1*mm)
 
     //--------------------------------------------------------------------------
     // ActionBar
     //--------------------------------------------------------------------------
-    property real actionBarHeight: Math.ceil(
-                                       Qt.platform.os === "ios"
-                                       ? 7*mm
-                                       : 9.5*mm )
+    readonly property int _actionBarHeight: Qt.platform.os === "ios"
+                                            ? 7*mm
+                                            : 9.5*mm
+
+    // Высота должна содержать нечётное количество пикселей.
+    property int actionBarHeight: _actionBarHeight % 2 === 0
+                                  ? _actionBarHeight
+                                  : _actionBarHeight + 1
     property color actionBarColor: "#7395FA"
 
     property int statusBarHeight: deviceInfo.statusBarHeight()
@@ -57,8 +61,8 @@ Item {
     //--------------------------------------------------------------------------
     // Drawer
     //--------------------------------------------------------------------------
-    property real drawerWidth: 40*mm
-    property real drawerDragWidth: 2*mm
+    property double drawerWidth: 40*mm
+    property double drawerDragWidth: 2*mm
 
     //FontLoader { id: _mainFont; source: "qrc:/fonts/CTCSplashRounded.otf" }
     FontMetrics {

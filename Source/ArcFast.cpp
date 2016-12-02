@@ -1,6 +1,7 @@
+#include "ArcFast.h"
+
 #include <QSGSimpleRectNode>
 #include <QtMath>
-#include "ArcFast.h"
 
 sp::ArcFast::ArcFast(QQuickItem *parent)
     : QQuickItem (parent)

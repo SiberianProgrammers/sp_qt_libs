@@ -2,6 +2,7 @@
 
 #include "Arc.h"
 #include "ArcFast.h"
+#include "Arrow.h"
 #include "ImageSp.h"
 #include "LogSp.h"
 #include "DeviceInfo.h"
@@ -42,12 +43,14 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     // Регистрируем C++ класса в QML
     qmlRegisterType<sp::Arc>("SP", 1, 0, "Arc");
     qmlRegisterType<sp::ArcFast>("SP", 1, 0, "ArcFast");
+    qmlRegisterType<sp::Arrow>("SP", 1, 0, "Arrow");
     qmlRegisterType<sp::ImageSp>("SP", 1, 0, "ImageSp");
     qmlRegisterType<sp::ImageParallax>("SP", 1, 0, "ImageParallax");
 
     // Создаём объекты QML
     const double mmInInch = 25.4;
     _mm = screens().first()->physicalDotsPerInch()/mmInInch;
+
     _view.rootContext()->setContextProperty("mm", _mm);
     _view.rootContext()->setContextProperty("Window", &_view);
     _view.rootContext()->setContextProperty("Log", &sp::Log::instance());

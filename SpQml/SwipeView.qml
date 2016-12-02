@@ -20,14 +20,14 @@ Item {
     property alias model   : listView.model
     property alias delegate: listView.delegate
 
-    property real initialIndex: 0 // Начальный индекс с которого начинается просмотр
+    property double initialIndex: 0 // Начальный индекс с которого начинается просмотр
     readonly property alias activeIndex: listView._activeIndex // Активный индекс, т.е. на котором остановился SwipeView
     readonly property alias currentIndex: listView._currentIndex // Текущий индекс элемента. @note Может несколько раз поменяться после setCurrentIndex
     readonly property alias currentItem: listView.currentItem // Текущий элемент в списке
     readonly property alias isMoving: listView.isMoving // Флаг того, что листание в процессе.
-    property real maximumFlickVelocity: 3 * width // Скорость анимации пролистывания
+    property double maximumFlickVelocity: 3 * width // Скорость анимации пролистывания
     property alias animationVelocity: swipeView.maximumFlickVelocity
-    property real maxAnimationDuration: 400 // Максимальная длительность анимации пролистывания
+    property double maxAnimationDuration: 400 // Максимальная длительность анимации пролистывания
     property bool interactive: true // Флаг интерактивность swipeView
     property bool withAnimation: false
     readonly property alias count: listView.count
@@ -44,10 +44,10 @@ Item {
         property bool movedBySwipe: false
         property int _currentIndex: Math.floor((diffX + width/2)/ width)
         property int _activeIndex: 0
-        readonly property real inEdge: diffX % width === 0
-        readonly property real diffX: contentX - originX
-        readonly property real shiftX: diffX - (_currentIndex)*width
-        readonly property real shiftXByWidth: shiftX / width
+        readonly property double inEdge: diffX % width === 0
+        readonly property double diffX: contentX - originX
+        readonly property double shiftX: diffX - (_currentIndex)*width
+        readonly property double shiftXByWidth: shiftX / width
 
         signal needSetState
 

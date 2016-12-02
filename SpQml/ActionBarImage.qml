@@ -12,7 +12,7 @@ Rectangle {
     property alias source: image.source
 
     /// @brief Высота изображения
-    property real imageHeight: 30*mm
+    property double imageHeight: 30*mm
 
     /// @brief Текст основной надписи.
     property alias title: title.text
@@ -30,7 +30,7 @@ Rectangle {
     property alias leftButton: leftButton.sourceComponent
 
     /// @brief Координата y прокручиваемого содержимого
-    property real contentY: 0
+    property double contentY: 0
     
     color: Consts.actionBarColor
     width: parent.width
@@ -123,6 +123,6 @@ Rectangle {
     Item {
         id: _p
 
-        readonly property real shift: 1 -(actionBarImage.height - Consts.actionBarHeight)/(imageHeight - Consts.actionBarHeight)
+        readonly property double shift: 1 -(actionBarImage.height - Consts.actionBarHeight)/(imageHeight - Consts.actionBarHeight)
     }
 }

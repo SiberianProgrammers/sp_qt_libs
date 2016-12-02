@@ -100,7 +100,7 @@ Rectangle {
         id: _p
 
         property bool shown: false;
-        property real shift: 1 + drawer.x/drawer.width
+        property double shift: 1 + drawer.x/drawer.width
     }
 
     //--------------------------------------------------------------------------

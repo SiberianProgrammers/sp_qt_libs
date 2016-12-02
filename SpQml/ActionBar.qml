@@ -30,8 +30,9 @@ Rectangle {
     property alias shadowVisible: shadow.visible
 
     color: transparent ? "transparent" : Consts.actionBarColor
-    height: firstLine.height + secondLine.height
+    height: firstLine.height + secondLine.height + Consts.statusBarHeight
     width: parent.width
+    transform: Translate { y: -Consts.statusBarHeight }
 
     //--------------------------------------------------------------------------
     Item {
@@ -39,6 +40,10 @@ Rectangle {
 
         width: parent.width
         height: Consts.actionBarHeight
+        anchors {
+            top: parent.top
+            topMargin: Consts.statusBarHeight
+        }
 
         Loader {
             id: leftButton
@@ -97,8 +102,8 @@ Rectangle {
                             : contentHeight
                 }
             }
-        }
-    }
+        } // Item { id: titlesContainer
+    } // Item { id: firstLine
 
     //--------------------------------------------------------------------------
     Loader {
@@ -114,8 +119,5 @@ Rectangle {
 
         anchors.top: parent.bottom
         visible: !transparent
-    }
-
-    Component.onCompleted: {
     }
 }

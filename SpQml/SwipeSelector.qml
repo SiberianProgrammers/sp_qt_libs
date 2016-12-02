@@ -17,12 +17,12 @@ MouseArea {
     property alias object: _swipeSelector.target
 
     // Начальные координаты карточки выбора
-    property real originX: (target.parent.width-width)/2
-    property real originY: (target.parent.height-height)/2
+    property double originX: (target.parent.width-width)/2
+    property double originY: (target.parent.height-height)/2
 
     // Порог относительного смещения по X и Y, после которого считается, что выбор произведён
-    property real thresholdX: 0.3
-    property real thresholdY: 0.3
+    property double thresholdX: 0.3
+    property double thresholdY: 0.3
 
     // Флаги, определяющие можно ли сделать выбор в соотвующем направлении
     property bool mayTopSelected: true
@@ -34,11 +34,11 @@ MouseArea {
     property bool nullTargerAfterRemoved: false
 
     // Относительное смещение в сторону того или иного варианта по X или Y [от -1 до 1].
-    readonly property real factorX: diffX/maxX
-    readonly property real factorY: diffY/maxY
+    readonly property double factorX: diffX/maxX
+    readonly property double factorY: diffY/maxY
 
     // Относительное смещение в любую сторону [от 0 до 1].
-    readonly property real factor: Math.min(Math.max(Math.abs(swipeSelector.factorX), Math.abs(swipeSelector.factorY)), 1.0)
+    readonly property double factor: Math.min(Math.max(Math.abs(swipeSelector.factorX), Math.abs(swipeSelector.factorY)), 1.0)
 
     // Сигнал о любом произведённом выборе - предшествует всем остальным сигналам
     signal selected
@@ -52,10 +52,10 @@ MouseArea {
     // Сигнал о том, что карточка с выбором убрана после выбора
     signal cardRemoved
 
-    readonly property real diffX: originX-target.x
-    readonly property real diffY: originY-target.y
-    readonly property real maxX: target.parent.width
-    readonly property real maxY: target.parent.height
+    readonly property double diffX: originX-target.x
+    readonly property double diffY: originY-target.y
+    readonly property double maxX: target.parent.width
+    readonly property double maxY: target.parent.height
 
     anchors.fill: target
     drag {

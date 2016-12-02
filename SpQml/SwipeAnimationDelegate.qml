@@ -19,7 +19,7 @@ Rectangle {
 
     transform: Translate { x: shift }
 
-    property real shift
+    property double shift
     property var loadedObject
 
     // Заглушка, препятсвующая нажатия внутри событий.
@@ -85,7 +85,7 @@ Rectangle {
         }
     ]
 
-    property real diffIndex: index - listView.currentIndex;
+    property double diffIndex: index - listView.currentIndex;
     onDiffIndexChanged: {
         setState();
     }
