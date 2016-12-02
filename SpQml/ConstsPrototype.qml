@@ -52,7 +52,7 @@ Item {
                                        : 9.5*mm )
     property color actionBarColor: "#7395FA"
 
-    property int statusBarHeight: deviceInfo.getStatusBarHeight()
+    property int statusBarHeight: deviceInfo.statusBarHeight()
 
     //--------------------------------------------------------------------------
     // Drawer

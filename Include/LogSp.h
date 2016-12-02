@@ -36,6 +36,8 @@ class Log: public QObject
     public:
         static Log& instance();
 
+        //TODO Переделать согласно qthelp://org.qt-project.qtdoc.580/qtdoc/debug.html#environment-variables-recognized-by-qt
+
         /** @brief Выводит в лог строку str. */
         Q_INVOKABLE static void debug   (const QString &str);
         Q_INVOKABLE static void info    (const QString &str);

@@ -29,7 +29,7 @@ import android.provider.Settings.Secure;
 public class SpActivity extends QtActivity
 {
     public String mac_address = "";
-    public int statusBarHeight = 0; // Высота статус бара
+    public int _statusBarHeight = 0; // Высота статус бара
 
     Context context;
  
@@ -52,7 +52,7 @@ public class SpActivity extends QtActivity
                 this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }
         }
-        statusBarHeight = getStatusBarHeight();
+        _statusBarHeight = statusBarHeight();
         logInfo("SpActivity Create Succesefull!");
     }
 
@@ -97,13 +97,13 @@ public class SpActivity extends QtActivity
     //--------------------------------------------------------------------------
     // @brief Возвращает размер statusBar'a
     //--------------------------------------------------------------------------
-    public int getStatusBarHeight() {
+    public int statusBarHeight() {
         if (!availibleChangeStatusBar()) {
             return 0;
         }
 
-        if ( statusBarHeight != 0) {
-            return statusBarHeight;
+        if (_statusBarHeight != 0) {
+            return _statusBarHeight;
         }
 
         int result = 0;

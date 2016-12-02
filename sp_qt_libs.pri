@@ -10,7 +10,7 @@ HEADERS += \
     $$PWD/Include/LogSp.h \
     $$PWD/Include/ImageSp.h \
     $$PWD/Include/ImageSpLoader.h \
-    $$PWD/Include/deviceinfo.h \
+    $$PWD/Include/DeviceInfo.h \
     $$PWD/Include/ImageParallax.h \
     $$PWD/Include/KeyboardSp.h
 
@@ -24,7 +24,7 @@ SOURCES += \
     $$PWD/Source/LogSp.cpp \
     $$PWD/Source/ImageSp.cpp \
     $$PWD/Source/ImageSpLoader.cpp \
-    $$PWD/Source/deviceinfo.cpp \
+    $$PWD/Source/DeviceInfo.cpp \
     $$PWD/Source/ImageParallax.cpp \
     $$PWD/Source/KeyboardSp.cpp
 

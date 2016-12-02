@@ -47,7 +47,8 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
 
     // Создаём объекты QML
     const double mmInInch = 25.4;
-    _view.rootContext()->setContextProperty("mm", screens().first()->physicalDotsPerInch()/mmInInch);
+    _mm = screens().first()->physicalDotsPerInch()/mmInInch;
+    _view.rootContext()->setContextProperty("mm", _mm);
     _view.rootContext()->setContextProperty("Window", &_view);
     _view.rootContext()->setContextProperty("Log", &sp::Log::instance());
     _view.rootContext()->setContextProperty("deviceInfo", &sp::DeviceInfo::instance());

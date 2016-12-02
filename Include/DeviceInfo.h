@@ -1,8 +1,5 @@
 #pragma once
 
-//#ifndef DEVICEINFO_H
-//#define DEVICEINFO_H
-
 #include <QObject>
 
 namespace sp {
@@ -29,10 +26,11 @@ class DeviceInfo : public QObject
         Q_INVOKABLE void killApp();
 
         /** @brief Возвращает высоту StasusBar'a **/
-        Q_INVOKABLE int getStatusBarHeight();
+        Q_INVOKABLE int statusBarHeight();
 
         /** @brief Можно ли изменять statusBar **/
         Q_INVOKABLE bool abilityChangeStatusBar();
+
 
     private:
         static DeviceInfo _instance;
