@@ -35,7 +35,9 @@ void Log::debug(const QString &str)
     QString formatedStr = QString::number(_time.elapsed()) % ": " % str;
 
     #ifdef Q_OS_ANDROID
-        __android_log_print(ANDROID_LOG_DEBUG, "#######", "%s", formatedStr.toLocal8Bit().constData());
+        // ANDROID_LOG_DEBUG - работает только когда нужно самому Android
+        //__android_log_print(ANDROID_LOG_DEBUG, "#######", "%s", formatedStr.toLocal8Bit().constData());
+        __android_log_print(ANDROID_LOG_INFO, "#######", "%s", formatedStr.toLocal8Bit().constData());
     #else
         qDebug(formatedStr.toUtf8());
     #endif

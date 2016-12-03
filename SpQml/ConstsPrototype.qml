@@ -32,7 +32,7 @@ Item {
     property alias fontMetricsNormal: _fontMetricsNormal
     property alias fontMetricsSmall : _fontMetricsSmall
 
-    property double fontBig   : Math.ceil(5*mm)
+    property double fontBig   : Math.ceil(4.5*mm)
     property double fontTitle : Math.ceil(3.2*mm)
     property double fontNormal: Math.ceil(2.7*mm)
     property double fontSmall : Math.ceil(2*mm)

@@ -62,10 +62,12 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     _view.rootContext()->setContextProperty("deviceInfo", &sp::DeviceInfo::instance());
     _view.rootContext()->setContextProperty("KeyboardSp", &sp::KeyboardSp::instance());
 
-    #if defined (Q_OS_LINUX) || defined(Q_OS_OSX)
-        _view.rootContext()->setContextProperty("isDesktop", true);
-    #else
+    #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
         _view.rootContext()->setContextProperty("isDesktop", false);
+        LOG_ALEUS("isDesktop false");
+    #else
+        _view.rootContext()->setContextProperty("isDesktop", true);
+        LOG_ALEUS("isDesktop true");
     #endif
 }
 

@@ -16,6 +16,7 @@ MaterialButton {
     color: "transparent"
     border.width: 0
     width: height-2*Consts.spacing
+    height: Consts.actionBarHeight
     radius: height/2
     pressedColor: "black"
 
