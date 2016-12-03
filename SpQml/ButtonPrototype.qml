@@ -14,6 +14,7 @@ Item {
     readonly property alias isPressed: mouseArea.pressed
     property double pressedX: 0
     property double pressedY: 0
+    property double margins: -Consts.spacing
 
     signal pressed
     signal released
@@ -24,12 +25,15 @@ Item {
     MouseArea {
         id: mouseArea
 
-        anchors.fill: parent
+        anchors {
+            fill: parent
+            margins: _buttonPrototype.margins
+        }
         enabled: parent.enabled
 
         onPressed: {
-            pressedX = mouse.x;
-            pressedY = mouse.y;
+            pressedX = Math.min(Math.max(mouse.x + margins, 0), _buttonPrototype.width);
+            pressedY = Math.min(Math.max(mouse.y + margins, 0), _buttonPrototype.height);
 
             _buttonPrototype.pressed();
         }

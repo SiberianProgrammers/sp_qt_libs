@@ -51,7 +51,8 @@ void sp::ImageSpLoader::onRenderImageCrop(sp::SharedImage sourceImage, qreal w, 
     QBrush brush(*sourceImage);
 
     // Костыль, исправляющий смещение изображение в Brush по вертикали
-    QTransform workaround = QTransform().translate(0, -1);
+    //QTransform workaround = QTransform().translate(0, -1);
+    QTransform workaround = QTransform();
 
     if (sw > sh) {
         //Debug!!! Перебросить параметры выравнивания
@@ -83,9 +84,13 @@ void sp::ImageSpLoader::onRenderImageCrop(sp::SharedImage sourceImage, qreal w, 
 
     QPainter painter;
     QPixmap renderImage(w, h);
+    renderImage.fill(Qt::transparent);
+
     painter.begin(&renderImage);
-    painter.setBrush(brush);
-    painter.drawRoundedRect(QRectF(0, 0, w, h), radius, radius);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setPen(QPen(Qt::NoPen));
+        painter.setBrush(brush);
+        painter.drawRoundedRect(QRect(0, 0, w, h), radius, radius);
     painter.end();
 
     emit rendered(sourceImage, renderImage);

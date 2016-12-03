@@ -19,7 +19,10 @@ Rectangle {
     property alias titleAlignment: title.horizontalAlignment
 
     /// @brief Компонент левой кнопки
-    property alias leftButton: leftButton.sourceComponent
+    property alias leftButton: leftButton
+
+    /// @brief Компонент правой кнопки
+    property alias rightButton: rightButton
 
     /// @brief Компонент второй строки ActionBar'а
     property alias secondLine: secondLine.sourceComponent
@@ -30,9 +33,18 @@ Rectangle {
     property alias shadowVisible: shadow.visible
 
     color: transparent ? "transparent" : Consts.actionBarColor
-    height: firstLine.height + secondLine.height + Consts.statusBarHeight
+    height: firstLine.height + secondLine.height
     width: parent.width
-    transform: Translate { y: -Consts.statusBarHeight }
+
+    Rectangle {
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.top
+        }
+        height: Consts.statusBarHeight
+        color: parent.color
+    }
 
     //--------------------------------------------------------------------------
     Item {
@@ -40,11 +52,11 @@ Rectangle {
 
         width: parent.width
         height: Consts.actionBarHeight
-        anchors {
-            top: parent.top
-            topMargin: Consts.statusBarHeight
-        }
+        anchors.top: parent.top
 
+        //----------------------------------------------------------------------
+        // Левая кнопка
+        //----------------------------------------------------------------------
         Loader {
             id: leftButton
             anchors {
@@ -54,13 +66,16 @@ Rectangle {
             }
         }
 
+        //----------------------------------------------------------------------
+        // Заголовок
+        //----------------------------------------------------------------------
         Item {
             id: titlesContainer
 
             anchors {
                 top: parent.top
                 left: leftButton.right
-                right: parent.right
+                right: rightButton.left
                 bottom: parent.bottom
             }
 
@@ -113,6 +128,18 @@ Rectangle {
                 }
             }
         } // Item { id: titlesContainer
+
+        //----------------------------------------------------------------------
+        // Правая кнопка
+        //----------------------------------------------------------------------
+        Loader {
+            id: rightButton
+            anchors {
+                top: parent.top
+                right: parent.right
+                bottom: parent.bottom
+            }
+        }
     } // Item { id: firstLine
 
     //--------------------------------------------------------------------------

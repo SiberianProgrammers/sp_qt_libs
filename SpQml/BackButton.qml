@@ -15,8 +15,9 @@ MaterialButton {
 
     color: "transparent"
     border.width: 0
-    width: height
+    width: height-2*Consts.spacing
     radius: height/2
+    pressedColor: "black"
 
     Arrow {
         id: arrow

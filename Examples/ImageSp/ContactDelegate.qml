@@ -5,14 +5,14 @@ Item {
     id: _contactDelegate
 
     width: listView.width
-    height: avatar.height + margin
+    height: Math.ceil(avatar.height + margin)
 
     //--------------------------------------------------------------------------
     ImageSp {
         id: avatar
 
         source: "qrc:/avatar.jpg"
-        width: 10*mm
+        width: Math.ceil(10*mm)
         height: width
         radius: width/2
         asynchronous: true
