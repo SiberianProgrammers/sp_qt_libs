@@ -64,10 +64,8 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
 
     #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
         _view.rootContext()->setContextProperty("isDesktop", false);
-        LOG_ALEUS("isDesktop false");
     #else
         _view.rootContext()->setContextProperty("isDesktop", true);
-        LOG_ALEUS("isDesktop true");
     #endif
 }
 
