@@ -53,7 +53,7 @@ public class SpActivity extends QtActivity
             }
         }
         _statusBarHeight = statusBarHeight();
-        logInfo("SpActivity Create Succesefull!");
+        //logInfo("SpActivity Create Succesefull!");
     }
 
     //--------------------------------------------------------------------------

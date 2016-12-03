@@ -13,7 +13,8 @@ HEADERS += \
     $$PWD/Include/DeviceInfo.h \
     $$PWD/Include/ImageParallax.h \
     $$PWD/Include/KeyboardSp.h \
-    $$PWD/Include/Arrow.h
+    $$PWD/Include/Arrow.h \
+    $$PWD/Include/Shadow.h
 
 SOURCES += \
     $$PWD/Source/NetworkAccessManagerWorker.cpp \
@@ -28,7 +29,8 @@ SOURCES += \
     $$PWD/Source/DeviceInfo.cpp \
     $$PWD/Source/ImageParallax.cpp \
     $$PWD/Source/KeyboardSp.cpp \
-    $$PWD/Source/Arrow.cpp
+    $$PWD/Source/Arrow.cpp \
+    $$PWD/Source/Shadow.cpp
 
 # Внешние ресурсы
 RESOURCES += \

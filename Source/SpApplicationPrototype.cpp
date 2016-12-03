@@ -8,6 +8,7 @@
 #include "DeviceInfo.h"
 #include "ImageParallax.h"
 #include "KeyboardSp.h"
+#include "Shadow.h"
 
 #if defined(Q_OS_ANDROID)
 #include "JniSetup.h"
@@ -49,6 +50,7 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     qmlRegisterType<sp::Arrow>("SP", 1, 0, "Arrow");
     qmlRegisterType<sp::ImageSp>("SP", 1, 0, "ImageSp");
     qmlRegisterType<sp::ImageParallax>("SP", 1, 0, "ImageParallax");
+    qmlRegisterType<sp::Shadow>("SP", 1, 0, "Shadow");
 
     // Создаём объекты QML
     const double mmInInch = 25.4;
