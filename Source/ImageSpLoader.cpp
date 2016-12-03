@@ -31,8 +31,12 @@ sp::ImageSpLoader::ImageSpLoader()
 void sp::ImageSpLoader::get(const QString &source, SharedImage image)
 {
     if (source.startsWith("qrc:/")) {
-        image->load(source.mid(3));
-        emit loaded(source, image);
+        if (image->load(source.mid(3))) {
+            emit loaded(source, image);
+        } else {
+            LOG_ERROR(QString("Ошибка загрузки изображения: %1").arg(source));
+            emit error(source, image, QString("Ошибка загрузки изображения: %1").arg(source));
+        }
         return;
     }
 

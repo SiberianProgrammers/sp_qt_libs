@@ -256,7 +256,6 @@ void sp::ImageSp::onImageSpLoaded(const QString &/*source*/, QWeakPointer<QPixma
     disconnect (&ImageSpLoader::instance(), 0, this, 0);
 
     if (_fillMode == PreserveAspectCrop) {
-
         renderImage();
     } else {
         _status = Ready;
@@ -302,11 +301,9 @@ void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QPixmap
 void sp::ImageSp::renderImage()
 {
     if (width() && height() && !_image->isNull() && _completed) {
-        if (_renderImage.isNull()) {
-            connect (&ImageSpLoader::instance(), SIGNAL(rendered(WeakImage,QPixmap))
-                     , SLOT(onImageSpRendered(WeakImage,QPixmap))
-                     , Qt::UniqueConnection);
-        }
+        connect (&ImageSpLoader::instance(), SIGNAL(rendered(WeakImage,QPixmap))
+                 , SLOT(onImageSpRendered(WeakImage,QPixmap))
+                 , Qt::UniqueConnection);
 
         _inRender = true;
         ImageSpLoader::instance().renderImageCrop(_image, width(), height(), _radius);
