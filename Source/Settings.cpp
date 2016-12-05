@@ -7,7 +7,6 @@ Settings::Settings(const QString &applicationName, QObject *parent)
     : QObject(parent)
     , _settings(QSettings::IniFormat, QSettings::UserScope, "SP", applicationName)
 {
-    //qDebug() << "settings file path" << _settings.fileName();
 }
 
 Settings::~Settings()

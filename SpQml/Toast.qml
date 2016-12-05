@@ -28,19 +28,24 @@ Loader {
             width : 0.7*Window.width
             height: messageText.contentHeight + 2 * Consts.margin
             color: "black"
-            radius: Consts.radius
+            radius: 4*mm
 
             Text {
                 id: messageText
                 text: currentMessage
                 color: "white"
-                font.pixelSize: Consts.fontSmall
-                anchors.fill: parent
-                anchors.margins: Consts.margin
+                font.pixelSize: Consts.fontNormal
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 maximumLineCount: 3
                 wrapMode: Text.Wrap
+                anchors {
+                    fill: parent
+                    topMargin: Consts.margin
+                    leftMargin: parent.radius
+                    rightMargin: parent.radius
+                    bottomMargin: Consts.margin
+                }
             }
         }
     }

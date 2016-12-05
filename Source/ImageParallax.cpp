@@ -1,5 +1,4 @@
 #include "ImageParallax.h"
-#include <QDebug>
 
 sp::ImageParallax::ImageParallax(QQuickItem *parent)
     : QQuickItem(parent)
@@ -135,12 +134,6 @@ void sp::ImageParallax::updateImageSize()
 //--------------------------------------------------------------------------
 void sp::ImageParallax::updateImagePosition()
 {
-    if (_isDebug && false) {
-        qDebug() << "_image->width() = " << _image->width() << " _image->height() = " << _image->height()
-                 << " _delegate " << (_delegate != nullptr)  << " _relativeItem " << (_relativeItem != nullptr)
-                 << "_image->status() = " << _image->status();
-    }
-
     if (_delegate == nullptr || _relativeItem == nullptr
         || _image->width() <= 0
         || _image->height() <= 0
