@@ -18,6 +18,7 @@ Log::Log(QObject *parent)
     :QObject (parent)
 {
     _time.start();
+    qInstallMessageHandler(sp::Log::messageHandler);
 }
 
 //------------------------------------------------------------------------------
@@ -26,92 +27,43 @@ Log &Log::instance()
     return _instance;
 }
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-security"
-
-//------------------------------------------------------------------------------
 void Log::debug(const QString &str)
 {
-    QString formatedStr = QString::number(_time.elapsed()) % ": " % str;
-
-    #ifdef Q_OS_ANDROID
-        // ANDROID_LOG_DEBUG - работает только когда нужно самому Android
-        //__android_log_print(ANDROID_LOG_DEBUG, "#######", "%s", formatedStr.toLocal8Bit().constData());
-        __android_log_print(ANDROID_LOG_INFO, "#######", "%s", formatedStr.toLocal8Bit().constData());
-    #else
-        qDebug(formatedStr.toUtf8());
-    #endif
-    _instance.toArchive(formatedStr);
+    LOG_DEBUG(str);
 }
 
-//------------------------------------------------------------------------------
 void Log::info(const QString &str)
 {
-    QString formatedStr = QString::number(_time.elapsed()) % ": " % str;
-
-    #ifdef Q_OS_ANDROID
-        __android_log_print(ANDROID_LOG_INFO, "#######", "%s", formatedStr.toLocal8Bit().constData());
-    #else
-        qDebug(formatedStr.toUtf8());
-    #endif
-    _instance.toArchive(formatedStr);
+    LOG_INFO(str);
 }
 
-//--------------------------------------------------------------------------
 void Log::error(const QString &str)
 {
-    QString formatedStr = QString::number(_time.elapsed()) % ": " % str;
-
-    #ifdef Q_OS_ANDROID
-        __android_log_print(ANDROID_LOG_ERROR, "#######", "%s", formatedStr.toLocal8Bit().constData());
-    #else
-        qDebug(formatedStr.toUtf8());
-    #endif
-    _instance.toArchive(formatedStr);
+    LOG_ERROR(str);
 }
 
-//------------------------------------------------------------------------------
 void Log::warning(const QString &str)
 {
-    QString formatedStr = QString::number(_time.elapsed()) % ": " % str;
-
-    #ifdef Q_OS_ANDROID
-        __android_log_print(ANDROID_LOG_WARN, "#######", "%s", formatedStr.toLocal8Bit().constData());
-    #else
-        qDebug(formatedStr.toUtf8());
-    #endif
-    _instance.toArchive(formatedStr);
+    LOG_WARN(str);
 }
 
-//--------------------------------------------------------------------------
 void Log::fatal(const QString &str)
 {
-    QString formatedStr = QString::number(_time.elapsed()) % ": " % str;
+    LOG_FATAL(str);
+}
 
-    #ifdef Q_OS_ANDROID
-        __android_log_print(ANDROID_LOG_FATAL, "#######", "%s", formatedStr.toLocal8Bit().constData());
-    #else
-        qDebug(formatedStr.toUtf8());
+void Log::aleus(const QString &str)
+{
+    #ifdef SP_ALEUS
+        LOG_ALEUS(str);
     #endif
-    _instance.toArchive(formatedStr);
 }
 
-//--------------------------------------------------------------------------
-void Log::aleus(const QString &str) {
-#ifdef SP_ALEUS
-    LOG_ALEUS(str);
-#else
-    Q_UNUSED(str);
-#endif
-}
-
-//--------------------------------------------------------------------------
-void Log::vonabirg(const QString &str) {
-#ifdef SP_VONABIRG
-    LOG_VONABIRG(str);
-#else
-    Q_UNUSED(str);
-#endif
+void Log::vonabirg(const QString &str)
+{
+    #ifdef SP_VONABIRG
+        LOG_V(str);
+    #endif
 }
 
 //--------------------------------------------------------------------------
@@ -123,6 +75,41 @@ QString Log::logArchive() const  {
 void Log::toArchive(const QString &str)
 {
     _logArchive.append(str);
+}
+
+//------------------------------------------------------------------------------
+void Log::messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message)
+{
+    QString formatedStr =
+        #ifdef QT_MESSAGELOGCONTEXT
+            type == QtWarningMsg || type == QtCriticalMsg || type == QtFatalMsg
+            ? QString::number(_time.elapsed()) + ": [" % QString(context.file) % ":" % QString::number(context.line) % ", " % context.function % "] " % message % '\n'
+            :
+        #endif
+            QString::number(_time.elapsed()) % ": " % message % '\n';
+
+    #ifdef Q_OS_ANDROID
+        android_LogPriority priority = ANDROID_LOG_INFO;
+        switch (type) {
+            case QtWarningMsg:
+                priority = ANDROID_LOG_WARN;
+                break;
+            case QtCriticalMsg:
+                priority = ANDROID_LOG_ERROR;
+                break;
+            case QtFatalMsg:
+                priority = ANDROID_LOG_FATAL;
+                break;
+
+        };
+        __android_log_print(priority, "#######", "%s", formatedStr.toLocal8Bit().constData());
+
+    #else
+        QByteArray localMsg = message.toLocal8Bit();
+        fprintf(stderr, formatedStr.toUtf8().constData());
+    #endif
+
+    _instance.toArchive(formatedStr);
 }
 
 #pragma GCC diagnostic pop
