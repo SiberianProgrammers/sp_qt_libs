@@ -27,5 +27,8 @@
         <file>KeysHandler.qml</file>
         <file>DebugTimer.qml</file>
         <file>DebugLayout.qml</file>
+        <file>Zoom.qml</file>
+        <file>FullScreenImage.qml</file>
+        <file>FullScreenImageView.qml</file>
     </qresource>
 </RCC>

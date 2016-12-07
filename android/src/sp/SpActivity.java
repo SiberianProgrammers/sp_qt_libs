@@ -25,6 +25,8 @@ import android.R.style;
 import android.graphics.Rect;
 import android.content.Context;
 import android.provider.Settings.Secure;
+import android.net.Uri;
+import java.io.File;
 
 public class SpActivity extends QtActivity
 {
@@ -171,6 +173,16 @@ public class SpActivity extends QtActivity
         activityManager.getMemoryInfo(mi);
         long totalMegs = mi.totalMem / 1048576L;
         return totalMegs;
+    }
+
+    //--------------------------------------------------------------------------
+    public void refreshGallery(String fileName)
+    {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(fileName);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 
     //--------------------------------------------------------------------------

@@ -218,7 +218,6 @@ void sp::ImageSp::setSource(const QString &source)
                           : Ready;
             } else {
                 _status = Loading;
-
                 // TODO добавить кеширование
                 connect (&ImageSpLoader::instance(), SIGNAL(loaded(const QString&, WeakImage))
                          , SLOT(onImageSpLoaded(const QString&, WeakImage))

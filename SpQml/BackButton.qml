@@ -12,6 +12,7 @@ MaterialButton {
 
     property string arrowColor: "white"
     property real yShift: 0
+    property bool useYShift: true
 
     color: "transparent"
     border.width: 0
@@ -34,6 +35,8 @@ MaterialButton {
         penWidth: Consts.lineWidth
         antialiasing: true
         x: Math.ceil((parent.width-width)/2)
-        y: Math.round((parent.height-height)/2) + yShift
+        y: useYShift
+            ? Math.round((parent.height-height)/2) + yShift
+            : Math.round((parent.height-height)/2)
     }
 }

@@ -59,7 +59,7 @@ void Log::aleus(const QString &str)
     #endif
 }
 
-void Log::vonabirg(const QString &str)
+void Log::v(const QString &str)
 {
     #ifdef SP_VONABIRG
         LOG_V(str);
