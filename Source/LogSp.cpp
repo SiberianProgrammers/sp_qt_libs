@@ -106,7 +106,7 @@ void Log::aleus(const QString &str) {
 }
 
 //--------------------------------------------------------------------------
-void Log::vonabirg(const QString &str) {
+void Log::v(const QString &str) {
 #ifdef SP_VONABIRG
     LOG_VONABIRG(str);
 #else

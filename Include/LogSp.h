@@ -12,9 +12,9 @@
 #endif
 
 #ifdef SP_VONABIRG
-    #define LOG_VONABIRG(str) sp::Log::debug(str)
+    #define LOG_V(str) sp::Log::debug(str)
 #else
-    #define LOG_VONABIRG(str)
+    #define LOG_V(str)
 #endif
 
 #define LOG_DEBUG(str) sp::Log::debug(str)
@@ -46,7 +46,7 @@ class Log: public QObject
         Q_INVOKABLE static void fatal   (const QString &str);
 
         Q_INVOKABLE void aleus    (const QString &str);
-        Q_INVOKABLE void vonabirg (const QString &str);
+        Q_INVOKABLE void v (const QString &str);
 
         /// @brief Возвращает архив логирования
         Q_INVOKABLE QString logArchive() const;
