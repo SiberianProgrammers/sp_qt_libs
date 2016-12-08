@@ -15,7 +15,9 @@ HEADERS += \
     $$PWD/Include/KeyboardSp.h \
     $$PWD/Include/Arrow.h \
     $$PWD/Include/Shadow.h \
-    $$PWD/Include/ImageSaverSp.h
+    $$PWD/Include/ImageSaverSp.h \
+    $$PWD/Include/ImageFast.h \
+    $$PWD/Include/SpImageNode.h
 
 SOURCES += \
     $$PWD/Source/NetworkAccessManagerWorker.cpp \
@@ -32,7 +34,9 @@ SOURCES += \
     $$PWD/Source/KeyboardSp.cpp \
     $$PWD/Source/Arrow.cpp \
     $$PWD/Source/Shadow.cpp \
-    $$PWD/Source/ImageSaverSp.cpp
+    $$PWD/Source/ImageSaverSp.cpp \
+    $$PWD/Source/ImageFast.cpp \
+    $$PWD/Source/SpImageNode.cpp
 
 # Внешние ресурсы
 RESOURCES += \

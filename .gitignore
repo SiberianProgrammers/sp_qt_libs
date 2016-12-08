@@ -1,3 +1,4 @@
 *.user
 *.autosave
 Examples/build*
+Examples/*/Programmer.pri

@@ -14,7 +14,7 @@
 #ifdef SP_VONABIRG
     #define LOG_VONABIRG(str) qDebug() << str
 #else
-    #define LOG_V(str)
+    #define LOG_VONABIRG(str)
 #endif
 #define LOG_V LOG_VONABIGRG
 
@@ -37,8 +37,6 @@ class Log: public QObject
 
     public:
         static Log& instance();
-
-        //TODO Переделать согласно qthelp://org.qt-project.qtdoc.580/qtdoc/debug.html#environment-variables-recognized-by-qt
 
         /** @brief Выводит в лог строку str. */
         // Depricated!!!

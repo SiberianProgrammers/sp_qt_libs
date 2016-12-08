@@ -4,6 +4,7 @@
 #include "ArcFast.h"
 #include "Arrow.h"
 #include "ImageSp.h"
+#include "ImageFast.h"
 #include "LogSp.h"
 #include "DeviceInfo.h"
 #include "ImageParallax.h"
@@ -12,7 +13,8 @@
 #include "ImageSaverSp.h"
 
 #if defined(Q_OS_ANDROID)
-#include "JniSetup.h"
+//Debug!!!
+//#include "JniSetup.h"
 #endif
 
 //--------------------------------------------------------------------------
@@ -50,6 +52,7 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     qmlRegisterType<sp::ArcFast>("SP", 1, 0, "ArcFast");
     qmlRegisterType<sp::Arrow>("SP", 1, 0, "Arrow");
     qmlRegisterType<sp::ImageSp>("SP", 1, 0, "ImageSp");
+    qmlRegisterType<sp::ImageFast>("SP", 1, 0, "ImageFast");
     qmlRegisterType<sp::ImageParallax>("SP", 1, 0, "ImageParallax");
     qmlRegisterType<sp::Shadow>("SP", 1, 0, "Shadow");
 

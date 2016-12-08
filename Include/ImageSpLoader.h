@@ -4,11 +4,11 @@
 #include <QThread>
 #include <QSharedPointer>
 #include <QWeakPointer>
-#include <QPixmap>
+#include <QImage>
 
 namespace sp {
-typedef QSharedPointer<QPixmap> SharedImage;
-typedef QWeakPointer<QPixmap> WeakImage;
+typedef QSharedPointer<QImage> SharedImage;
+typedef QWeakPointer<QImage> WeakImage;
 
 /***************************************************************************//**
  * @brief Класс-singleton загрузщика изображений для ImageSp.
@@ -42,7 +42,7 @@ class ImageSpLoader : public QObject {
         void error(const QString &source, WeakImage image, const QString &reason);
 
         /// @brief [signal] Изображение отрисовалось в нужных размерах.
-        void rendered(WeakImage sourceImage, QPixmap renderImage);
+        void rendered(WeakImage sourceImage, QImage renderImage);
 
     private:
         ImageSpLoader ();

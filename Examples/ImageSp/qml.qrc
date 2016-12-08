@@ -1,12 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>Root.qml</file>
-        <file>image.jpg</file>
         <file>avatar.jpg</file>
         <file>ContactDelegate.qml</file>
-        <file>blank.png</file>
-        <file>avatar2.jpg</file>
-        <file>BenchmarkItem.qml</file>
-        <file>Letter.png</file>
     </qresource>
 </RCC>

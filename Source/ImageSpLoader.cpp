@@ -40,7 +40,7 @@ void sp::ImageSpLoader::get(const QString &source, SharedImage image)
         return;
     }
 
-    *image = QPixmap();
+    *image = QImage();
     emit error(source, image, "Неизвестный способ загрузки изображения.");
 }
 
@@ -87,7 +87,7 @@ void sp::ImageSpLoader::onRenderImageCrop(sp::SharedImage sourceImage, qreal w, 
     }
 
     QPainter painter;
-    QPixmap renderImage(w, h);
+    QImage renderImage(w, h, QImage::Format_ARGB32_Premultiplied);
     renderImage.fill(Qt::transparent);
 
     painter.begin(&renderImage);

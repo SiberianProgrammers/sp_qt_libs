@@ -1,5 +1,5 @@
 #include <QStandardPaths>
-#include <qpixmap.h>
+#include <QImage>
 #include <QPainter>
 #include <QDir>
 
@@ -52,9 +52,9 @@ QString ImageSaverSp::saveImage(const QString &imageUrl, const QString &albumNam
     }
 
     // Получаем картинку, которую надо сохранить
-    QSharedPointer<QPixmap> _image(new QPixmap());
+    QSharedPointer<QImage> _image(new QImage());
     ImageSpLoader::instance().get(imageUrl, _image);
-    QPixmap *image = _image.data();
+    QImage *image = _image.data();
 
     if (_image.isNull()) {
         return "";
