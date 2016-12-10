@@ -4,11 +4,11 @@
 #include <QImage>
 
 namespace sp {
-    class SpImageNode: public QSGGeometryNode
+    class ImageSpNode: public QSGGeometryNode
     {
         public:
-            SpImageNode(int vertexAtCorner = 20);
-            ~SpImageNode();
+            ImageSpNode(int vertexAtCorner = 20);
+            ~ImageSpNode();
 
             void setImage(const QImage &image);
             void setMipmap(bool mipmap);

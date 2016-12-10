@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ImageSpLoader.h"
-#include "SpImageNode.h"
+#include "ImageSpNode.h"
 
 #include <QQuickItem>
 #include <QImage>
@@ -16,7 +16,7 @@ class ImageSp: public QQuickItem
     Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY (QString  source       READ source       WRITE setSource       NOTIFY sourceChanged)
-    Q_PROPERTY (double   radius       READ radius       WRITE setRadius       NOTIFY radiusChanged)
+    Q_PROPERTY (float    radius       READ radius       WRITE setRadius       NOTIFY radiusChanged)
     Q_PROPERTY (QSize    sourceSize   READ sourceSize                         NOTIFY sourceSizeChanged)
     Q_PROPERTY (FillMode fillMode     READ fillMode     WRITE setFillMode     NOTIFY fillModeChanged)
     Q_PROPERTY (Status   status       READ status                             NOTIFY statusChanged)
@@ -75,7 +75,7 @@ class ImageSp: public QQuickItem
         QSGNode* updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
 
         const QString& source() const { return _source; }
-        double   radius() const { return _radius; }
+        float    radius() const { return _radius; }
         QSize    sourceSize() const { return _image->size(); }
         FillMode fillMode() const { return _fillMode; }
         Status   status() const { return _status; }
@@ -85,7 +85,7 @@ class ImageSp: public QQuickItem
         VerticalAlignment   verticalAlignment() const { return _verticalAlignment; }
 
         void setSource(const QString &source);
-        void setRadius(double radius);
+        void setRadius(float radius);
         void setFillMode(FillMode fillMode);
         void setAsynchronous (bool asynchronous);
         void setMipmap(bool mipmap);
@@ -94,7 +94,7 @@ class ImageSp: public QQuickItem
 
     signals:
         void sourceChanged(const QString&);
-        void radiusChanged(double);
+        void radiusChanged(float);
         void sourceSizeChanged(const QSize&);
         void statusChanged(Status);
         void fillModeChanged(FillMode);
@@ -124,12 +124,12 @@ class ImageSp: public QQuickItem
         int _vertexAtCorner = 20;
         int _segmentCount = 4*_vertexAtCorner+3;
 
-        SpImageNode *_node;
+        ImageSpNode *_node;
         SharedImage _image;
         bool _imageUpdated = false;
 
         QString _source;
-        double  _radius = 0.0;
+        float  _radius = 0.0;
         Status _status = Null;
         bool _asynchronous = true;
         bool _mipmap = true;

@@ -41,9 +41,10 @@ Item {
     ImageSp {
         property bool avatarSwitch: true
 
-        source: avatarSwitch
-                ? "qrc:/avatar.jpg"
-                : "qrc:/avatar2.jpg"
+        //source: avatarSwitch
+        //        ? "qrc:/avatar.jpg"
+        //        : "qrc:/avatar2.jpg"
+        source: "qrc:/Birthday.png"
         fillMode: ImageSp.PreserveAspectFit
         radius: 5*mm
         anchors {
@@ -54,7 +55,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                parent.avatarSwitch = !parent.avatarSwitch;
+                //parent.avatarSwitch = !parent.avatarSwitch;
                 //parent.mipmap = !parent.mipmap;
             }
         }

@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 sp::ImageSp::ImageSp(QQuickItem *parent)
     : QQuickItem (parent)
-    , _node(new SpImageNode)
+    , _node(new ImageSpNode)
     , _image(new QImage())
 {
     setFlag(QQuickItem::ItemHasContents);
@@ -76,6 +76,12 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
     const float dx = cf.w + cf.x;
     const float dy = 0 + cf.y;
 
+    const float r = 2*_radius <= cf.w && 2*_radius <= cf.h
+                     ? _radius
+                     : 2*_radius <= cf.w
+                       ? 0.5f*cf.w
+                       : 0.5f*cf.h;
+
     vertices[0].set(ox, oy, ox*cf.tw+cf.tx, oy*cf.th+cf.ty);
     vertices[1].set(lx, ly, lx*cf.tw+cf.tx, ly*cf.th+cf.ty);
 
@@ -84,8 +90,8 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
     int start = 2;
     for (int i=0; i < count; ++i) {
         double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
-        float x = ax +static_cast<float>(_radius*(1 - qFastSin(angle)));
-        float y = ay +static_cast<float>(_radius*(1 - qFastCos(angle)));
+        float x = ax + r*static_cast<float>(1 - qFastSin(angle));
+        float y = ay + r*static_cast<float>(1 - qFastCos(angle));
         vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
@@ -94,8 +100,8 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
     start = start + count;
     for (int i=0; i < count; ++i) {
         double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
-        float x = bx +static_cast<float>(_radius*(1 - qFastCos(angle)));
-        float y = by +static_cast<float>(_radius*(-1 + qFastSin(angle)));
+        float x = bx + r*static_cast<float>(1 - qFastCos(angle));
+        float y = by + r*static_cast<float>(-1 + qFastSin(angle));
         vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
@@ -104,8 +110,8 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
     start = start + count;
     for (int i=0; i < count; ++i) {
         double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
-        float x = cx +static_cast<float>(_radius*(-1 + qFastSin(angle)));
-        float y = cy +static_cast<float>(_radius*(-1 + qFastCos(angle)));
+        float x = cx + r*static_cast<float>(-1 + qFastSin(angle));
+        float y = cy + r*static_cast<float>(-1 + qFastCos(angle));
         vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
@@ -114,8 +120,8 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
     start = start + count;
     for (int i=0; i < count; ++i) {
         double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
-        float x = dx +static_cast<float>(_radius*(-1 + qFastCos(angle)));
-        float y = dy +static_cast<float>(_radius*(1 - qFastSin(angle)));
+        float x = dx + r*static_cast<float>(-1 + qFastCos(angle));
+        float y = dy + r*static_cast<float>(1 - qFastSin(angle));
         vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
@@ -217,9 +223,9 @@ void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QImage>
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSp::setRadius(double radius)
+void sp::ImageSp::setRadius(float radius)
 {
-    if (qFabs(radius - _radius) > 0.1) {
+    if (_radius != radius) {
         _radius = radius;
 
         emit radiusChanged(_radius);
