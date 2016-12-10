@@ -34,7 +34,7 @@ void sp::ImageFast::componentComplete()
 }
 
 //------------------------------------------------------------------------------
-QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNodeData *)
+QSGNode* sp::ImageFast::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePaintNodeData *)
 {
     if (_status != Ready) {
         return nullptr;
@@ -83,9 +83,9 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
     //vertices[1].set(ax, ay, ax/w, ay/h);
     int start = 2;
     for (int i=0; i < count; ++i) {
-        float angle = M_PI_2 * static_cast<float>(i) / static_cast<float>(count-1);
-        float x = ax +_radius*(1 - qFastSin(angle));
-        float y = ay +_radius*(1 - qFastCos(angle));
+        double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
+        float x = ax +static_cast<float>(_radius*(1 - qFastSin(angle)));
+        float y = ay +static_cast<float>(_radius*(1 - qFastCos(angle)));
         vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
@@ -93,9 +93,9 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
     //vertices[2].set(bx, by, bx/w, by/h);
     start = start + count;
     for (int i=0; i < count; ++i) {
-        float angle = M_PI_2 * static_cast<float>(i) / static_cast<float>(count-1);
-        float x = bx +_radius*(1 - qFastCos(angle));
-        float y = by +_radius*(-1 + qFastSin(angle));
+        double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
+        float x = bx +static_cast<float>(_radius*(1 - qFastCos(angle)));
+        float y = by +static_cast<float>(_radius*(-1 + qFastSin(angle)));
         vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
@@ -103,9 +103,9 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
     //vertices[3].set(cx, cy, cx/w, cy/h);
     start = start + count;
     for (int i=0; i < count; ++i) {
-        float angle = M_PI_2 * static_cast<float>(i) / static_cast<float>(count-1);
-        float x = cx +_radius*(-1 + qFastSin(angle));
-        float y = cy +_radius*(-1 + qFastCos(angle));
+        double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
+        float x = cx +static_cast<float>(_radius*(-1 + qFastSin(angle)));
+        float y = cy +static_cast<float>(_radius*(-1 + qFastCos(angle)));
         vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
@@ -113,9 +113,9 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
     //vertices[4].set(dx, dy, dx/w, dy/h);
     start = start + count;
     for (int i=0; i < count; ++i) {
-        float angle = M_PI_2 * static_cast<float>(i) / static_cast<float>(count-1);
-        float x = dx +_radius*(-1 + qFastCos(angle));
-        float y = dy +_radius*(1 - qFastSin(angle));
+        double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
+        float x = dx +static_cast<float>(_radius*(-1 + qFastCos(angle)));
+        float y = dy +static_cast<float>(_radius*(1 - qFastSin(angle)));
         vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
@@ -217,9 +217,9 @@ void sp::ImageFast::onImageSpError(const QString &/*source*/, QWeakPointer<QImag
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageFast::setRadius(float  radius)
+void sp::ImageFast::setRadius(double radius)
 {
-    if (radius != _radius) {
+    if (qFabs(radius - _radius) > 0.1) {
         _radius = radius;
 
         emit radiusChanged(_radius);
@@ -249,6 +249,20 @@ void sp::ImageFast::setAsynchronous(bool asynchronous)
         _asynchronous = asynchronous;
 
         emit asynchronousChanged(_asynchronous);
+    }
+}
+
+//------------------------------------------------------------------------------
+void sp::ImageFast::setMipmap(bool mipmap)
+{
+    if (_mipmap != mipmap) {
+        _mipmap = mipmap;
+
+        _node->setMipmap(_mipmap);
+        emit mipmapChanged(_mipmap);
+        if (_completed) {
+            update();
+        }
     }
 }
 

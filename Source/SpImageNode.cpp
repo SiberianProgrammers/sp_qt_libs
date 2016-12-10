@@ -2,7 +2,7 @@
 #include "SpApplicationPrototype.h"
 #include <LogSp.h>
 
-
+//------------------------------------------------------------------------------
 sp::SpImageNode::SpImageNode(int vertexAtCorner)
     : _vertexAtCorner(vertexAtCorner)
     , _segmentCount (4*_vertexAtCorner+3)
@@ -15,6 +15,7 @@ sp::SpImageNode::SpImageNode(int vertexAtCorner)
     setFlag(QSGNode::OwnsOpaqueMaterial);
 }
 
+//------------------------------------------------------------------------------
 sp::SpImageNode::~SpImageNode()
 {
     if (opaqueMaterial()) {
@@ -22,6 +23,7 @@ sp::SpImageNode::~SpImageNode()
     }
 }
 
+//------------------------------------------------------------------------------
 void sp::SpImageNode::setImage(const QImage &image)
 {
     QSGTexture *texture;
@@ -39,5 +41,16 @@ void sp::SpImageNode::setImage(const QImage &image)
         material->setMipmapFiltering(QSGTexture::Linear);
 
         setOpaqueMaterial(material);
+    }
+}
+
+//------------------------------------------------------------------------------
+void sp::SpImageNode::setMipmap(bool mipmap)
+{
+    _mipmap = mipmap;
+
+    auto *material = static_cast<QSGOpaqueTextureMaterial*>(opaqueMaterial());
+    if (material) {
+        material->setMipmapFiltering(_mipmap ? QSGTexture::Linear : QSGTexture::None);
     }
 }

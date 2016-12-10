@@ -11,9 +11,11 @@ namespace sp {
             ~SpImageNode();
 
             void setImage(const QImage &image);
+            void setMipmap(bool mipmap);
 
         protected:
             int _vertexAtCorner;
             int _segmentCount;
+            bool _mipmap = true;
     };
 } // namespace sp {

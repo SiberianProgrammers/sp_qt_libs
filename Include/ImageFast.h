@@ -1,29 +1,32 @@
 #pragma once
 
+#include "ImageSpLoader.h"
+
 #include <QQuickItem>
 #include <QImage>
 #include <SpImageNode.h>
 
-#include "ImageSpLoader.h"
-
 namespace sp {
 /**
- * @brief Класс для отрисовки дуги через Scene Graph. Для более плавной отрисовки смотри Arc
- * @note Антиалиасинг осуществляется с помощью QSurfaceFormat format; format.setSample(16).
- *       Подробнее смотри в примере в файле main.cpp.
+ * @brief Класс для отрисовки изображения с закруглёнными краями через Scene Graph.
  */
-class ImageFast : public QQuickItem
+class ImageFast: public QQuickItem
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY (QString  source       READ source       WRITE setSource       NOTIFY sourceChanged)
-    Q_PROPERTY (float    radius       READ radius       WRITE setRadius       NOTIFY radiusChanged)
+    Q_PROPERTY (double   radius       READ radius       WRITE setRadius       NOTIFY radiusChanged)
     Q_PROPERTY (QSize    sourceSize   READ sourceSize                         NOTIFY sourceSizeChanged)
     Q_PROPERTY (FillMode fillMode     READ fillMode     WRITE setFillMode     NOTIFY fillModeChanged)
     Q_PROPERTY (Status   status       READ status                             NOTIFY statusChanged)
-    Q_PROPERTY (bool     antialiasing READ antialiasing WRITE setAntialiasing )
     Q_PROPERTY (bool     asynchronous READ asynchronous WRITE setAsynchronous NOTIFY asynchronousChanged)
+
+    /** @property mipmap
+     *  @brief Флаг mipmap-фильтрации изображения, оно же более качественное масштабирование.
+     *  @note  На iOS может глючить, нужно проверить
+     */
+    Q_PROPERTY (bool mipmap READ mipmap WRITE setMipmap NOTIFY mipmapChanged)
 
     Q_PROPERTY (HorizontalAlignment horizontalAlignment READ horizontalAlignment WRITE setHorizontalAlignment NOTIFY horizontalAlignmentChanged)
     Q_PROPERTY (VerticalAlignment   verticalAlignment   READ verticalAlignment   WRITE setVerticalAlignment   NOTIFY verticalAlignmentChanged)
@@ -72,28 +75,31 @@ class ImageFast : public QQuickItem
         QSGNode* updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
 
         const QString& source() const { return _source; }
-        float    radius() const { return _radius; }
+        double   radius() const { return _radius; }
         QSize    sourceSize() const { return _image->size(); }
         FillMode fillMode() const { return _fillMode; }
         Status   status() const { return _status; }
-        bool     asynchronous () const { return _asynchronous; }
+        bool     asynchronous() const { return _asynchronous; }
+        bool     mipmap() const { return _mipmap; }
         HorizontalAlignment horizontalAlignment() const { return _horizontalAlignment; }
         VerticalAlignment   verticalAlignment() const { return _verticalAlignment; }
 
         void setSource(const QString &source);
-        void setRadius(float  radius);
+        void setRadius(double radius);
         void setFillMode(FillMode fillMode);
         void setAsynchronous (bool asynchronous);
+        void setMipmap(bool mipmap);
         void setHorizontalAlignment (HorizontalAlignment horizontalAlignment);
         void setVerticalAlignment (VerticalAlignment verticalAlignment);
 
     signals:
         void sourceChanged(const QString&);
-        void radiusChanged(float);
+        void radiusChanged(double);
         void sourceSizeChanged(const QSize&);
         void statusChanged(Status);
         void fillModeChanged(FillMode);
         void asynchronousChanged(bool);
+        void mipmapChanged(bool);
         void horizontalAlignmentChanged(HorizontalAlignment);
         void verticalAlignmentChanged(VerticalAlignment);
 
@@ -123,9 +129,10 @@ class ImageFast : public QQuickItem
         bool _imageUpdated = false;
 
         QString _source;
-        float  _radius = 0.0;
+        double  _radius = 0.0;
         Status _status = Null;
         bool _asynchronous = true;
+        bool _mipmap = true;
         FillMode _fillMode = PreserveAspectCrop;
         HorizontalAlignment _horizontalAlignment = AlignHCenter;
         VerticalAlignment _verticalAlignment = AlignVCenter;

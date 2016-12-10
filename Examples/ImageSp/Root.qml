@@ -55,6 +55,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 parent.avatarSwitch = !parent.avatarSwitch;
+                //parent.mipmap = !parent.mipmap;
             }
         }
     }// ImageFast {
