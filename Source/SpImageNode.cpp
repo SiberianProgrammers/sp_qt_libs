@@ -27,10 +27,13 @@ void sp::SpImageNode::setImage(const QImage &image)
     QSGTexture *texture;
 
     if (material()) {
-
+        texture = qApp->view()->createTextureFromImage(image, QQuickWindow::TextureIsOpaque);
+        auto *material = static_cast<QSGOpaqueTextureMaterial*>(opaqueMaterial());
+        material->texture()->deleteLater();
+        material->setTexture(texture);
     } else {
         texture = qApp->view()->createTextureFromImage(image, QQuickWindow::TextureIsOpaque);
-        QSGOpaqueTextureMaterial *material = new QSGOpaqueTextureMaterial;
+        auto *material = new QSGOpaqueTextureMaterial;
         material->setTexture(texture);
         material->setFiltering(QSGTexture::Linear);
         material->setMipmapFiltering(QSGTexture::Linear);

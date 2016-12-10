@@ -120,6 +120,7 @@ class ImageFast : public QQuickItem
 
         SpImageNode *_node;
         SharedImage _image;
+        bool _imageUpdated = false;
 
         QString _source;
         float  _radius = 0.0;

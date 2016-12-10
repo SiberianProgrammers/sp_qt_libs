@@ -40,20 +40,15 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
         return nullptr;
     }
 
-    SpImageNode *node = nullptr;
-    QSGGeometry *geometry = nullptr;
-
-    if (!oldNode) {
-        node = _node;
-        node->setImage(*_image);
-        node->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
+    if (_imageUpdated) {
+        _node->setImage(*_image);
+        _imageUpdated = false;
+        _node->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
     } else {
-        node = static_cast<SpImageNode *>(oldNode);
-        node->markDirty(QSGNode::DirtyGeometry);
+        _node->markDirty(QSGNode::DirtyGeometry);
     }
 
-    geometry = node->geometry();
-    QSGGeometry::TexturedPoint2D *vertices = geometry->vertexDataAsTexturedPoint2D();
+    QSGGeometry::TexturedPoint2D *vertices = _node->geometry()->vertexDataAsTexturedPoint2D();
 
     const int count = _vertexAtCorner; // Количество точек на закруглённый угол
 
@@ -80,16 +75,6 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
     const float cy = cf.h + cf.y;
     const float dx = cf.w + cf.x;
     const float dy = 0 + cf.y;
-
-    Coefficients tc = [this]()->Coefficients {
-        switch (this->_fillMode) {
-            case Stretch           : return coefficientsStretch();
-            case PreserveAspectFit : return coefficientsPreserveAspectFit();
-            case PreserveAspectCrop: return coefficientsPreserveAspectCrop();
-            case Pad               : return coefficientsPad();
-            case Parallax          : return coefficientsRectParallax();
-        }
-    }();
 
     vertices[0].set(ox, oy, ox*cf.tw+cf.tx, oy*cf.th+cf.ty);
     vertices[1].set(lx, ly, lx*cf.tw+cf.tx, ly*cf.th+cf.ty);
@@ -136,7 +121,7 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
 
     vertices[_segmentCount-1].set(lx, ly, lx*cf.tw+cf.tx, ly*cf.th+cf.ty);
 
-    return node;
+    return _node;
 }
 
 //------------------------------------------------------------------------------
@@ -192,6 +177,7 @@ void sp::ImageFast::onImageSpLoaded(const QString &/*source*/, QWeakPointer<QIma
         return;
     }
 
+    _imageUpdated = true;
     disconnect (&ImageSpLoader::instance(), 0, this, 0);
 
     _status = Ready;
@@ -297,6 +283,7 @@ void sp::ImageFast::setVerticalAlignment(sp::ImageFast::VerticalAlignment vertic
 //------------------------------------------------------------------------------
 sp::ImageFast::Coefficients sp::ImageFast::coefficientsPad() const
 {
+    LOG_WARN("ImageFast: режим Pad пока не поддерживается.");
     return {0, 0, static_cast<float>(width()), static_cast<float>(height())
            ,0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
 }

@@ -39,12 +39,23 @@ Item {
     //}
 
     ImageFast {
-        source: "qrc:/avatar.jpg"
+        property bool avatarSwitch: true
+
+        source: avatarSwitch
+                ? "qrc:/avatar.jpg"
+                : "qrc:/avatar2.jpg"
         fillMode: ImageFast.PreserveAspectFit
         radius: 5*mm
         anchors {
             fill: parent
             margins: margin
         }
-    }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                parent.avatarSwitch = !parent.avatarSwitch;
+            }
+        }
+    }// ImageFast {
 }
