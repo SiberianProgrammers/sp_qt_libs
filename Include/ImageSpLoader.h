@@ -25,24 +25,15 @@ class ImageSpLoader : public QObject {
         /// @brief Загружает изображение синхронно.
         void get (const QString &source, SharedImage image);
 
-    private slots:
-        void onRenderImageCrop (SharedImage sourceImage, qreal w, qreal h, qreal radius);
-
     signals:
         /// @brief Загружает изображение ассинхронно.
         void loadTo(const QString &source, SharedImage image);
-
-        /// @brief Отрисовывает изображение в нужных размерах. PreserveAspectCrop.
-        void renderImageCrop (SharedImage sourceImage, qreal width, qreal height, qreal radius);
 
         /// @brief [signal] Сигнал, уведомляющий о загрузке изображения.
         void loaded(const QString &source, WeakImage image);
 
         /// @brief [signal] Сигнал об ошибке при загрузке изображения.
         void error(const QString &source, WeakImage image, const QString &reason);
-
-        /// @brief [signal] Изображение отрисовалось в нужных размерах.
-        void rendered(WeakImage sourceImage, QImage renderImage);
 
     private:
         ImageSpLoader ();

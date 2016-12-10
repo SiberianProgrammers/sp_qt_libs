@@ -38,13 +38,13 @@ Item {
     //    id: viaElement
     //}
 
-    ImageFast {
+    ImageSp {
         property bool avatarSwitch: true
 
         source: avatarSwitch
                 ? "qrc:/avatar.jpg"
                 : "qrc:/avatar2.jpg"
-        fillMode: ImageFast.PreserveAspectFit
+        fillMode: ImageSp.PreserveAspectFit
         radius: 5*mm
         anchors {
             fill: parent

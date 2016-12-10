@@ -16,7 +16,6 @@ HEADERS += \
     $$PWD/Include/Arrow.h \
     $$PWD/Include/Shadow.h \
     $$PWD/Include/ImageSaverSp.h \
-    $$PWD/Include/ImageFast.h \
     $$PWD/Include/SpImageNode.h
 
 SOURCES += \
@@ -35,7 +34,6 @@ SOURCES += \
     $$PWD/Source/Arrow.cpp \
     $$PWD/Source/Shadow.cpp \
     $$PWD/Source/ImageSaverSp.cpp \
-    $$PWD/Source/ImageFast.cpp \
     $$PWD/Source/SpImageNode.cpp
 
 # Внешние ресурсы

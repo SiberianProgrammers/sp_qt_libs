@@ -1,17 +1,25 @@
-#include <LogSp.h>
-#include <QGraphicsScene>
 #include "ImageSp.h"
+
+#include <LogSp.h>
+#include <SpApplicationPrototype.h>
+#include <QtMath>
+#include <QSGTexture>
+#include <QSGOpaqueTextureMaterial>
+#include <QSGSimpleTextureNode>
+#include <QImage>
 
 //------------------------------------------------------------------------------
 sp::ImageSp::ImageSp(QQuickItem *parent)
-    : QQuickPaintedItem(parent)
+    : QQuickItem (parent)
+    , _node(new SpImageNode)
     , _image(new QImage())
 {
-    setPerformanceHint(QQuickPaintedItem::FastFBOResizing, true);
-    setAntialiasing(true); // По умолчанию antialiasing включен
+    setFlag(QQuickItem::ItemHasContents);
 
-    connect(this, SIGNAL(widthChanged()), SLOT(renderImage()));
-    connect(this, SIGNAL(heightChanged()), SLOT(renderImage()));
+}
+
+sp::ImageSp::~ImageSp()
+{
 }
 
 //------------------------------------------------------------------------------
@@ -20,185 +28,102 @@ void sp::ImageSp::classBegin()
     // Ничего нет
 }
 
-//------------------------------------------------------------------------------
 void sp::ImageSp::componentComplete()
 {
     _completed = true;
-
-    if (antialiasing()) {
-        setAntialiasing(true);
-
-        // На Reting mac'е Qt неправильно рисует в FBO
-        #if defined(Q_OS_OSX)
-            setRenderTarget (QQuickPaintedItem::Image);
-        #else
-            setRenderTarget (QQuickPaintedItem::FramebufferObject);
-        #endif
-    } else {
-        setAntialiasing(false);
-
-        // На Reting mac'е и на iOS с выключенным antialiasing Qt неправильно рисует в FBO
-        #if defined(Q_OS_OSX) || defined(Q_OS_IOS)
-            setRenderTarget (QQuickPaintedItem::Image);
-        #else
-            setRenderTarget (QQuickPaintedItem::FramebufferObject);
-        #endif
-    }
-
-    renderImage();
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSp::paint(QPainter *painter)
+QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePaintNodeData *)
 {
     if (_status != Ready) {
-        return;
+        return nullptr;
     }
 
-    QPen pen;
-    pen.setStyle(Qt::NoPen);
-    painter->setPen(pen);
-
-    QImage *image = _image.data();
-    if (_blur) {
-        qreal sc = qMax(8.0, 4*width()/_image->width());
-        image = new QImage(_image->scaledToWidth(static_cast<int>(_image->width()/sc), Qt::SmoothTransformation));
+    if (_imageUpdated) {
+        _node->setImage(*_image);
+        _imageUpdated = false;
+        _node->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
+    } else {
+        _node->markDirty(QSGNode::DirtyGeometry);
     }
 
-    switch (_fillMode) {
-        case Stretch:
-            drawStretch(painter, *image);
-            break;
+    QSGGeometry::TexturedPoint2D *vertices = _node->geometry()->vertexDataAsTexturedPoint2D();
 
-        case PreserveAspectFit:
-            drawPreserveAcpectFit(painter, *image);
-            break;
+    const int count = _vertexAtCorner; // Количество точек на закруглённый угол
 
-        case PreserveAspectCrop:
-            //Debug!!!
-            //drawPreserveAspectCrop(painter, *image);
-            painter->drawImage(QPoint(0,0), _renderImage);
-            break;
-
-        case Pad:
-            drawPad(painter, *image);
-            break;
-    }
-
-    if (_blur) {
-        delete image;
-    }
-}
-
-//------------------------------------------------------------------------------
-void sp::ImageSp::drawPad(QPainter *painter, const QImage &image)
-{
-    QBrush brush(image);
-    painter->setBrush(brush);
-
-    //TODO Сделать поддержку horizontalAlignment и verticalAlignment
-    painter->drawRoundedRect(QRectF(0, 0, width(), height()), _radius, _radius);
-}
-
-//------------------------------------------------------------------------------
-void sp::ImageSp::drawStretch(QPainter *painter, const QImage &image)
-{
-    qreal wi = static_cast<qreal>(image.width());
-    qreal hi = static_cast<qreal>(image.height());
-    qreal sw = wi / width();
-    qreal sh = hi / height();
-
-    QBrush brush(image);
-    brush.setTransform(QTransform().scale(1/sw, 1/sh));
-    painter->setBrush(brush);
-    painter->drawRoundedRect(QRectF(0, 0, width(), height()), _radius, _radius);
-}
-
-//------------------------------------------------------------------------------
-void sp::ImageSp::drawPreserveAcpectFit(QPainter *painter, const QImage &image)
-{
-    qreal wi = static_cast<qreal>(image.width());
-    qreal hi = static_cast<qreal>(image.height());
-    qreal sw = wi / width();
-    qreal sh = hi / height();
-
-    if (_radius >= 1) {
-        QBrush brush(image);
-
-        if (sw > sh) {
-            switch (_horizontalAlignment) {
-                case AlignLeft:
-                    brush.setTransform(QTransform().scale(1/sw, 1/sw).translate(0, sw*height() - hi));
-                    painter->setBrush(brush);
-                    painter->drawRoundedRect(QRectF(0, height() - hi/sw, width(), hi/sw), _radius, _radius);
-                    break;
-                case AlignHCenter:
-                    brush.setTransform(QTransform().scale(1/sw, 1/sw).translate(0, 0.5*(sw*height() - hi)));
-                    painter->setBrush(brush);
-                    painter->drawRoundedRect(QRectF(0, 0.5*(height() - hi/sw), width(), hi/sw), _radius, _radius);
-                    break;
-                case AlignRight:
-                    brush.setTransform(QTransform().scale(1/sw, 1/sw));
-                    painter->setBrush(brush);
-                    painter->drawRoundedRect(QRectF(0, 0, width(), hi/sw), _radius, _radius);
-                    break;
-            }
-        } else {
-            switch (_verticalAlignment) {
-                case AlignTop:
-                    brush.setTransform(QTransform().scale(1/sh, 1/sh).translate(sh*width() - wi, 0));
-                    painter->setBrush(brush);
-                    painter->drawRoundedRect(QRectF(width() - wi/sh, 0, wi/sh, height()), _radius, _radius);
-                    break;
-                case AlignVCenter:
-                    brush.setTransform(QTransform().scale(1/sh, 1/sh).translate(0.5*(sh*width() - wi), 0));
-                    painter->setBrush(brush);
-                    painter->drawRoundedRect(QRectF(0.5*(width() - wi/sh), 0, wi/sh, height()), _radius, _radius);
-                    break;
-                case AlignBottom:
-                    brush.setTransform(QTransform().scale(1/sh, 1/sh));
-                    painter->setBrush(brush);
-                    painter->drawRoundedRect(QRectF(0, 0, wi/sh, height()), _radius, _radius);
-                    break;
-            }
+    Coefficients cf = [this]()->Coefficients{
+        switch(this->_fillMode) {
+            case Stretch           : return coefficientsStretch();
+            case PreserveAspectFit : return coefficientsPreserveAspectFit();
+            case PreserveAspectCrop: return coefficientsPreserveAspectCrop();
+            case Pad               : return coefficientsPad();
+            case Parallax          : return coefficientsRectParallax();
         }
-    } // if (_radius == 0) {
-    else {
-        if (sw > sh) {
-            switch (_verticalAlignment) {
-                case AlignTop:
-                    painter->drawImage(QRect(0, 0, width(), hi/sw), image);
-                    break;
-                case AlignVCenter:
-                    painter->drawImage(QRect(0, 0.5*(height() - hi/sw), width(), hi/sw), image);
-                    break;
-                case AlignBottom:
-                    painter->drawImage(QRect(0, height() - hi/sw, width(), hi/sw), image);
-                    break;
-            }
-        } else {
-            switch (_horizontalAlignment) {
-                case AlignLeft:
-                    painter->drawImage(QRect(0, 0, wi/sh, height()), image);
-                    break;
-                case AlignHCenter:
-                    painter->drawImage(QRect(0.5*(width() - wi/sh), 0, wi/sh, height()), image);
-                    break;
-                case AlignRight:
-                    painter->drawImage(QRect(width() - wi/sh, 0, wi/sh, height()), image);
-                    break;
-            }
-        }
+    }();
+
+    const float ox = cf.w/2 + cf.x;
+    const float oy = cf.h/2 + cf.y;
+    const float lx = cf.w/2 + cf.x;
+    const float ly = cf.y;
+
+    const float ax = 0 + cf.x;
+    const float ay = 0 + cf.y;
+    const float bx = 0 + cf.x;
+    const float by = cf.h + cf.y;
+    const float cx = cf.w + cf.x;
+    const float cy = cf.h + cf.y;
+    const float dx = cf.w + cf.x;
+    const float dy = 0 + cf.y;
+
+    vertices[0].set(ox, oy, ox*cf.tw+cf.tx, oy*cf.th+cf.ty);
+    vertices[1].set(lx, ly, lx*cf.tw+cf.tx, ly*cf.th+cf.ty);
+
+    // Левый верхний угол
+    //vertices[1].set(ax, ay, ax/w, ay/h);
+    int start = 2;
+    for (int i=0; i < count; ++i) {
+        double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
+        float x = ax +static_cast<float>(_radius*(1 - qFastSin(angle)));
+        float y = ay +static_cast<float>(_radius*(1 - qFastCos(angle)));
+        vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
+
+    // Левый нижний угол
+    //vertices[2].set(bx, by, bx/w, by/h);
+    start = start + count;
+    for (int i=0; i < count; ++i) {
+        double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
+        float x = bx +static_cast<float>(_radius*(1 - qFastCos(angle)));
+        float y = by +static_cast<float>(_radius*(-1 + qFastSin(angle)));
+        vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
+    }
+
+    // Правый нижний угол
+    //vertices[3].set(cx, cy, cx/w, cy/h);
+    start = start + count;
+    for (int i=0; i < count; ++i) {
+        double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
+        float x = cx +static_cast<float>(_radius*(-1 + qFastSin(angle)));
+        float y = cy +static_cast<float>(_radius*(-1 + qFastCos(angle)));
+        vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
+    }
+
+    // Правый верхний угол
+    //vertices[4].set(dx, dy, dx/w, dy/h);
+    start = start + count;
+    for (int i=0; i < count; ++i) {
+        double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
+        float x = dx +static_cast<float>(_radius*(-1 + qFastCos(angle)));
+        float y = dy +static_cast<float>(_radius*(1 - qFastSin(angle)));
+        vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
+    }
+
+    vertices[_segmentCount-1].set(lx, ly, lx*cf.tw+cf.tx, ly*cf.th+cf.ty);
+
+    return _node;
 }
 
-//------------------------------------------------------------------------------
-void sp::ImageSp::drawPreserveAspectCrop(QPainter *painter, const QImage &image)
-{
-}
-
-//------------------------------------------------------------------------------
-// 0. Устанавливает источник изображение и начинает его загрузку.
 //------------------------------------------------------------------------------
 void sp::ImageSp::setSource(const QString &source)
 {
@@ -241,7 +166,7 @@ void sp::ImageSp::setSource(const QString &source)
             update();
         }
     }
-}
+} // void sp::ImageFast::setSource(const QString &source)
 
 //------------------------------------------------------------------------------
 // 1. Обработка сигнала успешной загрузки изображения в ImageSpLoader'е.
@@ -252,22 +177,19 @@ void sp::ImageSp::onImageSpLoaded(const QString &/*source*/, QWeakPointer<QImage
         return;
     }
 
+    _imageUpdated = true;
     disconnect (&ImageSpLoader::instance(), 0, this, 0);
 
-    if (_fillMode == PreserveAspectCrop) {
-        renderImage();
-    } else {
-        _status = Ready;
-        emit statusChanged(_status);
-    }
+    _status = Ready;
+    emit statusChanged(_status);
 
     setImplicitWidth (_image->width());
     setImplicitHeight(_image->height());
 
     emit sourceSizeChanged(_image->size());
-    //if (_completed) {
-    //    update();
-    //}
+    if (_completed) {
+        update();
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -295,61 +217,17 @@ void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QImage>
 }
 
 //------------------------------------------------------------------------------
-// 2. Отрисовка изображения нужных размеров
-//------------------------------------------------------------------------------
-void sp::ImageSp::renderImage()
+void sp::ImageSp::setRadius(double radius)
 {
-    if (width() && height() && !_image->isNull() && _completed) {
-        connect (&ImageSpLoader::instance(), SIGNAL(rendered(WeakImage,QImage))
-                 , SLOT(onImageSpRendered(WeakImage,QImage))
-                 , Qt::UniqueConnection);
-
-        _inRender = true;
-        ImageSpLoader::instance().renderImageCrop(_image, width(), height(), _radius);
-    }
-}
-
-//------------------------------------------------------------------------------
-// 3. Отрисовка завершиалась.
-//------------------------------------------------------------------------------
-void sp::ImageSp::onImageSpRendered(sp::WeakImage sourceImage, QImage renderImage)
-{
-    if (_image != sourceImage) {
-        return;
-    }
-
-    _renderImage = renderImage;
-    _inRender = false;
-    _status = Ready;
-    emit statusChanged(_status);
-
-    //if ((int)_renderImage.width() != (int)width() || (int)_renderImage.height() != (int)height()) {
-    //    ImageSpLoader::instance().renderImageCrop(_image, width(), height(), _radius);
-    //}
-
-    if (_completed) {
-        update();
-    }
-}
-
-//------------------------------------------------------------------------------
-void sp::ImageSp::setRadius(qreal radius)
-{
-    if (radius != _radius) {
+    if (qFabs(radius - _radius) > 0.1) {
         _radius = radius;
 
         emit radiusChanged(_radius);
-
-        if (_fillMode == PreserveAspectCrop) {
-            renderImage();
-        } else {
-            if (_completed) {
-                update();
-            }
+        if (_completed) {
+            update();
         }
     }
 }
-
 
 //------------------------------------------------------------------------------
 void sp::ImageSp::setFillMode(sp::ImageSp::FillMode fillMode)
@@ -365,25 +243,26 @@ void sp::ImageSp::setFillMode(sp::ImageSp::FillMode fillMode)
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSp::setBlur(bool blur)
-{
-    if (_blur != blur) {
-        _blur = blur;
-
-        emit blurChanged(_blur);
-        if (_completed) {
-            update();
-        }
-    }
-}
-
-//------------------------------------------------------------------------------
 void sp::ImageSp::setAsynchronous(bool asynchronous)
 {
     if (_asynchronous != asynchronous) {
         _asynchronous = asynchronous;
 
         emit asynchronousChanged(_asynchronous);
+    }
+}
+
+//------------------------------------------------------------------------------
+void sp::ImageSp::setMipmap(bool mipmap)
+{
+    if (_mipmap != mipmap) {
+        _mipmap = mipmap;
+
+        _node->setMipmap(_mipmap);
+        emit mipmapChanged(_mipmap);
+        if (_completed) {
+            update();
+        }
     }
 }
 
@@ -413,40 +292,134 @@ void sp::ImageSp::setVerticalAlignment(sp::ImageSp::VerticalAlignment verticalAl
     }
 }
 
+//==============================================================================
+// Расчитывает коэфициенты координат текстуры для fillMode = Pad.
 //------------------------------------------------------------------------------
-QString sp::ImageSp::source() const {
-    return _source;
-}
-
-QSize sp::ImageSp::sourceSize() const {
-    return _image->size();
-}
-
-qreal sp::ImageSp::radius() const {
-    return _radius;
-}
-
-sp::ImageSp::FillMode sp::ImageSp::fillMode() const {
-    return _fillMode;
-}
-
-sp::ImageSp::Status sp::ImageSp::status() const {
-    return _status;
-}
-
-bool sp::ImageSp::blur() const {
-    return _blur;
-}
-
-bool sp::ImageSp::asynchronous() const
+sp::ImageSp::Coefficients sp::ImageSp::coefficientsPad() const
 {
-    return _asynchronous;
+    LOG_WARN("ImageFast: режим Pad пока не поддерживается.");
+    return {0, 0, static_cast<float>(width()), static_cast<float>(height())
+           ,0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
 }
 
-sp::ImageSp::HorizontalAlignment sp::ImageSp::horizontalAlignment() const {
-    return _horizontalAlignment;
+//------------------------------------------------------------------------------
+// Расчитывает коэфициенты координат текстуры для fillMode = Stretch.
+//------------------------------------------------------------------------------
+sp::ImageSp::Coefficients sp::ImageSp::coefficientsStretch() const
+{
+    return {0, 0, static_cast<float>(width()), static_cast<float>(height())
+           ,0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
 }
 
-sp::ImageSp::VerticalAlignment sp::ImageSp::verticalAlignment() const {
-    return _verticalAlignment;
+//------------------------------------------------------------------------------
+// Расчитывает коэфициенты координат текстуры для fillMode = PreserveAspectFit.
+//------------------------------------------------------------------------------
+sp::ImageSp::Coefficients sp::ImageSp::coefficientsPreserveAspectFit() const
+{
+    Coefficients cf;
+
+    float wi = static_cast<float>(_image->width());
+    float hi = static_cast<float>(_image->height());
+    float w  = static_cast<float>(width());
+    float h  = static_cast<float>(height());
+    float cw = w/wi;
+    float ch = h/hi;
+
+    if (ch < cw) { // вертикальное расположение
+        cf.w = wi*ch;
+        cf.h = h;
+        cf.y = 0;
+
+        cf.tw = static_cast<float>(1/(wi*ch));
+        cf.th = static_cast<float>(1/h);
+        cf.ty = 0;
+
+        switch (_horizontalAlignment) {
+            case AlignLeft:
+                cf.x = 0;
+                cf.tx = 0;
+                break;
+            case AlignHCenter:
+                cf.x = (w-cf.w)/2;
+                cf.tx = (1-w*cf.tw)/2;
+                break;
+            case AlignRight:
+                cf.x = w-cf.w;
+                cf.tx = 1-w*cf.tw;
+                break;
+        }
+    } else { // горизонтальное расположение
+        cf.w = w;
+        cf.h = hi*cw;
+        cf.x = 0;
+
+        cf.tw = static_cast<float>(1/w);
+        cf.th = static_cast<float>(1/(hi*cw));
+        cf.tx = 0;
+
+        switch (_verticalAlignment) {
+            case AlignTop:
+                cf.y = 0;
+                cf.ty = 0;
+                break;
+            case AlignVCenter:
+                cf.y = (h-cf.h)/2;
+                cf.ty = (1-h*cf.th)/2;
+                break;
+            case AlignBottom:
+                cf.y = h-cf.h;
+                cf.ty = 1-h*cf.th;
+                break;
+        }
+    }
+
+    return cf ;
+}
+
+//------------------------------------------------------------------------------
+// Расчитывает коэфициенты координат текстуры для fillMode = PreserveAspectCrop.
+//------------------------------------------------------------------------------
+sp::ImageSp::Coefficients sp::ImageSp::coefficientsPreserveAspectCrop() const
+{
+    Coefficients cf = {0, 0, static_cast<float>(width()), static_cast<float>(height()), 0, 0, 0, 0};
+
+    float wi = static_cast<float>(_image->width());
+    float hi = static_cast<float>(_image->height());
+    float w  = static_cast<float>(width());
+    float h  = static_cast<float>(height());
+    float cw = w/wi;
+    float ch = h/hi;
+
+    if (ch < cw) {       // вертикальное расположение
+        cf.tw = 1/w;
+        cf.th = 1/(cw*hi);
+        cf.tx = 0;
+
+        switch (_verticalAlignment) {
+            case AlignTop:     cf.ty = 0; break;
+            case AlignVCenter: cf.ty = (1-h*cf.th)/2; break;
+            case AlignBottom:  cf.ty = 1-h*cf.th; break;
+        }
+    } else {            // горизонтальное расположение
+        cf.tw = 1/(ch*wi);
+        cf.th = 1/h;
+        cf.ty = 0;
+
+        switch (_horizontalAlignment) {
+            case AlignLeft:    cf.tx = 0; break;
+            case AlignHCenter: cf.tx = (1-w*cf.tw)/2; break;
+            case AlignRight:   cf.tx = 1-w*cf.tw; break;
+        }
+    }
+
+    return cf;
+}
+
+//------------------------------------------------------------------------------
+// Расчитывает коэфициенты координат текстуры для fillMode = Parallax.
+//------------------------------------------------------------------------------
+sp::ImageSp::Coefficients sp::ImageSp::coefficientsRectParallax() const
+{
+    return {0, 0, static_cast<float>(width()), static_cast<float>(height())
+           ,0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
 }

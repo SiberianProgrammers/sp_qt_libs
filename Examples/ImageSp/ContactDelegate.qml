@@ -10,7 +10,7 @@ Item {
     height: 16*mm
 
     //--------------------------------------------------------------------------
-    ImageFast {
+    ImageSp {
         id: avatar
 
         property real r: width/2

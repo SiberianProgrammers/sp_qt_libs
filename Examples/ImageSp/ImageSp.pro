@@ -12,4 +12,5 @@ include($$PWD/../../sp_qt_libs.pri)
 
 android {
     QT += androidextras
+    HEADERS += $$PWD/../../../sp_project_prototype/Include/JniSetup.h
 }

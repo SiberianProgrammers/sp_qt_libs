@@ -1,16 +1,16 @@
 #pragma once
 
-#include <QtQuick>
-#include <QImage>
-#include <QString>
-
 #include "ImageSpLoader.h"
+#include "SpImageNode.h"
+
+#include <QQuickItem>
+#include <QImage>
 
 namespace sp {
 /**
- * @brief Класс QML-объекта изображения с закруглёнными углами. Должен работать быстро.
+ * @brief Класс для отрисовки изображения с закруглёнными краями через Scene Graph.
  */
-class ImageSp : public QQuickPaintedItem
+class ImageSp: public QQuickItem
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
@@ -20,9 +20,13 @@ class ImageSp : public QQuickPaintedItem
     Q_PROPERTY (QSize    sourceSize   READ sourceSize                         NOTIFY sourceSizeChanged)
     Q_PROPERTY (FillMode fillMode     READ fillMode     WRITE setFillMode     NOTIFY fillModeChanged)
     Q_PROPERTY (Status   status       READ status                             NOTIFY statusChanged)
-    Q_PROPERTY (bool     antialiasing READ antialiasing WRITE setAntialiasing )
-    Q_PROPERTY (bool     blur         READ blur         WRITE setBlur         NOTIFY blurChanged)
     Q_PROPERTY (bool     asynchronous READ asynchronous WRITE setAsynchronous NOTIFY asynchronousChanged)
+
+    /** @property mipmap
+     *  @brief Флаг mipmap-фильтрации изображения, оно же более качественное масштабирование.
+     *  @note  На iOS может глючить, нужно проверить
+     */
+    Q_PROPERTY (bool mipmap READ mipmap WRITE setMipmap NOTIFY mipmapChanged)
 
     Q_PROPERTY (HorizontalAlignment horizontalAlignment READ horizontalAlignment WRITE setHorizontalAlignment NOTIFY horizontalAlignmentChanged)
     Q_PROPERTY (VerticalAlignment   verticalAlignment   READ verticalAlignment   WRITE setVerticalAlignment   NOTIFY verticalAlignmentChanged)
@@ -33,6 +37,7 @@ class ImageSp : public QQuickPaintedItem
             ,PreserveAspectFit = 1
             ,PreserveAspectCrop = 2
             ,Pad = 6
+            ,Parallax = 8
         };
 
         /** @brief Горизонтальное выравнивание */
@@ -63,64 +68,73 @@ class ImageSp : public QQuickPaintedItem
 
     public:
         ImageSp(QQuickItem *parent = nullptr);
+        ~ImageSp();
 
         virtual void classBegin() override;
         virtual void componentComplete() override;
-        virtual void paint(QPainter *painter) override;
+        QSGNode* updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
 
-        QString  source() const;
-        double   radius() const;
-        QSize    sourceSize() const;
-        FillMode fillMode() const;
-        Status   status() const;
-        bool     blur() const;
-        bool     asynchronous () const;
-        HorizontalAlignment horizontalAlignment() const;
-        VerticalAlignment   verticalAlignment() const;
+        const QString& source() const { return _source; }
+        double   radius() const { return _radius; }
+        QSize    sourceSize() const { return _image->size(); }
+        FillMode fillMode() const { return _fillMode; }
+        Status   status() const { return _status; }
+        bool     asynchronous() const { return _asynchronous; }
+        bool     mipmap() const { return _mipmap; }
+        HorizontalAlignment horizontalAlignment() const { return _horizontalAlignment; }
+        VerticalAlignment   verticalAlignment() const { return _verticalAlignment; }
 
         void setSource(const QString &source);
         void setRadius(double radius);
         void setFillMode(FillMode fillMode);
-        void setBlur(bool blur);
         void setAsynchronous (bool asynchronous);
+        void setMipmap(bool mipmap);
         void setHorizontalAlignment (HorizontalAlignment horizontalAlignment);
         void setVerticalAlignment (VerticalAlignment verticalAlignment);
 
     signals:
         void sourceChanged(const QString&);
-        void radiusChanged(qreal);
+        void radiusChanged(double);
         void sourceSizeChanged(const QSize&);
         void statusChanged(Status);
         void fillModeChanged(FillMode);
-        void blurChanged(bool);
         void asynchronousChanged(bool);
+        void mipmapChanged(bool);
         void horizontalAlignmentChanged(HorizontalAlignment);
         void verticalAlignmentChanged(VerticalAlignment);
 
-    private:
-        void drawPad (QPainter *painter, const QImage &image);
-        void drawStretch (QPainter *painter, const QImage &image);
-        void drawPreserveAcpectFit (QPainter *painter, const QImage &image);
-        void drawPreserveAspectCrop (QPainter *painter, const QImage &image);
-
-    private slots:
+    protected slots:
         void onImageSpLoaded (const QString &source, sp::WeakImage image);
-        void onImageSpRendered (sp::WeakImage sourceImage, QImage renderImage);
         void onImageSpError  (const QString &source, sp::WeakImage image, const QString &reason);
-        void renderImage();
 
-    private:
-        bool                _completed = false; // Флаг для инициализации объекта
-        SharedImage         _image;
-        QImage              _renderImage;
-        QString             _source;
-        double              _radius = 0.0;
-        Status              _status = Null;
-        FillMode            _fillMode = PreserveAspectCrop;
-        bool                _blur = false;
-        bool                _asynchronous = true;
+    protected:
+        struct Coefficients {
+            float x,y,w,h;
+            float tx,ty,tw,th;
+        };
+
+        Coefficients coefficientsPad() const;
+        Coefficients coefficientsStretch() const;
+        Coefficients coefficientsPreserveAspectFit() const;
+        Coefficients coefficientsPreserveAspectCrop() const;
+        Coefficients coefficientsRectParallax() const;
+
+    protected:
+        bool _completed = false;
+        int _vertexAtCorner = 20;
+        int _segmentCount = 4*_vertexAtCorner+3;
+
+        SpImageNode *_node;
+        SharedImage _image;
+        bool _imageUpdated = false;
+
+        QString _source;
+        double  _radius = 0.0;
+        Status _status = Null;
+        bool _asynchronous = true;
+        bool _mipmap = true;
+        FillMode _fillMode = PreserveAspectCrop;
         HorizontalAlignment _horizontalAlignment = AlignHCenter;
-        VerticalAlignment   _verticalAlignment = AlignVCenter;
-        bool                _inRender = false;
+        VerticalAlignment _verticalAlignment = AlignVCenter;
 };
-}// namespace experiment {
+} // namespace sp {
