@@ -104,19 +104,14 @@ class ImageFast : public QQuickItem
     protected:
         struct Coefficients {
             float x,y,w,h;
+            float tx,ty,tw,th;
         };
 
-        Coefficients gcPad() const;
-        Coefficients gcStretch() const;
-        Coefficients gcPreserveAspectFit() const;
-        Coefficients gcPreserveAspectCrop() const;
-        Coefficients gcRectParallax() const;
-
-        Coefficients tcPad() const;
-        Coefficients tcStretch() const;
-        Coefficients tcPreserveAspectFit() const;
-        Coefficients tcPreserveAspectCrop() const;
-        Coefficients tcRectParallax() const;
+        Coefficients coefficientsPad() const;
+        Coefficients coefficientsStretch() const;
+        Coefficients coefficientsPreserveAspectFit() const;
+        Coefficients coefficientsPreserveAspectCrop() const;
+        Coefficients coefficientsRectParallax() const;
 
     protected:
         bool _completed = false;

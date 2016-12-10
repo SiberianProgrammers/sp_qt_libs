@@ -20,10 +20,6 @@ sp::ImageFast::ImageFast(QQuickItem *parent)
 
 sp::ImageFast::~ImageFast()
 {
-    //if (_node.opaqueMaterial()) {
-    //    LOG_ALEUS("delete texture");
-    //    static_cast<QSGOpaqueTextureMaterial *>(_node.opaqueMaterial())->texture()->deleteLater();
-    //}
 }
 
 //------------------------------------------------------------------------------
@@ -61,42 +57,42 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
 
     const int count = _vertexAtCorner; // Количество точек на закруглённый угол
 
-    Coefficients gc = [this]()->Coefficients{
+    Coefficients cf = [this]()->Coefficients{
         switch(this->_fillMode) {
-            case Stretch           : return gcStretch();
-            case PreserveAspectFit : return gcPreserveAspectFit();
-            case PreserveAspectCrop: return gcPreserveAspectCrop();
-            case Pad               : return gcPad();
-            case Parallax          : return gcRectParallax();
+            case Stretch           : return coefficientsStretch();
+            case PreserveAspectFit : return coefficientsPreserveAspectFit();
+            case PreserveAspectCrop: return coefficientsPreserveAspectCrop();
+            case Pad               : return coefficientsPad();
+            case Parallax          : return coefficientsRectParallax();
         }
     }();
 
-    const float ox = gc.w/2 + gc.x;
-    const float oy = gc.h/2 + gc.y;
-    const float lx = gc.w/2 + gc.x;
-    const float ly = gc.y;
+    const float ox = cf.w/2 + cf.x;
+    const float oy = cf.h/2 + cf.y;
+    const float lx = cf.w/2 + cf.x;
+    const float ly = cf.y;
 
-    const float ax = 0 + gc.x;
-    const float ay = 0 + gc.y;
-    const float bx = 0 + gc.x;
-    const float by = gc.h + gc.y;
-    const float cx = gc.w + gc.x;
-    const float cy = gc.h + gc.y;
-    const float dx = gc.w + gc.x;
-    const float dy = 0 + gc.y;
+    const float ax = 0 + cf.x;
+    const float ay = 0 + cf.y;
+    const float bx = 0 + cf.x;
+    const float by = cf.h + cf.y;
+    const float cx = cf.w + cf.x;
+    const float cy = cf.h + cf.y;
+    const float dx = cf.w + cf.x;
+    const float dy = 0 + cf.y;
 
     Coefficients tc = [this]()->Coefficients {
         switch (this->_fillMode) {
-            case Stretch           : return tcStretch();
-            case PreserveAspectFit : return tcPreserveAspectFit();
-            case PreserveAspectCrop: return tcPreserveAspectCrop();
-            case Pad               : return tcPad();
-            case Parallax          : return tcRectParallax();
+            case Stretch           : return coefficientsStretch();
+            case PreserveAspectFit : return coefficientsPreserveAspectFit();
+            case PreserveAspectCrop: return coefficientsPreserveAspectCrop();
+            case Pad               : return coefficientsPad();
+            case Parallax          : return coefficientsRectParallax();
         }
     }();
 
-    vertices[0].set(ox, oy, ox*tc.w+tc.x, oy*tc.h+tc.y);
-    vertices[1].set(lx, ly, lx*tc.w+tc.x, ly*tc.h+tc.y);
+    vertices[0].set(ox, oy, ox*cf.tw+cf.tx, oy*cf.th+cf.ty);
+    vertices[1].set(lx, ly, lx*cf.tw+cf.tx, ly*cf.th+cf.ty);
 
     // Левый верхний угол
     //vertices[1].set(ax, ay, ax/w, ay/h);
@@ -105,7 +101,7 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
         float angle = M_PI_2 * static_cast<float>(i) / static_cast<float>(count-1);
         float x = ax +_radius*(1 - qFastSin(angle));
         float y = ay +_radius*(1 - qFastCos(angle));
-        vertices[start+i].set (x, y, x*tc.w+tc.x, y*tc.h+tc.y);
+        vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
     // Левый нижний угол
@@ -115,7 +111,7 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
         float angle = M_PI_2 * static_cast<float>(i) / static_cast<float>(count-1);
         float x = bx +_radius*(1 - qFastCos(angle));
         float y = by +_radius*(-1 + qFastSin(angle));
-        vertices[start+i].set (x, y, x*tc.w+tc.x, y*tc.h+tc.y);
+        vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
     // Правый нижний угол
@@ -125,7 +121,7 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
         float angle = M_PI_2 * static_cast<float>(i) / static_cast<float>(count-1);
         float x = cx +_radius*(-1 + qFastSin(angle));
         float y = cy +_radius*(-1 + qFastCos(angle));
-        vertices[start+i].set (x, y, x*tc.w+tc.x, y*tc.h+tc.y);
+        vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
     // Правый верхний угол
@@ -135,10 +131,10 @@ QSGNode* sp::ImageFast::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePain
         float angle = M_PI_2 * static_cast<float>(i) / static_cast<float>(count-1);
         float x = dx +_radius*(-1 + qFastCos(angle));
         float y = dy +_radius*(1 - qFastSin(angle));
-        vertices[start+i].set (x, y, x*tc.w+tc.x, y*tc.h+tc.y);
+        vertices[start+i].set (x, y, x*cf.tw+cf.tx, y*cf.th+cf.ty);
     }
 
-    vertices[_segmentCount-1].set(lx, ly, lx*tc.w+tc.x, ly*tc.h+tc.y);
+    vertices[_segmentCount-1].set(lx, ly, lx*cf.tw+cf.tx, ly*cf.th+cf.ty);
 
     return node;
 }
@@ -296,99 +292,30 @@ void sp::ImageFast::setVerticalAlignment(sp::ImageFast::VerticalAlignment vertic
     }
 }
 
-//------------------------------------------------------------------------------
-// Расчитывает коэфициенты координат геометрии для fillMode = Pad.
-//------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::gcPad() const
-{
-    return {0, 0, static_cast<float>(width()), static_cast<float>(height())};
-}
-
-//------------------------------------------------------------------------------
-// Расчитывает коэфициенты координат геометрии для fillMode = Stretch.
-//------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::gcStretch() const
-{
-    return {0, 0, static_cast<float>(width()), static_cast<float>(height())};
-}
-
-//------------------------------------------------------------------------------
-// Расчитывает коэфициенты координат геометрии для fillMode = PreserveAspectFit.
-//------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::gcPreserveAspectFit() const
-{
-    Coefficients gc = {0, 0, static_cast<float>(width()), static_cast<float>(height())};
-
-    float wi = static_cast<float>(_image->width());
-    float hi = static_cast<float>(_image->height());
-    float w  = static_cast<float>(width());
-    float h  = static_cast<float>(height());
-    float cw = w/wi;
-    float ch = h/hi;
-
-    if (ch < cw) {       // вертикальное расположение
-        gc.w = wi*ch;
-        gc.h = h;
-
-        gc.y = 0;
-        switch (_horizontalAlignment) {
-            case AlignLeft:    gc.x = 0; break;
-            case AlignHCenter: gc.x = (w-gc.w)/2; break;
-            case AlignRight:   gc.x = w-gc.w; break;
-        }
-    } else {            // горизонтальное расположение
-        gc.w = w;
-        gc.h = hi*cw;
-
-        gc.x = 0;
-        switch (_verticalAlignment) {
-            case AlignTop:     gc.y = 0; break;
-            case AlignVCenter: gc.y = (h-gc.h)/2; break;
-            case AlignBottom:  gc.y = h-gc.h; break;
-        }
-    }
-
-    return gc ;
-}
-
-//------------------------------------------------------------------------------
-// Расчитывает коэфициенты координат геометрии для fillMode = PreserveAspectCrop.
-//------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::gcPreserveAspectCrop() const
-{
-    return {0, 0, static_cast<float>(width()), static_cast<float>(height())};
-}
-
-//------------------------------------------------------------------------------
-// Расчитывает коэфициенты координат геометрии для fillMode = Parallax.
-//------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::gcRectParallax() const
-{
-    return {0, 0, static_cast<float>(width()), static_cast<float>(height())};
-}
-
 //==============================================================================
 // Расчитывает коэфициенты координат текстуры для fillMode = Pad.
 //------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::tcPad() const
+sp::ImageFast::Coefficients sp::ImageFast::coefficientsPad() const
 {
-    return {0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
+    return {0, 0, static_cast<float>(width()), static_cast<float>(height())
+           ,0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
 }
 
 //------------------------------------------------------------------------------
 // Расчитывает коэфициенты координат текстуры для fillMode = Stretch.
 //------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::tcStretch() const
+sp::ImageFast::Coefficients sp::ImageFast::coefficientsStretch() const
 {
-    return {0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
+    return {0, 0, static_cast<float>(width()), static_cast<float>(height())
+           ,0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
 }
 
 //------------------------------------------------------------------------------
 // Расчитывает коэфициенты координат текстуры для fillMode = PreserveAspectFit.
 //------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::tcPreserveAspectFit() const
+sp::ImageFast::Coefficients sp::ImageFast::coefficientsPreserveAspectFit() const
 {
-    Coefficients tc = {0, 0, 0, 0};
+    Coefficients cf;
 
     float wi = static_cast<float>(_image->width());
     float hi = static_cast<float>(_image->height());
@@ -397,37 +324,63 @@ sp::ImageFast::Coefficients sp::ImageFast::tcPreserveAspectFit() const
     float cw = w/wi;
     float ch = h/hi;
 
-    if (ch < cw) {       // вертикальное расположение
-        tc.w = static_cast<float>(1/(wi*ch));
-        tc.h = static_cast<float>(1/h);
+    if (ch < cw) { // вертикальное расположение
+        cf.w = wi*ch;
+        cf.h = h;
+        cf.y = 0;
 
-        tc.y = 0;
+        cf.tw = static_cast<float>(1/(wi*ch));
+        cf.th = static_cast<float>(1/h);
+        cf.ty = 0;
+
         switch (_horizontalAlignment) {
-            case AlignLeft:    tc.x = 0; break;
-            case AlignHCenter: tc.x = (1-w*tc.w)/2; break;
-            case AlignRight:   tc.x = 1-w*tc.w; break;
+            case AlignLeft:
+                cf.x = 0;
+                cf.tx = 0;
+                break;
+            case AlignHCenter:
+                cf.x = (w-cf.w)/2;
+                cf.tx = (1-w*cf.tw)/2;
+                break;
+            case AlignRight:
+                cf.x = w-cf.w;
+                cf.tx = 1-w*cf.tw;
+                break;
         }
-    } else {            // горизонтальное расположение
-        tc.w = static_cast<float>(1/w);
-        tc.h = static_cast<float>(1/(hi*cw));
+    } else { // горизонтальное расположение
+        cf.w = w;
+        cf.h = hi*cw;
+        cf.x = 0;
 
-        tc.x = 0;
+        cf.tw = static_cast<float>(1/w);
+        cf.th = static_cast<float>(1/(hi*cw));
+        cf.tx = 0;
+
         switch (_verticalAlignment) {
-            case AlignTop:     tc.y = 0; break;
-            case AlignVCenter: tc.y = (1-h*tc.h)/2; break;
-            case AlignBottom:  tc.y = 1-h*tc.h; break;
+            case AlignTop:
+                cf.y = 0;
+                cf.ty = 0;
+                break;
+            case AlignVCenter:
+                cf.y = (h-cf.h)/2;
+                cf.ty = (1-h*cf.th)/2;
+                break;
+            case AlignBottom:
+                cf.y = h-cf.h;
+                cf.ty = 1-h*cf.th;
+                break;
         }
     }
 
-    return tc ;
+    return cf ;
 }
 
 //------------------------------------------------------------------------------
 // Расчитывает коэфициенты координат текстуры для fillMode = PreserveAspectCrop.
 //------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::tcPreserveAspectCrop() const
+sp::ImageFast::Coefficients sp::ImageFast::coefficientsPreserveAspectCrop() const
 {
-    Coefficients tc;
+    Coefficients cf = {0, 0, static_cast<float>(width()), static_cast<float>(height()), 0, 0, 0, 0};
 
     float wi = static_cast<float>(_image->width());
     float hi = static_cast<float>(_image->height());
@@ -437,34 +390,35 @@ sp::ImageFast::Coefficients sp::ImageFast::tcPreserveAspectCrop() const
     float ch = h/hi;
 
     if (ch < cw) {       // вертикальное расположение
-        tc.w = 1/w;
-        tc.h = 1/(cw*hi);
+        cf.tw = 1/w;
+        cf.th = 1/(cw*hi);
+        cf.tx = 0;
 
-        tc.x = 0;
         switch (_verticalAlignment) {
-            case AlignTop:     tc.y = 0; break;
-            case AlignVCenter: tc.y = (1-h*tc.h)/2; break;
-            case AlignBottom:  tc.y = 1-h*tc.h; break;
+            case AlignTop:     cf.ty = 0; break;
+            case AlignVCenter: cf.ty = (1-h*cf.th)/2; break;
+            case AlignBottom:  cf.ty = 1-h*cf.th; break;
         }
     } else {            // горизонтальное расположение
-        tc.w = 1/(ch*wi);
-        tc.h = 1/h;
+        cf.tw = 1/(ch*wi);
+        cf.th = 1/h;
+        cf.ty = 0;
 
-        tc.y = 0;
         switch (_horizontalAlignment) {
-            case AlignLeft:    tc.x = 0; break;
-            case AlignHCenter: tc.x = (1-w*tc.w)/2; break;
-            case AlignRight:   tc.x = 1-w*tc.w; break;
+            case AlignLeft:    cf.tx = 0; break;
+            case AlignHCenter: cf.tx = (1-w*cf.tw)/2; break;
+            case AlignRight:   cf.tx = 1-w*cf.tw; break;
         }
     }
 
-    return tc;
+    return cf;
 }
 
 //------------------------------------------------------------------------------
 // Расчитывает коэфициенты координат текстуры для fillMode = Parallax.
 //------------------------------------------------------------------------------
-sp::ImageFast::Coefficients sp::ImageFast::tcRectParallax() const
+sp::ImageFast::Coefficients sp::ImageFast::coefficientsRectParallax() const
 {
-    return {0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
+    return {0, 0, static_cast<float>(width()), static_cast<float>(height())
+           ,0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
 }

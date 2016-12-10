@@ -41,8 +41,6 @@ Item {
     ImageFast {
         source: "qrc:/avatar.jpg"
         fillMode: ImageFast.PreserveAspectFit
-        verticalAlignment: ImageFast.AlignTop
-        horizontalAlignment: ImageFast.AlignRight
         radius: 5*mm
         anchors {
             fill: parent

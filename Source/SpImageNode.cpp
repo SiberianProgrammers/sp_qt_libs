@@ -10,7 +10,9 @@ sp::SpImageNode::SpImageNode(int vertexAtCorner)
     QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(), _segmentCount);
     geometry->setDrawingMode(QSGGeometry::DrawTriangleFan);
     setGeometry(geometry);
+
     setFlag(QSGNode::OwnsGeometry);
+    setFlag(QSGNode::OwnsOpaqueMaterial);
 }
 
 sp::SpImageNode::~SpImageNode()
@@ -22,13 +24,17 @@ sp::SpImageNode::~SpImageNode()
 
 void sp::SpImageNode::setImage(const QImage &image)
 {
-    QSGTexture *texture = qApp->view()->createTextureFromImage(image, QQuickWindow::TextureIsOpaque);
-    texture->setFiltering(QSGTexture::Linear);
-    texture->setMipmapFiltering(QSGTexture::Linear);
-    QSGOpaqueTextureMaterial *material = new QSGOpaqueTextureMaterial;
-    material->setTexture(texture);
-    material->setFiltering(QSGTexture::Linear);
-    material->setMipmapFiltering(QSGTexture::Linear);
-    setOpaqueMaterial(material);
-    setFlag(QSGNode::OwnsOpaqueMaterial);
+    QSGTexture *texture;
+
+    if (material()) {
+
+    } else {
+        texture = qApp->view()->createTextureFromImage(image, QQuickWindow::TextureIsOpaque);
+        QSGOpaqueTextureMaterial *material = new QSGOpaqueTextureMaterial;
+        material->setTexture(texture);
+        material->setFiltering(QSGTexture::Linear);
+        material->setMipmapFiltering(QSGTexture::Linear);
+
+        setOpaqueMaterial(material);
+    }
 }
