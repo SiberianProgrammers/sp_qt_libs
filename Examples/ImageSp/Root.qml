@@ -10,6 +10,7 @@ Item {
     width: Window.width
     height: Window.height
 
+    //--------------------------------------------------------------------------
     //ListView {
     //    id: listView
 
@@ -31,21 +32,20 @@ Item {
     //    id: container
 
     //    anchors.fill: parent
-
     //}
 
     //Item {
     //    id: viaElement
     //}
 
+    //--------------------------------------------------------------------------
     ImageSp {
         property bool avatarSwitch: true
 
-        //source: avatarSwitch
-        //        ? "qrc:/avatar.jpg"
-        //        : "qrc:/avatar2.jpg"
-        source: "qrc:/Birthday.png"
-        fillMode: ImageSp.PreserveAspectFit
+        source: avatarSwitch
+                ? "qrc:/avatar.jpg"
+                : "qrc:/avatar2.jpg"
+        //fillMode: ImageSp.PreserveAspectFit
         radius: 5*mm
         anchors {
             fill: parent
@@ -55,7 +55,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                //parent.avatarSwitch = !parent.avatarSwitch;
+                parent.avatarSwitch = !parent.avatarSwitch;
                 //parent.mipmap = !parent.mipmap;
             }
         }

@@ -16,7 +16,7 @@
 #else
     #define LOG_VONABIRG(str)
 #endif
-#define LOG_V LOG_VONABIGRG
+#define LOG_V LOG_VONABIRG
 
 // Depricated!!!
 #define LOG_DEBUG(str) qDebug() << str
