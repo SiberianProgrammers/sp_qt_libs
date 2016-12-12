@@ -117,7 +117,7 @@ class ImageSp: public QQuickItem
         Coefficients coefficientsStretch() const;
         Coefficients coefficientsPreserveAspectFit() const;
         Coefficients coefficientsPreserveAspectCrop() const;
-        Coefficients coefficientsRectParallax() const;
+        Coefficients coefficientsParallax() const;
 
     protected:
         bool _completed = false;

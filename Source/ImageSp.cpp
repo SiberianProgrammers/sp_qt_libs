@@ -15,7 +15,6 @@ sp::ImageSp::ImageSp(QQuickItem *parent)
     , _image(new QImage())
 {
     setFlag(QQuickItem::ItemHasContents);
-
 }
 
 sp::ImageSp::~ImageSp()
@@ -58,13 +57,13 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
             case PreserveAspectFit : return coefficientsPreserveAspectFit();
             case PreserveAspectCrop: return coefficientsPreserveAspectCrop();
             case Pad               : return coefficientsPad();
-            case Parallax          : return coefficientsRectParallax();
+            case Parallax          : return coefficientsParallax();
         }
     }();
 
-    const float ox = cf.w/2 + cf.x;
-    const float oy = cf.h/2 + cf.y;
-    const float lx = cf.w/2 + cf.x;
+    const float ox = 0.5f*cf.w + cf.x;
+    const float oy = 0.5f*cf.h + cf.y;
+    const float lx = 0.5f*cf.w + cf.x;
     const float ly = cf.y;
 
     const float ax = 0 + cf.x;
@@ -97,7 +96,7 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
 
     // Левый нижний угол
     //vertices[2].set(bx, by, bx/w, by/h);
-    start = start + count;
+    start += count;
     for (int i=0; i < count; ++i) {
         double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
         float x = bx + r*static_cast<float>(1 - qFastCos(angle));
@@ -107,7 +106,7 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
 
     // Правый нижний угол
     //vertices[3].set(cx, cy, cx/w, cy/h);
-    start = start + count;
+    start += count;
     for (int i=0; i < count; ++i) {
         double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
         float x = cx + r*static_cast<float>(-1 + qFastSin(angle));
@@ -117,7 +116,7 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
 
     // Правый верхний угол
     //vertices[4].set(dx, dy, dx/w, dy/h);
-    start = start + count;
+    start += count;
     for (int i=0; i < count; ++i) {
         double angle = M_PI_2 * static_cast<double>(i) / static_cast<double>(count-1);
         float x = dx + r*static_cast<float>(-1 + qFastCos(angle));
@@ -424,7 +423,7 @@ sp::ImageSp::Coefficients sp::ImageSp::coefficientsPreserveAspectCrop() const
 //------------------------------------------------------------------------------
 // Расчитывает коэфициенты координат текстуры для fillMode = Parallax.
 //------------------------------------------------------------------------------
-sp::ImageSp::Coefficients sp::ImageSp::coefficientsRectParallax() const
+sp::ImageSp::Coefficients sp::ImageSp::coefficientsParallax() const
 {
     return {0, 0, static_cast<float>(width()), static_cast<float>(height())
            ,0, 0, static_cast<float>(1/width()), static_cast<float>(1/height())};
