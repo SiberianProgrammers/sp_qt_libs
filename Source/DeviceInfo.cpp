@@ -34,7 +34,8 @@ QString DeviceInfo::deviceID()
 float DeviceInfo::getAndroidVersion()
 {
     #ifdef Q_OS_IOS
-        return getIosVersion();
+        //return getIosVersion();
+        return 7.0;
     #elif defined(Q_OS_ANDROID)
     //    int version = (int)QAndroidJniObject::QAndroidJniObject::callStaticMethod<jint>(
     //                                                        QString("sp/SpActivity")

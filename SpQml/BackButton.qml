@@ -1,4 +1,4 @@
-import QtQuick 2.8
+import QtQuick 2.7
 import SP 1.0
 
 import "./"
@@ -21,18 +21,21 @@ MaterialButton {
     radius: height/2
     pressedColor: "black"
 
-    Arrow {
+    //DEBUG!!!
+    //Arrow {
+    Rectangle {
         id: arrow
 
         readonly property int originalHeight: isDesktop
-                                              ? Math.ceil(2.8*mm)
+                                              ? Math.ceil(2.7*mm)
                                               : Math.ceil(2.5*mm)
         height: originalHeight % 2 === 0
                 ? originalHeight
                 : originalHeight + 1
         width: height
         color: "white"
-        penWidth: Consts.lineWidth
+        //DEBUG!!!
+        //penWidth: Consts.lineWidth
         antialiasing: true
         x: Math.ceil((parent.width-width)/2)
         y: useYShift

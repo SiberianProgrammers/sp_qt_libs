@@ -28,7 +28,8 @@ QSGNode* sp::Arrow::updatePaintNode(QSGNode *oldNode, QQuickItem::UpdatePaintNod
     if (!oldNode) {
         node = new QSGGeometryNode;
         geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), _vertexCount);
-        geometry->setDrawingMode(QSGGeometry::DrawTriangleFan);
+        //DEBUG!!!
+        //geometry->setDrawingMode(QSGGeometry::DrawTriangleFan);
         node->setGeometry(geometry);
         node->setFlag(QSGNode::OwnsGeometry);
 
