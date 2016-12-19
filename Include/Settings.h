@@ -10,7 +10,7 @@ namespace sp {
         Q_OBJECT
 
         public:
-            explicit Settings (const QString &applicationName, QObject *parent = 0);
+            static Settings& instance();
             ~Settings();
 
             /// @brief Устанавливет значение переменной в настройках
@@ -23,7 +23,10 @@ namespace sp {
             /// @param defaultValue значение по умолчанию, возвращаемое, если переменной нет в настройках
             Q_INVOKABLE QVariant get (const QString &key, const QVariant &defaultValue = QVariant()) const;
 
-        private:
+        protected:
+            explicit Settings (const QString &applicationName, QObject *parent = 0);
+
+        protected:
             QSettings _settings;
     };
 } // namespace sp

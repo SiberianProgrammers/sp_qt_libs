@@ -10,6 +10,7 @@
 #include "KeyboardSp.h"
 #include "Shadow.h"
 #include "ImageSaverSp.h"
+#include "Settings.h"
 
 #if defined(Q_OS_ANDROID)
 #include "JniSetup.h"
@@ -63,6 +64,7 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     _view.rootContext()->setContextProperty("Log", &sp::Log::instance());
     _view.rootContext()->setContextProperty("deviceInfo", &sp::DeviceInfo::instance());
     _view.rootContext()->setContextProperty("KeyboardSp", &sp::KeyboardSp::instance());
+    _view.rootContext()->setContextProperty("Settings", &sp::Settings::instance());
 
     #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
         _view.rootContext()->setContextProperty("isDesktop", false);

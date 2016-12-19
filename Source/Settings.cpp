@@ -1,5 +1,6 @@
 #include <QDebug>
 #include "Settings.h"
+#include "SpApplicationPrototype.h"
 
 using namespace sp;
 
@@ -7,6 +8,12 @@ Settings::Settings(const QString &applicationName, QObject *parent)
     : QObject(parent)
     , _settings(QSettings::IniFormat, QSettings::UserScope, "SP", applicationName)
 {
+}
+
+Settings &Settings::instance()
+{
+    static Settings instance_(qApp->applicationName(), nullptr);
+    return instance_;
 }
 
 Settings::~Settings()
