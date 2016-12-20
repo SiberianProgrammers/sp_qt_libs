@@ -16,13 +16,14 @@
 #include "JniSetup.h"
 #endif
 
+using namespace sp;
+
 //--------------------------------------------------------------------------
 sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const QString &title, int width, int height)
     : QGuiApplication (argc, argv)
     , _view ()
 {
     QObject::connect(_view.engine(), SIGNAL(quit()), this, SLOT(quit()));
-
     _view.setTitle(title);
     _view.setColor(Qt::white);
 
@@ -33,7 +34,6 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
         _view.setWidth(width);
         _view.setHeight(height);
     #endif
-
 
     // Включаем антиалиасинг.
     #if !defined(Q_OS_LINUX) // Под линуксом на старющей видеокарте не работает setSamples 16.
@@ -71,6 +71,7 @@ sp::SpApplicationPrototype::SpApplicationPrototype(int &argc, char **argv, const
     #else
         _view.rootContext()->setContextProperty("isDesktop", true);
     #endif
+
 }
 
 //--------------------------------------------------------------------------
