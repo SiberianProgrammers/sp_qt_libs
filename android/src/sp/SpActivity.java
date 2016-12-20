@@ -34,7 +34,7 @@ public class SpActivity extends QtActivity
     public int _statusBarHeight = 0; // Высота статус бара
 
     Context context;
- 
+
     // hander основного потока
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -44,6 +44,7 @@ public class SpActivity extends QtActivity
         context = this.getApplicationContext();
 
         super.onCreate(savedInstanceState);
+        _logInfo("SpActivity Create Succesefull!");
 
         if (availibleChangeStatusBar()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -55,7 +56,8 @@ public class SpActivity extends QtActivity
             }
         }
         _statusBarHeight = statusBarHeight();
-        //logInfo("SpActivity Create Succesefull!");
+
+        _logInfo("SpActivity Create Succesefull!");
     }
 
     //--------------------------------------------------------------------------
@@ -199,7 +201,7 @@ public class SpActivity extends QtActivity
 
                     InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     if (imm == null)  {
-                        logInfo("K12Activity.java::hideKeyboard: InputMethodManager is null");
+                        _logInfo("K12Activity.java::hideKeyboard: InputMethodManager is null");
                         return;
                     }
 
@@ -208,7 +210,7 @@ public class SpActivity extends QtActivity
                         imm.hideSoftInputFromWindow(token, 0);
                     }
                 } catch (Exception e) {
-                    logError("catch K12Activity.java::hideKeyboard: exception:" + e);
+                    _logError("catch K12Activity.java::hideKeyboard: exception:" + e);
                 }
             }
         });
@@ -222,19 +224,19 @@ public class SpActivity extends QtActivity
                 try {
                     final View v = getCurrentFocus();
                     if (v == null) {
-                        logError(" K12Activity.java::showKeyboard: View is null");
+                        _logError(" K12Activity.java::showKeyboard: View is null");
                         return;
                     }
 
                     InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     if (imm == null) {
-                        logInfo("K12Activity.java::showKeyboard: InputMethodManager is null");
+                        _logInfo("K12Activity.java::showKeyboard: InputMethodManager is null");
                         return;
                     }
 
                     imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
                 } catch (Exception e) {
-                    logError("catch  K12Activity.java::showKeyboard: exception:" + e);
+                    _logError("catch  K12Activity.java::showKeyboard: exception:" + e);
                 }
             }
         });
@@ -243,7 +245,7 @@ public class SpActivity extends QtActivity
     //--------------------------------------------------------------------------
     public static native void keyboardVisibleChanged(boolean visible, int height);
 
-    public static native void logInfo(String text);
-    public static native void logError(String text);
+    public static native void _logInfo(String text);
+    public static native void _logError(String text);
 }
 
