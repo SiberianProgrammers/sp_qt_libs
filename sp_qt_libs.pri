@@ -24,7 +24,6 @@ SOURCES += \
     $$PWD/Source/Settings.cpp \
     $$PWD/Source/Arc.cpp \
     $$PWD/Source/ArcFast.cpp \
-#    $$PWD/Source/SpApplicationPrototype.cpp \
     $$PWD/Source/LogSp.cpp \
     $$PWD/Source/ImageSp.cpp \
     $$PWD/Source/ImageSpLoader.cpp \
@@ -40,18 +39,20 @@ RESOURCES += \
     $$PWD/SpQml/SpQml.qrc \
 
 android {
-    SOURCES += $$PWD/Source/SpApplicationPrototype.cpp
-
     DISTFILES += \
         $$PWD/android/src/sp/SpActivity.java
 }
 
-mac {
+!mac {
     SOURCES += \
-        $$PWD/Source/SpApplicationPrototype.mm
+        $$PWD/Source/SpApplicationPrototype.cpp \
+        $$PWD/Source/KeyboardSp.cpp
+}
 
+mac {
     OBJECTIVE_SOURCES += \
-        $$PWD/Source/KeyboardSp.mm \
+        $$PWD/Source/SpApplicationPrototype.mm \
+        $$PWD/Source/KeyboardSp.mm
 }
 
 
