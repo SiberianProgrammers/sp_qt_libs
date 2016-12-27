@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.8
 import SP 1.0
 
 Item {
