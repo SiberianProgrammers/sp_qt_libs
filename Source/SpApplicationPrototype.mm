@@ -15,6 +15,8 @@
 
 #if defined(Q_OS_ANDROID)
 #include "JniSetup.h"
+#elif defined(Q_OS_IOS)
+#import <UIKit/UIKit.h>
 #endif
 
 using namespace sp;
@@ -83,6 +85,7 @@ int sp::SpApplicationPrototype::exec(const QUrl &source)
     // Открываем основной файл
     #ifdef Q_OS_IOS
         _view.showFullScreen();
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     #else
         _view.show();
     #endif
