@@ -13,8 +13,7 @@ HEADERS += \
     $$PWD/Include/DeviceInfo.h \
     $$PWD/Include/ImageParallax.h \
     $$PWD/Include/KeyboardSp.h \
-    #Debug!!!!
-    #$$PWD/Include/Arrow.h \
+    $$PWD/Include/Arrow.h \
     $$PWD/Include/Shadow.h \
     $$PWD/Include/ImageSaverSp.h \
     $$PWD/Include/ImageSpNode.h
@@ -31,8 +30,7 @@ SOURCES += \
     $$PWD/Source/ImageSpLoader.cpp \
     $$PWD/Source/DeviceInfo.cpp \
     $$PWD/Source/ImageParallax.cpp \
-    #Debug!!!!
-    #$$PWD/Source/Arrow.cpp \
+    $$PWD/Source/Arrow.cpp \
     $$PWD/Source/Shadow.cpp \
     $$PWD/Source/ImageSaverSp.cpp \
     $$PWD/Source/ImageSpNode.cpp

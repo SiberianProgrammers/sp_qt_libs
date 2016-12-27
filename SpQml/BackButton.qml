@@ -21,9 +21,7 @@ MaterialButton {
     radius: height/2
     pressedColor: "black"
 
-    //DEBUG!!!
-    //Arrow {
-    Rectangle {
+    Arrow {
         id: arrow
 
         readonly property int originalHeight: isDesktop
@@ -34,8 +32,7 @@ MaterialButton {
                 : originalHeight + 1
         width: height
         color: "white"
-        //DEBUG!!!
-        //penWidth: Consts.lineWidth
+        penWidth: Consts.lineWidth
         antialiasing: true
         x: Math.ceil((parent.width-width)/2)
         y: useYShift
