@@ -3,6 +3,7 @@
 #include "Arc.h"
 #include "ArcFast.h"
 #include "Arrow.h"
+#include <QDebug>
 #include "ImageSp.h"
 #include "LogSp.h"
 #include "DeviceInfo.h"
@@ -81,9 +82,11 @@ int sp::SpApplicationPrototype::exec(const QUrl &source)
 
     // Открываем основной файл
     #ifdef Q_OS_IOS
-        _view.showFullscreen();
+//        _view.showFullScreen();
+        _view.showFullScreen();
     #else
         _view.show();
     #endif
+
     return QGuiApplication::exec();
 }

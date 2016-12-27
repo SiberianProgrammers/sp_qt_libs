@@ -1,6 +1,6 @@
 pragma Singleton
 
-import QtQuick 2.8
+import QtQuick 2.7
 
 Item {
     function printObject (data, header){

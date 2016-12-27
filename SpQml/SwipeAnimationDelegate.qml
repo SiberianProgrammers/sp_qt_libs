@@ -1,4 +1,4 @@
-import QtQuick 2.8
+import QtQuick 2.7
 
 //
 // Компонент горизонтального листания Swip'ом
