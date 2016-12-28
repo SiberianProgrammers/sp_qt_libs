@@ -7,8 +7,17 @@
 #include "ImageSpLoader.h"
 
 //int id = qRegisterMetaType<sp::SharedImage>();
-int id = qRegisterMetaType<sp::SharedImage>("SharedImage");
-int id2 = qRegisterMetaType<sp::WeakImage>("WeakImage");
+int __idImageSharedPtr = qRegisterMetaType<sp::ImageSharedPtr>("ImageSharedPtr");
+int __idImageWeakPtr = qRegisterMetaType<sp::ImageWeakPtr>("ImageWeakPtr");
+
+//------------------------------------------------------------------------------
+sp::ImageSpLoader::ImageSpLoader()
+    : QObject (nullptr)
+{
+    moveToThread(&_thread);
+    connect (this, SIGNAL(loadTo(const QString&, ImageSharedPtr)), SLOT(get(const QString&, ImageSharedPtr)));
+    _thread.start();
+}
 
 //------------------------------------------------------------------------------
 sp::ImageSpLoader& sp::ImageSpLoader::instance()
@@ -18,16 +27,7 @@ sp::ImageSpLoader& sp::ImageSpLoader::instance()
 }
 
 //------------------------------------------------------------------------------
-sp::ImageSpLoader::ImageSpLoader()
-    : QObject (nullptr)
-{
-    moveToThread(&_thread);
-    connect (this, SIGNAL(loadTo(const QString&, SharedImage)), SLOT(get(const QString&, SharedImage)));
-    _thread.start();
-}
-
-//------------------------------------------------------------------------------
-void sp::ImageSpLoader::get(const QString &source, SharedImage image)
+void sp::ImageSpLoader::get(const QString &source, ImageSharedPtr image)
 {
     if (source.startsWith("qrc:/")) {
         if (image->load(source.mid(3))) {

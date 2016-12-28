@@ -9,14 +9,17 @@ HEADERS += \
     $$PWD/Include/SpApplicationPrototype.h \
     $$PWD/Include/LogSp.h \
     $$PWD/Include/ImageSp.h \
-    $$PWD/Include/ImageSpLoader.h \
-    $$PWD/Include/DeviceInfo.h \
+    $$PWD/Include/Priavte/ImageSpNode.h \
+    $$PWD/Include/Private/ImageSpLoader.h \
+    $$PWD/Include/ImageSaverSp.h \
     $$PWD/Include/ImageParallax.h \
+    $$PWD/Include/DeviceInfo.h \
     $$PWD/Include/KeyboardSp.h \
     $$PWD/Include/Arrow.h \
     $$PWD/Include/Shadow.h \
-    $$PWD/Include/ImageSaverSp.h \
-    $$PWD/Include/ImageSpNode.h
+    $$PWD/Include/Net.h \
+    $$PWD/Include/Private/DownloadFileHandler.h \
+    $$PWD/Include/Private/NetHandler.h
 
 SOURCES += \
     $$PWD/Source/NetworkAccessManagerWorker.cpp \
@@ -27,14 +30,16 @@ SOURCES += \
     $$PWD/Source/SpApplicationPrototype.cpp \
     $$PWD/Source/LogSp.cpp \
     $$PWD/Source/ImageSp.cpp \
-    $$PWD/Source/ImageSpLoader.cpp \
-    $$PWD/Source/DeviceInfo.cpp \
+    $$PWD/Source/Private/ImageSpNode.cpp \
+    $$PWD/Source/Private/ImageSpLoader.cpp \
+    $$PWD/Source/ImageSaverSp.cpp \
     $$PWD/Source/ImageParallax.cpp \
+    $$PWD/Source/DeviceInfo.cpp \
     $$PWD/Source/KeyboardSp.cpp \
     $$PWD/Source/Arrow.cpp \
     $$PWD/Source/Shadow.cpp \
-    $$PWD/Source/ImageSaverSp.cpp \
-    $$PWD/Source/ImageSpNode.cpp
+    $$PWD/Source/Net.cpp \
+    $$PWD/Source/Private/DownloadFileHandler.cpp
 
 # Внешние ресурсы
 RESOURCES += \

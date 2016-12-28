@@ -104,8 +104,8 @@ class ImageSp: public QQuickItem
         void verticalAlignmentChanged(VerticalAlignment);
 
     protected slots:
-        void onImageSpLoaded (const QString &source, sp::WeakImage image);
-        void onImageSpError  (const QString &source, sp::WeakImage image, const QString &reason);
+        void onImageSpLoaded (const QString &source, sp::ImageWeakPtr image);
+        void onImageSpError  (const QString &source, sp::ImageWeakPtr image, const QString &reason);
 
     protected:
         struct Coefficients {
@@ -125,7 +125,7 @@ class ImageSp: public QQuickItem
         int _segmentCount = 4*_vertexAtCorner+3;
 
         ImageSpNode *_node;
-        SharedImage _image;
+        ImageSharedPtr _image;
         bool _imageUpdated = false;
 
         QString _source;
