@@ -14,7 +14,6 @@ HEADERS += \
     $$PWD/Include/ImageSaverSp.h \
     $$PWD/Include/ImageParallax.h \
     $$PWD/Include/DeviceInfo.h \
-    $$PWD/Include/KeyboardSp.h \
     $$PWD/Include/Arrow.h \
     $$PWD/Include/Shadow.h \
     $$PWD/Include/Net.h \
@@ -27,7 +26,6 @@ SOURCES += \
     $$PWD/Source/Settings.cpp \
     $$PWD/Source/Arc.cpp \
     $$PWD/Source/ArcFast.cpp \
-    $$PWD/Source/SpApplicationPrototype.cpp \
     $$PWD/Source/LogSp.cpp \
     $$PWD/Source/ImageSp.cpp \
     $$PWD/Source/Private/ImageSpNode.cpp \
@@ -35,7 +33,6 @@ SOURCES += \
     $$PWD/Source/ImageSaverSp.cpp \
     $$PWD/Source/ImageParallax.cpp \
     $$PWD/Source/DeviceInfo.cpp \
-    $$PWD/Source/KeyboardSp.cpp \
     $$PWD/Source/Arrow.cpp \
     $$PWD/Source/Shadow.cpp \
     $$PWD/Source/Net.cpp \
@@ -49,3 +46,17 @@ android {
     DISTFILES += \
         $$PWD/android/src/sp/SpActivity.java
 }
+
+!mac {
+    SOURCES += \
+        $$PWD/Source/SpApplicationPrototype.cpp \
+        $$PWD/Source/KeyboardSp.cpp
+}
+
+mac {
+    OBJECTIVE_SOURCES += \
+        $$PWD/Source/SpApplicationPrototype.mm \
+        $$PWD/Source/KeyboardSp.mm
+}
+
+

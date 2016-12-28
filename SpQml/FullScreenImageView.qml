@@ -106,7 +106,7 @@ ListView {
                 source: "qrc:/download.png"
 
                 readonly property int originalHeight: isDesktop
-                                                      ? Math.ceil(2.8*mm)
+                                                      ? Math.ceil(2.7*mm)
                                                       : Math.ceil(2.5*mm)
                 height: originalHeight % 2 === 0
                         ? originalHeight
