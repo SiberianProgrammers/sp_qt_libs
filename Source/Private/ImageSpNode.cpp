@@ -1,5 +1,6 @@
-#include "ImageSpNode.h"
+#include "Private/ImageSpNode.h"
 #include "SpApplicationPrototype.h"
+
 #include <LogSp.h>
 
 //------------------------------------------------------------------------------

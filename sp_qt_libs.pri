@@ -14,6 +14,7 @@ HEADERS += \
     $$PWD/Include/ImageSaverSp.h \
     $$PWD/Include/ImageParallax.h \
     $$PWD/Include/DeviceInfo.h \
+    $$PWD/Include/KeyboardSp.h \
     $$PWD/Include/Arrow.h \
     $$PWD/Include/Shadow.h \
     $$PWD/Include/Net.h \

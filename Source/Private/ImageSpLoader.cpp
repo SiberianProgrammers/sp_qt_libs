@@ -1,10 +1,10 @@
+#include "Private/ImageSpLoader.h"
+
 #include <LogSp.h>
 #include <QThread>
 #include <QMetaType>
 #include <QPainter>
 #include <QBrush>
-
-#include "ImageSpLoader.h"
 
 //int id = qRegisterMetaType<sp::SharedImage>();
 int __idImageSharedPtr = qRegisterMetaType<sp::ImageSharedPtr>("ImageSharedPtr");

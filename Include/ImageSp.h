@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ImageSpLoader.h"
-#include "ImageSpNode.h"
+#include "Private/ImageSpLoader.h"
+#include "Private/ImageSpNode.h"
 
 #include <QQuickItem>
 #include <QImage>
