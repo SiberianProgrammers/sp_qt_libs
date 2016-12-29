@@ -6,12 +6,16 @@
 #include <QPainter>
 #include <QBrush>
 
-//int id = qRegisterMetaType<sp::SharedImage>();
-int __idImageSharedPtr = qRegisterMetaType<sp::ImageSharedPtr>("ImageSharedPtr");
-int __idImageWeakPtr = qRegisterMetaType<sp::ImageWeakPtr>("ImageWeakPtr");
+using namespace sp;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-variable-declarations"
+int __idImageSharedPtr = qRegisterMetaType<ImageSharedPtr>("ImageSharedPtr");
+int __idImageWeakPtr = qRegisterMetaType<ImageWeakPtr>("ImageWeakPtr");
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
-sp::ImageSpLoader::ImageSpLoader()
+ImageSpLoader::ImageSpLoader()
     : QObject (nullptr)
 {
     moveToThread(&_thread);
@@ -20,14 +24,14 @@ sp::ImageSpLoader::ImageSpLoader()
 }
 
 //------------------------------------------------------------------------------
-sp::ImageSpLoader& sp::ImageSpLoader::instance()
+ImageSpLoader& ImageSpLoader::instance()
 {
     static ImageSpLoader instance;
     return instance;
 }
 
 //------------------------------------------------------------------------------
-void sp::ImageSpLoader::get(const QString &source, ImageSharedPtr image)
+void ImageSpLoader::get(const QString &source, ImageSharedPtr image)
 {
     if (source.startsWith("qrc:/")) {
         if (image->load(source.mid(3))) {

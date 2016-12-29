@@ -34,7 +34,5 @@ class DeviceInfo : public QObject
 
     private:
         static DeviceInfo _instance;
-
 };
-}
-//#pragma once#endif // DEVICEINFO_H
+} // namespace sp {

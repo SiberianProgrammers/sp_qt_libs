@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Private/NetHandler.h"
+#include "DownloadFileHandler.h"
 
 #include <QObject>
 #include <QFile>
@@ -8,6 +9,7 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 #include <QThread>
+#include <QQueue>
 
 namespace sp {
 
@@ -20,19 +22,18 @@ class Net: public QObject {
     Net();
     public:
         static Net& instance();
+        DownloadFileHandler* downloadFile(const QString &url, const QString &fileName);
 
     signals:
-        QFile* downloadFile(const QString &url, const QString &fileName);
-        void downloadComplete(const QString &fileName);
+        void makeRequest(NetHandler *handler);
 
     protected slots:
-        void onDownloadFile(const QString &url, const QString &fileName);
-
-    protected:
-        void makeRequest(const QString &url, NetHandler *handler);
+        void onMakeRequest(NetHandler *handler);
 
     protected:
         QNetworkAccessManager _nam;
         QThread _thread;
+        QQueue<NetHandler *> _handlers; // Обработчики сетевых запросов
+                                        // TODO Для очереди приоритетов нужно сделать отдельный контейнер
 };
 };

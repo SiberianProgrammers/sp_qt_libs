@@ -1,5 +1,4 @@
 #include "Net.h"
-#include "Private/DownloadFileHandler.h"
 
 #include <QNetworkReply>
 #include <QStringBuilder>
@@ -15,7 +14,7 @@ Net::Net()
     moveToThread(&_thread);
     _thread.start();
 
-    connect (this, &Net::downloadFile, this, &Net::onDownloadFile);
+    connect (this, &Net::makeRequest, this, &Net::onMakeRequest);
 }
 
 //------------------------------------------------------------------------------
@@ -26,17 +25,19 @@ Net &Net::instance()
 }
 
 //------------------------------------------------------------------------------
-void Net::onDownloadFile(const QString &url, const QString &fileName)
+DownloadFileHandler* Net::downloadFile(const QString &url, const QString &fileName)
 {
-    DownloadFileHandler *handler = new DownloadFileHandler(fileName);
-    makeRequest(url, handler);
+    DownloadFileHandler *handler = new DownloadFileHandler(url, fileName);
+    emit makeRequest(handler);
+
+    return handler;
 }
 
 //--------------------------------------------------------------------------
-void Net::makeRequest(const QString &url, NetHandler *handler)
+void Net::onMakeRequest(NetHandler *handler)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(url));
+    request.setUrl(QUrl(handler->url()));
     request.setOriginatingObject(handler);
 
     QNetworkReply *reply = _nam.get(request);

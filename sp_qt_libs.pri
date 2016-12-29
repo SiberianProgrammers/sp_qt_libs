@@ -1,8 +1,6 @@
 QT += widgets
 INCLUDEPATH += $$PWD/Include
 HEADERS += \
-    $$PWD/Include/NetworkAccessManagerWorker.h \
-    $$PWD/Include/FileLoader.h \
     $$PWD/Include/Settings.h \
     $$PWD/Include/Arc.h \
     $$PWD/Include/ArcFast.h \
@@ -18,12 +16,10 @@ HEADERS += \
     $$PWD/Include/Arrow.h \
     $$PWD/Include/Shadow.h \
     $$PWD/Include/Net.h \
-    $$PWD/Include/Private/DownloadFileHandler.h \
+    $$PWD/Include/DownloadFileHandler.h \
     $$PWD/Include/Private/NetHandler.h
 
 SOURCES += \
-    $$PWD/Source/NetworkAccessManagerWorker.cpp \
-    $$PWD/Source/FileLoader.cpp \
     $$PWD/Source/Settings.cpp \
     $$PWD/Source/Arc.cpp \
     $$PWD/Source/ArcFast.cpp \
@@ -37,7 +33,7 @@ SOURCES += \
     $$PWD/Source/Arrow.cpp \
     $$PWD/Source/Shadow.cpp \
     $$PWD/Source/Net.cpp \
-    $$PWD/Source/Private/DownloadFileHandler.cpp
+    $$PWD/Source/DownloadFileHandler.cpp
 
 # Внешние ресурсы
 RESOURCES += \
