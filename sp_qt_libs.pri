@@ -33,7 +33,8 @@ SOURCES += \
     $$PWD/Source/Arrow.cpp \
     $$PWD/Source/Shadow.cpp \
     $$PWD/Source/Net.cpp \
-    $$PWD/Source/DownloadFileHandler.cpp
+    $$PWD/Source/DownloadFileHandler.cpp \
+    $$PWD/Source/Private/NetHandler.cpp
 
 # Внешние ресурсы
 RESOURCES += \

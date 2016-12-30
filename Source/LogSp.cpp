@@ -82,7 +82,7 @@ void Log::messageHandler(QtMsgType type, const QMessageLogContext &context, cons
 {
     QString formatedStr =
         #ifdef QT_MESSAGELOGCONTEXT
-            context.file != nullptr && (type == QtWarningMsg || type == QtCriticalMsg || type == QtFatalMsg)
+            context.file != nullptr && (type == QtCriticalMsg || type == QtFatalMsg)
             ? QString::number(_time.elapsed()) + ": [" % QString(context.file) % ":" % QString::number(context.line) % ", " % context.function % "] " % message % '\n'
             :
         #endif

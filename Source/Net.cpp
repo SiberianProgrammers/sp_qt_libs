@@ -2,6 +2,7 @@
 
 #include <QNetworkReply>
 #include <QStringBuilder>
+#include <QFileInfo>
 #include <LogSp.h>
 
 using namespace sp;
@@ -27,11 +28,30 @@ Net &Net::instance()
     return net;
 }
 
-//------------------------------------------------------------------------------
+/***************************************************************************//**
+ * @brief Загружает файл с сети. Сохраняется в текущю папку.
+ * @param url адрес файл
+ * @param fileName имя файла
+ * @return Возвращает обработчик загрузки файла
+ ******************************************************************************/
 DownloadFileHandler* Net::downloadFile(const QString &url, const QString &fileName)
 {
     DownloadFileHandler *handler = new DownloadFileHandler(url, fileName);
-    emit makeRequest(handler);
+    emit instance().makeRequest(handler);
+
+    return handler;
+}
+
+/***************************************************************************//**
+ * @brief Загружает файл с сети. Сохраняется в текущю папку. Имя файла определяется из url'а.
+ * @param url адрес файл
+ * @return Возвращает обработчик загрузки файла
+ ******************************************************************************/
+DownloadFileHandler *Net::downloadFile(const QString &url)
+{
+    QFileInfo fileInfo(url);
+    DownloadFileHandler *handler = new DownloadFileHandler(url, fileInfo.fileName());
+    emit instance().makeRequest(handler);
 
     return handler;
 }
@@ -62,6 +82,8 @@ void Net::onMakeRequest(NetHandler *handler/* = nullptr*/)
         QNetworkRequest request;
         request.setUrl(QUrl(handler->url()));
         request.setOriginatingObject(handler);
+        request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true); request.setAttribute(QNetworkRequest::HttpPipeliningAllowedAttribute, true);
+        handler->tuningRequest(&request);
 
         QNetworkReply *reply = _nam.get(request);
         connect (reply, &QNetworkReply::downloadProgress, handler, &NetHandler::onDownloadProgress);
@@ -94,6 +116,6 @@ void Net::onNetHandlerError(bool needRetry)
     _activeHandler.remove(handler);
 
     if (needRetry) {
-        _handlersQueue.enqueue(handler);
+        onMakeRequest(handler);
     }
 }

@@ -20,6 +20,8 @@ class DownloadFileHandler: public NetHandler {
         DownloadFileHandler(const QUrl &url, const QString &fileName);
 
         virtual const QUrl& url() const override { return _url; }
+        virtual void tuningRequest(QNetworkRequest *) override;
+
         const QString& fileName() const { return _fileName; }
         QFile *file() { return  _file; }
 
@@ -32,6 +34,7 @@ class DownloadFileHandler: public NetHandler {
         QUrl _url;
         QString _fileName;
         QFile *_file;
+        bool _needCheckAcceptRanges;
 };
 
 typedef QSharedPointer<DownloadFileHandler> DownloadFileHandlerSharedPtr;

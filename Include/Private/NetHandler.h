@@ -12,8 +12,14 @@ namespace sp {
 class NetHandler: public QObject {
     Q_OBJECT
 
+    protected:
+        NetHandler();
+
     public:
         virtual const QUrl& url() const = 0;
+
+        /// @brief Настравивает запрос перед отправкой
+        virtual void tuningRequest(QNetworkRequest *) {}
 
     signals:
         /// @brief [signal] Сигнал об успешном выполенении сетевого запроса

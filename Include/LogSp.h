@@ -21,7 +21,7 @@
 // Depricated!!!
 #define LOG_DEBUG(str) qDebug() << str
 #define LOG_INFO(str)  qDebug() << str
-#define LOG_ERROR(str) qCritical() << str
+#define LOG_ERROR(str) qWarning() << str
 #define LOG_WARN(str)  qWarning() << str
 #define LOG_FATAL(str) qFatal(str.toLocal8Bit())
 
