@@ -7,3 +7,8 @@ NetHandler::NetHandler()
 {
     moveToThread(Net::thread());
 }
+
+void NetHandler::setReply(QNetworkReply *reply)
+{
+    _reply = reply;
+}

@@ -18,6 +18,7 @@ Net::Net()
     _thread.start();
 
     connect (this, &Net::makeRequest, this, &Net::onMakeRequest);
+    connect (this, &Net::abortRequest, this, &Net::onAbortRequest);
     connect (&_nam, &QNetworkAccessManager::networkAccessibleChanged, this, &Net::onNetworkAccessibilityChanged);
 }
 
@@ -86,6 +87,8 @@ void Net::onMakeRequest(NetHandler *handler/* = nullptr*/)
         handler->tuningRequest(&request);
 
         QNetworkReply *reply = _nam.get(request);
+        handler->setReply(reply);
+
         connect (reply, &QNetworkReply::downloadProgress, handler, &NetHandler::onDownloadProgress);
         connect (reply, &QNetworkReply::finished, handler, &NetHandler::onFinished);
         connect (reply, SIGNAL(error(QNetworkReply::NetworkError)), handler, SLOT(onError(QNetworkReply::NetworkError)));
@@ -107,6 +110,7 @@ void Net::onNetHandlerFinished()
 {
     NetHandler *handler = static_cast<NetHandler *>(sender());
     _activeHandler.remove(handler);
+    handler->reply()->deleteLater();
 }
 
 //------------------------------------------------------------------------------
@@ -117,5 +121,21 @@ void Net::onNetHandlerError(bool needRetry)
 
     if (needRetry) {
         onMakeRequest(handler);
+    } else {
+        handler->reply()->deleteLater();
+    }
+}
+
+//------------------------------------------------------------------------------
+void Net::onAbortRequest(NetHandler *handler)
+{
+    if (_activeHandler.contains(handler)) {
+        _activeHandler.remove(handler);
+        handler->reply()->abort();
+        handler->reply()->deleteLater();
+    }
+
+    if (_handlersQueue.contains(handler)) {
+        _handlersQueue.removeAll(handler);
     }
 }

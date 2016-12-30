@@ -37,11 +37,4 @@ class DownloadFileHandler: public NetHandler {
         bool _needCheckAcceptRanges;
 };
 
-typedef QSharedPointer<DownloadFileHandler> DownloadFileHandlerSharedPtr;
-typedef QWeakPointer<DownloadFileHandler> DownloadFileHandlerWeakPtr;
-
 } // namespace sp {
-
-
-Q_DECLARE_METATYPE(sp::DownloadFileHandlerSharedPtr)
-Q_DECLARE_METATYPE(sp::DownloadFileHandlerWeakPtr)

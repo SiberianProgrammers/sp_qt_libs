@@ -7,12 +7,6 @@
 
 using namespace sp;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-variable-declarations"
-int __idDownloadFileHandlerSharedPtr = qRegisterMetaType<DownloadFileHandlerSharedPtr>("DownloadFileHandlerSharedPtr");
-int __idDownloadFileHandlerWeakPtr = qRegisterMetaType<DownloadFileHandlerWeakPtr>("DownloadFileHandlerWeakPtr");
-#pragma clang diagnostic pop
-
 //------------------------------------------------------------------------------
 DownloadFileHandler::DownloadFileHandler(const QUrl &url, const QString &fileName)
     : _url(url)

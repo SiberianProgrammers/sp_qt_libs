@@ -29,6 +29,19 @@ namespace sp {
  * Для отправки запроса нужно послать сигнал makeRequest с указателем на обработчик
  * запросов (дочерний класс NetHandler). Также имеютсю удобные методы для загрузки
  * файлов - downloadFile.
+ *
+ * Метод abortRequest останавливает обработку запроса.
+ *
+ * @note Временем жизни объектов NetHandler класс Net не управляет. Поэтому можно
+ * удалять обработчики только после сигнала NetHandler::finished или
+ * NetHandler::error(false). Чтобы удалить NetHandler в любое другое время нужно
+ * запустить метод abortRequest.
+ *
+ * @code
+ * DownloadFileHandler *handler = Net::downloadFile("http://download.downloadmaster.ru/dm/dmaster.exe");
+ * QObject::connect(handler, &DownloadFileHandler::finished , [=](){
+ *     LOG_ALEUS("main.cpp: Загрузка завершена" << handler->file()->size());
+ * } );
  */
 class Net: public QObject {
     Q_OBJECT
@@ -43,13 +56,18 @@ class Net: public QObject {
         static QThread* thread() { return &instance()._thread; }
 
     signals:
+        /// @brief Посылает запрос и передаёт его обработку handler'у
         void makeRequest(NetHandler *handler);
+
+        /// @brief Останавливает обработку запроса, соответствующего handler'у
+        void abortRequest(NetHandler *handler);
 
     protected slots:
         void onNetworkAccessibilityChanged(QNetworkAccessManager::NetworkAccessibility accessible);
         void onMakeRequest(NetHandler *handler = nullptr);
         void onNetHandlerFinished();
         void onNetHandlerError(bool needRetry);
+        void onAbortRequest(NetHandler *handler);
 
     protected:
         QNetworkAccessManager _nam;

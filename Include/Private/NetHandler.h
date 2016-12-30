@@ -14,6 +14,8 @@ class NetHandler: public QObject {
 
     protected:
         NetHandler();
+        void setReply(QNetworkReply *reply);
+        QNetworkReply* reply() { return _reply; }
 
     public:
         virtual const QUrl& url() const = 0;
@@ -33,6 +35,9 @@ class NetHandler: public QObject {
         virtual void onDownloadProgress(quint64 bytesReceived, quint64 bytesTotal) = 0;
         virtual void onFinished() = 0;
         virtual void onError(QNetworkReply::NetworkError) = 0;
+
+    protected:
+        QNetworkReply *_reply;
 
     friend class Net;
 };
