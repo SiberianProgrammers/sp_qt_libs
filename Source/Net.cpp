@@ -44,6 +44,20 @@ DownloadFileHandler* Net::downloadFile(const QString &url, const QString &fileNa
 }
 
 /***************************************************************************//**
+ * @brief Загружает файл с сети. Сохраняется в текущю папку.
+ * @param url адрес файл
+ * @param fileName имя файла
+ * @return Возвращает обработчик загрузки файла
+ ******************************************************************************/
+DownloadFileHandler* Net::downloadFile(const QString &url, const QFileInfo &fileName)
+{
+    DownloadFileHandler *handler = new DownloadFileHandler(url, fileName);
+    emit instance().makeRequest(handler);
+
+    return handler;
+}
+
+/***************************************************************************//**
  * @brief Загружает файл с сети. Сохраняется в текущю папку. Имя файла определяется из url'а.
  * @param url адрес файл
  * @return Возвращает обработчик загрузки файла
@@ -111,6 +125,8 @@ void Net::onNetHandlerFinished()
     NetHandler *handler = static_cast<NetHandler *>(sender());
     _activeHandler.remove(handler);
     handler->reply()->deleteLater();
+
+    onMakeRequest();
 }
 
 //------------------------------------------------------------------------------

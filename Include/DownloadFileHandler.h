@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QString>
 #include <QSharedPointer>
+#include <QFileInfo>
 
 class QFile;
 
@@ -17,12 +18,12 @@ class DownloadFileHandler: public NetHandler {
     Q_OBJECT
 
     public:
-        DownloadFileHandler(const QUrl &url, const QString &fileName);
+        DownloadFileHandler(const QUrl &url, const QFileInfo &fileInfo);
 
         virtual const QUrl& url() const override { return _url; }
         virtual void tuningRequest(QNetworkRequest *) override;
 
-        const QString& fileName() const { return _fileName; }
+        const QFileInfo& fileInfo() const { return _fileInfo; }
         QFile *file() { return  _file; }
 
     protected slots:
@@ -32,7 +33,7 @@ class DownloadFileHandler: public NetHandler {
 
     protected:
         QUrl _url;
-        QString _fileName;
+        QFileInfo _fileInfo;
         QFile *_file;
         bool _needCheckAcceptRanges;
 };

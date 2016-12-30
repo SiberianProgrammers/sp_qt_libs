@@ -51,6 +51,7 @@ class Net: public QObject {
         static Net& instance();
 
         static DownloadFileHandler* downloadFile(const QString &url, const QString &fileName);
+        static DownloadFileHandler* downloadFile(const QString &url, const QFileInfo &fileName);
         static DownloadFileHandler* downloadFile(const QString &url);
 
         static QThread* thread() { return &instance()._thread; }

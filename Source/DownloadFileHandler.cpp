@@ -8,13 +8,12 @@
 using namespace sp;
 
 //------------------------------------------------------------------------------
-DownloadFileHandler::DownloadFileHandler(const QUrl &url, const QString &fileName)
+DownloadFileHandler::DownloadFileHandler(const QUrl &url, const QFileInfo &fileName)
     : _url(url)
-    , _fileName (fileName)
+    , _fileInfo (fileName)
 {
-    //TODO Добавить путь к сохранённым файлам
-    //TODO Заменить ~ на ., чтобы файл был скрытым
-    _file = new QFile('~' % _fileName);
+    _file = new QFile(_fileInfo.path() % "/~" % _fileInfo.fileName());
+
     if (_file->exists()) {
         _file->remove();
     }
@@ -63,10 +62,10 @@ void DownloadFileHandler::onFinished()
 
     if (reply->error() == QNetworkReply::NoError) {
         context->file()->close();
-        if (QFile::exists(context->fileName())) {
-            QFile::remove(context->fileName());
+        if (QFile::exists(context->fileInfo().filePath())) {
+            QFile::remove(context->fileInfo().filePath());
         }
-        context->file()->rename(context->fileName());
+        context->file()->rename(context->fileInfo().filePath());
         emit finished();
     }
 }
