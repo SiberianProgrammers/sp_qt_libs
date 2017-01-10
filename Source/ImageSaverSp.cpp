@@ -1,3 +1,6 @@
+#include "ImageSaverSp.h"
+#include "Private/ImageSpLoader.h"
+
 #include <QStandardPaths>
 #include <QImage>
 #include <QPainter>
@@ -9,9 +12,6 @@
     #include <QAndroidActivityResultReceiver>
     #include <QtAndroidExtras>
 #endif
-
-#include "ImageSaverSp.h"
-#include "ImageSpLoader.h"
 
 using namespace sp;
 

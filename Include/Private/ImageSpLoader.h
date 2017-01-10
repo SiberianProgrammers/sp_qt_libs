@@ -7,8 +7,8 @@
 #include <QImage>
 
 namespace sp {
-typedef QSharedPointer<QImage> SharedImage;
-typedef QWeakPointer<QImage> WeakImage;
+typedef QSharedPointer<QImage> ImageSharedPtr;
+typedef QWeakPointer<QImage> ImageWeakPtr;
 
 /***************************************************************************//**
  * @brief Класс-singleton загрузщика изображений для ImageSp.
@@ -18,30 +18,28 @@ typedef QWeakPointer<QImage> WeakImage;
 class ImageSpLoader : public QObject {
     Q_OBJECT
 
+    ImageSpLoader ();
     public:
         static ImageSpLoader& instance();
 
     public slots:
         /// @brief Загружает изображение синхронно.
-        void get (const QString &source, SharedImage image);
+        void get (const QString &source, ImageSharedPtr image);
 
     signals:
         /// @brief Загружает изображение ассинхронно.
-        void loadTo(const QString &source, SharedImage image);
+        void loadTo(const QString &source, ImageSharedPtr image);
 
         /// @brief [signal] Сигнал, уведомляющий о загрузке изображения.
-        void loaded(const QString &source, WeakImage image);
+        void loaded(const QString &source, ImageWeakPtr image);
 
         /// @brief [signal] Сигнал об ошибке при загрузке изображения.
-        void error(const QString &source, WeakImage image, const QString &reason);
-
-    private:
-        ImageSpLoader ();
+        void error(const QString &source, ImageWeakPtr image, const QString &reason);
 
     private:
         QThread _thread;
 }; // class ImageSpLoader
 } // namespace sp {
 
-Q_DECLARE_METATYPE(sp::SharedImage)
-Q_DECLARE_METATYPE(sp::WeakImage)
+Q_DECLARE_METATYPE(sp::ImageSharedPtr)
+Q_DECLARE_METATYPE(sp::ImageWeakPtr)

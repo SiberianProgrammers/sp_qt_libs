@@ -149,11 +149,11 @@ void sp::ImageSp::setSource(const QString &source)
             } else {
                 _status = Loading;
                 // TODO добавить кеширование
-                connect (&ImageSpLoader::instance(), SIGNAL(loaded(const QString&, WeakImage))
-                         , SLOT(onImageSpLoaded(const QString&, WeakImage))
+                connect (&ImageSpLoader::instance(), SIGNAL(loaded(const QString&, ImageWeakPtr))
+                         , SLOT(onImageSpLoaded(const QString&, ImageWeakPtr))
                          , Qt::UniqueConnection);
-                connect (&ImageSpLoader::instance(), SIGNAL(error(const QString&, WeakImage, const QString&))
-                         , SLOT(onImageSpError(const QString&, WeakImage, const QString&))
+                connect (&ImageSpLoader::instance(), SIGNAL(error(const QString&, ImageWeakPtr, const QString&))
+                         , SLOT(onImageSpError(const QString&, ImageWeakPtr, const QString&))
                          , Qt::UniqueConnection);
 
                 ImageSpLoader::instance().loadTo (_source, _image);
