@@ -12,7 +12,7 @@ Item {
     property double borderWidth: Math.ceil(0.3*mm)
 
     property color gray: "#c0c0c0"
-    property color darkGray: "#4a4a4a"
+    property color darkGray: "#808080"
     property color lightGray: "#f0f0f0"
     property color green: "#71ad6f"
     property color lightGreen: "#d1ecd0"
