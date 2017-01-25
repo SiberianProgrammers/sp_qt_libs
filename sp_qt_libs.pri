@@ -41,6 +41,8 @@ RESOURCES += \
     $$PWD/SpQml/SpQml.qrc \
 
 android {
+    QT += androidextras
+
     DISTFILES += \
         $$PWD/android/src/sp/SpActivity.java
 }
