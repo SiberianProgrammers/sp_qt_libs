@@ -29,7 +29,9 @@ void Settings::set(const QString &key, const QVariant &value)
 QVariant Settings::get(const QString &key, const QVariant &defaultValue /* = QVariant() */) const
 {
     QVariant v = _settings.value(key, defaultValue);
-    v.convert(defaultValue.type());
+    if (defaultValue.type() < QVariant::UserType) {
+        v.convert(defaultValue.type());
+    }
 
     return v;
 }
