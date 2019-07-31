@@ -33,7 +33,7 @@ void sp::ImageSp::componentComplete()
 }
 
 //------------------------------------------------------------------------------
-QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePaintNodeData *)
+QSGNode* sp::ImageSp::updatePaintNode(QSGNode* /*oldNode*/, QQuickItem::UpdatePaintNodeData *)
 {
     if (_status != Ready) {
         return nullptr;
@@ -51,13 +51,16 @@ QSGNode* sp::ImageSp::updatePaintNode(QSGNode */*oldNode*/, QQuickItem::UpdatePa
 
     const int count = _vertexAtCorner; // Количество точек на закруглённый угол
 
-    Coefficients cf = [this]()->Coefficients{
+    Coefficients cf = [this]()->Coefficients {
         switch(this->_fillMode) {
             case Stretch           : return coefficientsStretch();
             case PreserveAspectFit : return coefficientsPreserveAspectFit();
             case PreserveAspectCrop: return coefficientsPreserveAspectCrop();
             case Pad               : return coefficientsPad();
             case Parallax          : return coefficientsParallax();
+            default:
+                Q_ASSERT(false);
+                return {};
         }
     }();
 
@@ -224,7 +227,7 @@ void sp::ImageSp::onImageSpError(const QString &/*source*/, QWeakPointer<QImage>
 //------------------------------------------------------------------------------
 void sp::ImageSp::setRadius(float radius)
 {
-    if (_radius != radius) {
+    if (!qFuzzyCompare(_radius, radius)) {
         _radius = radius;
 
         emit radiusChanged(_radius);

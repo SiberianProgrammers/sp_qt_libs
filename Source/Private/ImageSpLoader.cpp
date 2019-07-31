@@ -8,11 +8,15 @@
 
 using namespace sp;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-variable-declarations"
+#ifdef __clang__
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wmissing-variable-declarations"
+#endif
 int __idImageSharedPtr = qRegisterMetaType<ImageSharedPtr>("ImageSharedPtr");
 int __idImageWeakPtr = qRegisterMetaType<ImageWeakPtr>("ImageWeakPtr");
-#pragma clang diagnostic pop
+#ifdef __clang__
+#  pragma clang diagnostic pop
+#endif
 
 //------------------------------------------------------------------------------
 ImageSpLoader::ImageSpLoader()

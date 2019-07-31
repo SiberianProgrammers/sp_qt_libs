@@ -109,17 +109,14 @@ void sp::ImageParallax::updateImageSize()
     qreal w = this->width();
 
     if (h > 0 && w > 0 && !_freezed) {
-//    if (h > 0 && w > 0 ) {
-//        _image->setY(-0.5*h);
-//        _image->setX(-0.5*w);
         _image->setY(0.5*h*(1 - _sizeMultiplier));
         _image->setX(0.5*w*(1 - _sizeMultiplier));
 
-        if (_image->height() != h) {
+        if (!qFuzzyCompare(_image->height(), h)) {
             _image->setHeight(_sizeMultiplier*h);
         }
 
-        if (_image->width() != w) {
+        if (!qFuzzyCompare(_image->width(), w)) {
             _image->setWidth(_sizeMultiplier*w);
         }
 

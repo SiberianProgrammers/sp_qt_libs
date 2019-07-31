@@ -1,11 +1,12 @@
-#include <QApplication>
+#include "KeyboardSp.h"
+
+#include <QDebug>
+#include <QGuiApplication>
 
 #ifdef Q_OS_ANDROID
 #include <QAndroidJniObject>
 #include <QtAndroidExtras>
 #endif
-#include "KeyboardSp.h"
-#include <QDebug>
 
 #if defined(Q_OS_IOS)
 

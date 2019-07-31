@@ -14,9 +14,9 @@ class ImageParallax: public QQuickItem
 
     Q_PROPERTY(bool isDebug READ isDebug WRITE setIsDebug)
     Q_PROPERTY(Orientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged)
-    Q_PROPERTY(QQuickItem* relativeItem  WRITE setRelativeItem NOTIFY relativeItemChanged)
-    Q_PROPERTY(QQuickItem* delegate      WRITE setDelegate     NOTIFY delegateChanged)
-    Q_PROPERTY(bool freezed READ freezed WRITE setFreezed      NOTIFY freezedChanged)
+    Q_PROPERTY(QQuickItem* relativeItem READ relativeItem WRITE setRelativeItem NOTIFY relativeItemChanged)
+    Q_PROPERTY(QQuickItem* delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
+    Q_PROPERTY(bool freezed READ freezed WRITE setFreezed NOTIFY freezedChanged)
     Q_PROPERTY(qreal sizeMultiplier READ sizeMultiplier WRITE setSizeMultiplier NOTIFY sizeMultiplierChanged)
 
     // Поля для ImageSp
@@ -39,7 +39,23 @@ class ImageParallax: public QQuickItem
         virtual void classBegin() override;
         virtual void componentComplete() override;
 
-    public:
+        //----------------------------------------------------------------------
+        // Get
+        //----------------------------------------------------------------------
+        inline bool isDebug() const { return _isDebug; }
+        inline bool freezed() const { return _freezed; }
+        inline qreal sizeMultiplier() const { return _sizeMultiplier; }
+        inline QString source() const { return _source; }
+        inline QSize sourceSize() const { return _image->sourceSize(); }
+        inline bool asynchronous() const { return _asynchronous; }
+        inline Orientation orientation() const { return _orientation; }
+        inline sp::ImageSp::Status status() const { return _image->status(); }
+        inline QQuickItem* relativeItem () const { return _relativeItem; }
+        inline QQuickItem* delegate () const { return _delegate; }
+
+        //----------------------------------------------------------------------
+        // Set
+        //----------------------------------------------------------------------
         void setOrientation(Orientation orientation);
         void setIsDebug(bool isDebug);
         void setRelativeItem(QQuickItem* relativeItem);
@@ -50,15 +66,6 @@ class ImageParallax: public QQuickItem
         void setFreezed (bool freezed);
         void setSizeMultiplier (qreal sizeMultiplier);
 
-        bool isDebug()         const { return _isDebug; }
-        bool freezed()         const { return _freezed; }
-        qreal sizeMultiplier() const { return _sizeMultiplier; }
-        QString source()       const { return _source; }
-        QSize   sourceSize()   const { return _image->sourceSize(); }
-        bool    asynchronous() const { return _asynchronous; }
-        Orientation orientation() const { return _orientation; }
-        sp::ImageSp::Status status() const { return _image->status(); }
-
     private slots:
         void updateImageSize();
         void updateImagePosition();
@@ -68,7 +75,6 @@ class ImageParallax: public QQuickItem
         void delegateChanged(const QQuickItem* delegate);
         void relativeItemChanged(const QQuickItem* relativeItem);
         void freezedChanged(bool freezed);
-
         void sourceChanged(const QString&);
         void sourceSizeChanged(const QSize&);
         void statusChanged(sp::ImageSp::Status);
@@ -76,18 +82,17 @@ class ImageParallax: public QQuickItem
         void sizeMultiplierChanged(qreal sizeMultiplier);
 
     private:
-        Orientation _orientation = Orientation::Vertical;
-        ImageSp *_image;
+        QString  _source;
         QQuickItem* _delegate = nullptr;
         QQuickItem* _relativeItem = nullptr;
-        bool _isDebug = false;
+        ImageSp *_image;
         qreal _sizeMultiplier = 1.5;
-
-        QString  _source;
+        Orientation _orientation = Orientation::Vertical;
+        sp::ImageSp::Status _status = sp::ImageSp::Null;
+        bool _isDebug = false;
         bool _blur = false;
         bool _asynchronous = true;
         bool _imageInit = false;
         bool _freezed = false;
-        sp::ImageSp::Status _status = sp::ImageSp::Null;
 };
 }

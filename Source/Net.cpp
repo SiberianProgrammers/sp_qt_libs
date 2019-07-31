@@ -1,9 +1,9 @@
 #include "Net.h"
+#include "LogSp.h"
 
 #include <QNetworkReply>
 #include <QStringBuilder>
 #include <QFileInfo>
-#include <LogSp.h>
 
 using namespace sp;
 
