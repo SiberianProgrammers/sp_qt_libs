@@ -7,44 +7,44 @@ Product {
     version: "1.0"
 
     files: [
-        "Include/Arc.h",
-        "Include/ArcFast.h",
-        "Include/Arrow.h",
-        "Include/DeviceInfo.h",
-        "Include/DownloadFileHandler.h",
-        "Include/ImageParallax.h",
-        "Include/ImageSaverSp.h",
-        "Include/ImageSp.h",
-        "Include/KeyboardSp.h",
-        "Include/LogSp.h",
-        "Include/Net.h",
-        "Include/Private/ImageSpLoader.h",
-        "Include/Private/ImageSpNode.h",
-        "Include/Private/NetHandler.h",
-        "Include/Settings.h",
-        "Include/Shadow.h",
-        "Include/SpApplicationPrototype.h",
-        "Source/Arc.cpp",
-        "Source/ArcFast.cpp",
-        "Source/Arrow.cpp",
-        "Source/DeviceInfo.cpp",
-        "Source/DownloadFileHandler.cpp",
-        "Source/ImageParallax.cpp",
-        "Source/ImageSaverSp.cpp",
-        "Source/ImageSp.cpp",
-        "Source/KeyboardSp.cpp",
-        "Source/LogSp.cpp",
-        "Source/Net.cpp",
-        "Source/Private/ImageSpLoader.cpp",
-        "Source/Private/ImageSpNode.cpp",
-        "Source/Private/NetHandler.cpp",
-        "Source/Settings.cpp",
-        "Source/Shadow.cpp",
-        "Source/SpApplicationPrototype.cpp",
-        "SpQml/SpQml.qrc",
+        "include/Arc.h",
+        "include/ArcFast.h",
+        "include/Arrow.h",
+        "include/DeviceInfo.h",
+        "include/DownloadFileHandler.h",
+        "include/ImageParallax.h",
+        "include/ImageSaverSp.h",
+        "include/ImageSp.h",
+        "include/KeyboardSp.h",
+        "include/LogSp.h",
+        "include/Net.h",
+        "include/Private/ImageSpLoader.h",
+        "include/Private/ImageSpNode.h",
+        "include/Private/NetHandler.h",
+        "include/Settings.h",
+        "include/Shadow.h",
+        "include/SpApplicationPrototype.h",
+        "source/Arc.cpp",
+        "source/ArcFast.cpp",
+        "source/Arrow.cpp",
+        "source/DeviceInfo.cpp",
+        "source/DownloadFileHandler.cpp",
+        "source/ImageParallax.cpp",
+        "source/ImageSaverSp.cpp",
+        "source/ImageSp.cpp",
+        "source/KeyboardSp.cpp",
+        "source/LogSp.cpp",
+        "source/Net.cpp",
+        "source/Private/ImageSpLoader.cpp",
+        "source/Private/ImageSpNode.cpp",
+        "source/Private/NetHandler.cpp",
+        "source/Settings.cpp",
+        "source/Shadow.cpp",
+        "source/SpApplicationPrototype.cpp",
+        "qml/qml.qrc",
     ]
 
-    cpp.includePaths: ["Include"]
+    cpp.includePaths: [path + "/include"]
     cpp.cxxLanguageVersion: "c++11"
     qbs.architecture: "x86_64"
 
@@ -68,4 +68,9 @@ Product {
         ]
         cpp.minimumMacosVersion: "10.7"
     }
+
+      Export {
+          Depends { name: "cpp" }
+          cpp.includePaths: [path + "/include"]
+     }
 }

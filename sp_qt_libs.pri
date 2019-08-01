@@ -1,44 +1,44 @@
 QT += widgets
-INCLUDEPATH += $$PWD/Include
+INCLUDEPATH += $$PWD/include
 HEADERS += \
-    $$PWD/Include/Settings.h \
-    $$PWD/Include/Arc.h \
-    $$PWD/Include/ArcFast.h \
-    $$PWD/Include/SpApplicationPrototype.h \
-    $$PWD/Include/LogSp.h \
-    $$PWD/Include/ImageSp.h \
-    $$PWD/Include/Priavte/ImageSpNode.h \
-    $$PWD/Include/Private/ImageSpLoader.h \
-    $$PWD/Include/ImageSaverSp.h \
-    $$PWD/Include/ImageParallax.h \
-    $$PWD/Include/DeviceInfo.h \
-    $$PWD/Include/KeyboardSp.h \
-    $$PWD/Include/Arrow.h \
-    $$PWD/Include/Shadow.h \
-    $$PWD/Include/Net.h \
-    $$PWD/Include/DownloadFileHandler.h \
-    $$PWD/Include/Private/NetHandler.h
+    $$PWD/include/Settings.h \
+    $$PWD/include/Arc.h \
+    $$PWD/include/ArcFast.h \
+    $$PWD/include/SpApplicationPrototype.h \
+    $$PWD/include/LogSp.h \
+    $$PWD/include/ImageSp.h \
+    $$PWD/include/Priavte/ImageSpNode.h \
+    $$PWD/include/Private/ImageSpLoader.h \
+    $$PWD/include/ImageSaverSp.h \
+    $$PWD/include/ImageParallax.h \
+    $$PWD/include/DeviceInfo.h \
+    $$PWD/include/KeyboardSp.h \
+    $$PWD/include/Arrow.h \
+    $$PWD/include/Shadow.h \
+    $$PWD/include/Net.h \
+    $$PWD/include/DownloadFileHandler.h \
+    $$PWD/include/Private/NetHandler.h
 
 SOURCES += \
-    $$PWD/Source/Settings.cpp \
-    $$PWD/Source/Arc.cpp \
-    $$PWD/Source/ArcFast.cpp \
-    $$PWD/Source/LogSp.cpp \
-    $$PWD/Source/ImageSp.cpp \
-    $$PWD/Source/Private/ImageSpNode.cpp \
-    $$PWD/Source/Private/ImageSpLoader.cpp \
-    $$PWD/Source/ImageSaverSp.cpp \
-    $$PWD/Source/ImageParallax.cpp \
-    $$PWD/Source/DeviceInfo.cpp \
-    $$PWD/Source/Arrow.cpp \
-    $$PWD/Source/Shadow.cpp \
-    $$PWD/Source/Net.cpp \
-    $$PWD/Source/DownloadFileHandler.cpp \
-    $$PWD/Source/Private/NetHandler.cpp
+    $$PWD/source/Settings.cpp \
+    $$PWD/source/Arc.cpp \
+    $$PWD/source/ArcFast.cpp \
+    $$PWD/source/LogSp.cpp \
+    $$PWD/source/ImageSp.cpp \
+    $$PWD/source/Private/ImageSpNode.cpp \
+    $$PWD/source/Private/ImageSpLoader.cpp \
+    $$PWD/source/ImageSaverSp.cpp \
+    $$PWD/source/ImageParallax.cpp \
+    $$PWD/source/DeviceInfo.cpp \
+    $$PWD/source/Arrow.cpp \
+    $$PWD/source/Shadow.cpp \
+    $$PWD/source/Net.cpp \
+    $$PWD/source/DownloadFileHandler.cpp \
+    $$PWD/source/Private/NetHandler.cpp
 
 # Внешние ресурсы
 RESOURCES += \
-    $$PWD/SpQml/SpQml.qrc \
+    $$PWD/qml/qml.qrc \
 
 android {
     QT += androidextras
@@ -49,14 +49,14 @@ android {
 
 !mac {
     SOURCES += \
-        $$PWD/Source/SpApplicationPrototype.cpp \
-        $$PWD/Source/KeyboardSp.cpp
+        $$PWD/source/SpApplicationPrototype.cpp \
+        $$PWD/source/KeyboardSp.cpp
 }
 
 mac {
     OBJECTIVE_SOURCES += \
-        $$PWD/Source/SpApplicationPrototype.mm \
-        $$PWD/Source/KeyboardSp.mm
+        $$PWD/source/SpApplicationPrototype.mm \
+        $$PWD/source/KeyboardSp.mm
 }
 
 
