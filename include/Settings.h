@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
@@ -5,30 +6,46 @@
 #include <QSettings>
 
 namespace sp {
-    class Settings : public QObject
-    {
-        Q_OBJECT
+/***************************************************************************//**
+ * @brief Обёртка для просто использования настроек в C++ и QML.
+ *
+ * @details
+ ******************************************************************************/
+class Settings : public QObject
+{
+    Q_OBJECT
 
-        public:
-            static Settings& instance();
-            ~Settings();
+    public:
+        static Settings& instance();
 
-            /// @brief Устанавливет значение переменной в настройках
-            /// @param name название переменной
-            /// @param value устанавливаемое значение
-            Q_INVOKABLE void set (const QString &key, const QVariant &value);
+        /**
+         * @brief Устанавливет значение переменной в настройках.
+         *
+         * @param name название переменной
+         * @param value устанавливаемое значение
+         */
+        Q_INVOKABLE static
+        void set(const QString &key, const QVariant &value);
 
-            /// @brief Возвращает значение переменной из настроек
-            /// @param name название
-            /// @param defaultValue значение по умолчанию, возвращаемое, если переменной нет в настройках
-            Q_INVOKABLE QVariant get (const QString &key, const QVariant &defaultValue = QVariant()) const;
+        /**
+         * @brief Возвращает значение переменной из настроек.
+         *
+         * @param name название
+         * @param defaultValue значение по умолчанию, возвращаемое, если переменной нет в настройках
+         */
+        Q_INVOKABLE static
+        QVariant get(const QString &key, const QVariant &defaultValue = QVariant());
 
-        protected:
-            explicit Settings (const QString &applicationName, QObject *parent = 0);
+    private:
+        explicit Settings();
+        ~Settings();
 
-        protected:
-            QSettings _settings;
-    };
+        void onSet(const QString &key, const QVariant &value);
+        QVariant onGet(const QString &key, const QVariant &defaultValue) const;
+
+    private:
+        QSettings _settings;
+};
 } // namespace sp
 
 #endif // SETTINGS_H

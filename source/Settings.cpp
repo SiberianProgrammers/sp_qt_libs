@@ -1,38 +1,61 @@
-#include <QDebug>
+/// @author M. Serebrennikov
 #include "Settings.h"
 #include "SpApplicationPrototype.h"
 
-using namespace sp;
+#include <QVariantMap>
 
-Settings::Settings(const QString &applicationName, QObject *parent)
-    : QObject(parent)
-    , _settings(QSettings::IniFormat, QSettings::UserScope, "SP", applicationName)
-{
-}
+using namespace sp;
 
 Settings &Settings::instance()
 {
-    static Settings instance_(qApp->applicationName(), nullptr);
-    return instance_;
+    static Settings instance;
+    return instance;
 }
 
+//------------------------------------------------------------------------------
+Settings::Settings()
+    : _settings(QSettings::IniFormat, QSettings::UserScope, "SP", qApp->applicationName())
+{
+}
+
+//------------------------------------------------------------------------------
 Settings::~Settings()
 {
-
+    _settings.sync();
 }
 
-void Settings::set(const QString &key, const QVariant &value)
+//------------------------------------------------------------------------------
+void Settings::onSet(const QString &key, const QVariant &value)
 {
     _settings.setValue(key, value);
+    _settings.sync();
 }
 
-QVariant Settings::get(const QString &key, const QVariant &defaultValue /* = QVariant() */) const
+//------------------------------------------------------------------------------
+QVariant Settings::onGet(const QString &key, const QVariant &defaultValue) const
 {
-    QVariant v = _settings.value(key, defaultValue);
-    if (defaultValue.type() < QVariant::UserType) {
-        v.convert(defaultValue.type());
-    }
+    if (_settings.contains(key)) {
+        QVariant v = _settings.value(key);
 
-    return v;
+        if (v.canConvert<QVariantMap>()) {
+            return v;
+        } else {
+            v.convert(defaultValue.type());
+            return v;
+        }
+    } else {
+        return defaultValue;
+    }
 }
 
+//------------------------------------------------------------------------------
+void Settings::set(const QString &key, const QVariant &value)
+{
+    return instance().onSet(key, value);
+}
+
+//------------------------------------------------------------------------------
+QVariant Settings::get(const QString &key, const QVariant &defaultValue)
+{
+    return instance().onGet(key, defaultValue);
+}
